@@ -12,4 +12,8 @@ extension UIColor {
     class func appGrayColor() -> UIColor {
         return "8E8E93".UIColor
     }
+
+    class func appTintColor() -> UIColor {
+        return "F64848".UIColor
+    }
 }

@@ -11,6 +11,7 @@
 		5841509B1D61C36100866210 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509A1D61C36100866210 /* CategoryCell.swift */; };
 		5841509D1D61D94E00866210 /* CategoryReusableTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509C1D61D94E00866210 /* CategoryReusableTitleView.swift */; };
 		5841509F1D61D9CF00866210 /* StyleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509E1D61D9CF00866210 /* StyleSheet.swift */; };
+		584150A11D61E74D00866210 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150A01D61E74D00866210 /* TabBarView.swift */; };
 		58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A071D61AEBD00A339A1 /* AppDelegate.swift */; };
 		58816A0A1D61AEBD00A339A1 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A091D61AEBD00A339A1 /* CategoryViewController.swift */; };
 		58816A0D1D61AEBD00A339A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58816A0B1D61AEBD00A339A1 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		5841509A1D61C36100866210 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		5841509C1D61D94E00866210 /* CategoryReusableTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryReusableTitleView.swift; sourceTree = "<group>"; };
 		5841509E1D61D9CF00866210 /* StyleSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleSheet.swift; sourceTree = "<group>"; };
+		584150A01D61E74D00866210 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		58816A041D61AEBD00A339A1 /* AlimentsGrossesse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlimentsGrossesse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58816A071D61AEBD00A339A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		58816A091D61AEBD00A339A1 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				5841509E1D61D9CF00866210 /* StyleSheet.swift */,
+				584150A01D61E74D00866210 /* TabBarView.swift */,
 				58816A071D61AEBD00A339A1 /* AppDelegate.swift */,
 				58816A091D61AEBD00A339A1 /* CategoryViewController.swift */,
 				5841509C1D61D94E00866210 /* CategoryReusableTitleView.swift */,
@@ -346,6 +349,7 @@
 			files = (
 				58816A101D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodeld in Sources */,
 				5841509D1D61D94E00866210 /* CategoryReusableTitleView.swift in Sources */,
+				584150A11D61E74D00866210 /* TabBarView.swift in Sources */,
 				58816A0A1D61AEBD00A339A1 /* CategoryViewController.swift in Sources */,
 				58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */,
 				5841509B1D61C36100866210 /* CategoryCell.swift in Sources */,

@@ -12,6 +12,8 @@ final class CategoryViewController: UIViewController {
 
     private var collectionView: UICollectionView!
 
+    private var tabBarView = TabBarView()
+
     private var searchBar: UISearchBar!
 
     override func viewDidLoad() {
@@ -25,7 +27,7 @@ final class CategoryViewController: UIViewController {
         navigationItem.titleView = searchBar
 
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 110, height: 164)
+        layout.itemSize = CGSize(width: 110, height: 154)
         layout.minimumInteritemSpacing = 9
         layout.minimumLineSpacing = 26
         layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 15, right: 10)
@@ -38,8 +40,24 @@ final class CategoryViewController: UIViewController {
         collectionView.dataSource = self
         view.addSubview(collectionView)
 
+        view.addSubview(tabBarView)
+
+        configureLayoutConstraints()
+    }
+
+    private func configureLayoutConstraints() {
         collectionView.snp_makeConstraints {
-            $0.edges.equalTo(view)
+            $0.top.equalTo(view)
+            $0.left.equalTo(view)
+            $0.right.equalTo(view)
+            $0.bottom.equalTo(tabBarView.snp_top)
+        }
+
+        tabBarView.snp_makeConstraints {
+            $0.bottom.equalTo(view)
+            $0.left.equalTo(view)
+            $0.right.equalTo(view)
+            $0.height.equalTo(50)
         }
     }
 }
