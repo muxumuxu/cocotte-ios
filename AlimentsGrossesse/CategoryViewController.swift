@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftHelpers
+import CoreData
 
 final class CategoryViewController: UIViewController {
 
@@ -16,6 +17,10 @@ final class CategoryViewController: UIViewController {
     private var tabBarView = TabBarView()
 
     private var searchBar: UISearchBar!
+
+    private var blockOperations: [NSBlockOperation] = []
+
+    private var fetchedResultsController: NSFetchedResultsController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +53,25 @@ final class CategoryViewController: UIViewController {
 
         view.addSubview(tabBarView)
 
+        let req = FoodCategory.entityFetchRequest()
+        req.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
+        let ctx = CoreDataStack.shared.managedObjectContext
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: req, managedObjectContext: ctx, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+
         configureLayoutConstraints()
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        do {
+            try fetchedResultsController.performFetch()
+
+            collectionView.reloadData()
+        } catch let err as NSError {
+            print("Error while fetching foods: \(err)")
+        }
     }
 
     private func configureLayoutConstraints() {
@@ -66,66 +89,52 @@ final class CategoryViewController: UIViewController {
             $0.height.equalTo(50)
         }
     }
+
+    deinit {
+        // Cancel all block operations when VC deallocates
+        for operation: NSBlockOperation in blockOperations {
+            operation.cancel()
+        }
+
+        blockOperations.removeAll(keepCapacity: false)
+    }
 }
 
 extension CategoryViewController: UICollectionViewDataSource {
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
+        return fetchedResultsController.sections?.count ?? 0
     }
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 12
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CategoryCell.reuseIdentifier, forIndexPath: indexPath) as! CategoryCell
 
-        let image: UIImage?
-        if indexPath.row == 0 {
-            image = UIImage(named: "eggs")
-            cell.categoryTitleLbl.text = "Oeufs & Laitages"
-        } else if indexPath.row == 1 {
-            image = UIImage(named: "fruits")
-            cell.categoryTitleLbl.text = "Fruits & Légumes"
-        } else if indexPath.row == 2 {
-            image = UIImage(named: "see_food")
-            cell.categoryTitleLbl.text = "Poissons & Fruits de mer"
-        } else if indexPath.row == 3 {
-            image = UIImage(named: "condiments")
-            cell.categoryTitleLbl.text = "Condiments"
-        } else if indexPath.row == 4 {
-            image = UIImage(named: "drinks")
-            cell.categoryTitleLbl.text = "Boissons"
-        } else if indexPath.row == 5 {
-            image = UIImage(named: "charcuterie")
-            cell.categoryTitleLbl.text = "Charcuterie"
-        } else if indexPath.row == 6 {
-            image = UIImage(named: "desserts")
-            cell.categoryTitleLbl.text = "Desserts"
-        } else if indexPath.row == 7 {
-            image = UIImage(named: "feculents")
-            cell.categoryTitleLbl.text = "Féculents"
-        } else if indexPath.row == 8 {
-            image = UIImage(named: "plantes")
-            cell.categoryTitleLbl.text = "Plantes"
+        let category = fetchedResultsController.objectAtIndexPath(indexPath) as! FoodCategory
+
+        cell.categoryTitleLbl.text = category.name
+
+        if let imageName = category.image {
+            let image = UIImage(named: imageName)
+
+            if let image = image where DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
+                // Apply a scale factor
+                let size = CGSizeApplyAffineTransform(image.size, CGAffineTransformMakeScale(0.81, 0.81))
+
+                let scale: CGFloat = UIScreen.mainScreen().scale
+
+                UIGraphicsBeginImageContextWithOptions(size, false, scale)
+                image.drawInRect(CGRect(origin: CGPoint.zero, size: size))
+
+                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+
+                cell.categoryImageView.image = scaledImage
+            } else {
+                cell.categoryImageView.image = image
+            }
         } else {
-            image = UIImage(named: "eggs")
-            cell.categoryTitleLbl.text = "Oeufs & Laitages"
-        }
-
-        if let image = image where DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
-            // Apply a scale factor
-            let size = CGSizeApplyAffineTransform(image.size, CGAffineTransformMakeScale(0.81, 0.81))
-
-            let scale: CGFloat = UIScreen.mainScreen().scale
-
-            UIGraphicsBeginImageContextWithOptions(size, false, scale)
-            image.drawInRect(CGRect(origin: CGPoint.zero, size: size))
-
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-
-            cell.categoryImageView.image = scaledImage
-        } else {
-            cell.categoryImageView.image = image
+            cell.categoryImageView.image = nil
         }
 
         return cell
@@ -145,5 +154,84 @@ extension CategoryViewController: UICollectionViewDelegate {
 extension CategoryViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 34)
+    }
+}
+
+extension CategoryViewController: NSFetchedResultsControllerDelegate {
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+
+        if type == NSFetchedResultsChangeType.Insert {
+            blockOperations.append(
+                NSBlockOperation(block: { [weak self] in
+                    if let this = self {
+                        this.collectionView!.insertItemsAtIndexPaths([newIndexPath!])
+                    }
+                    })
+            )
+        } else if type == NSFetchedResultsChangeType.Update {
+            blockOperations.append(
+                NSBlockOperation(block: { [weak self] in
+                    if let this = self {
+                        this.collectionView!.reloadItemsAtIndexPaths([indexPath!])
+                    }
+                    })
+            )
+        } else if type == NSFetchedResultsChangeType.Move {
+            blockOperations.append(
+                NSBlockOperation(block: { [weak self] in
+                    if let this = self {
+                        this.collectionView!.moveItemAtIndexPath(indexPath!, toIndexPath: newIndexPath!)
+                    }
+                    })
+            )
+        } else if type == NSFetchedResultsChangeType.Delete {
+            blockOperations.append(
+                NSBlockOperation(block: { [weak self] in
+                    if let this = self {
+                        this.collectionView!.deleteItemsAtIndexPaths([indexPath!])
+                    }
+                    })
+            )
+        }
+    }
+
+    // In the did change section method:
+    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        if type == NSFetchedResultsChangeType.Insert {
+            blockOperations.append(
+                NSBlockOperation(block: { [weak self] in
+                    if let this = self {
+                        this.collectionView!.insertSections(NSIndexSet(index: sectionIndex))
+                    }
+                    })
+            )
+        } else if type == NSFetchedResultsChangeType.Update {
+            blockOperations.append(
+                NSBlockOperation(block: { [weak self] in
+                    if let this = self {
+                        this.collectionView!.reloadSections(NSIndexSet(index: sectionIndex))
+                    }
+                    })
+            )
+        } else if type == NSFetchedResultsChangeType.Delete {
+            blockOperations.append(
+                NSBlockOperation(block: { [weak self] in
+                    if let this = self {
+                        this.collectionView!.deleteSections(NSIndexSet(index: sectionIndex))
+                    }
+                    })
+            )
+        }
+    }
+
+    // And finally, in the did controller did change content method:
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        collectionView!.performBatchUpdates({ () -> Void in
+            for operation: NSBlockOperation in self.blockOperations {
+                operation.start()
+            }
+            }, completion: { (finished) -> Void in
+                self.blockOperations.removeAll(keepCapacity: false)
+        })
     }
 }

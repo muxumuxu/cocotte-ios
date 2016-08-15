@@ -13,6 +13,11 @@
 		5841509F1D61D9CF00866210 /* StyleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509E1D61D9CF00866210 /* StyleSheet.swift */; };
 		584150A11D61E74D00866210 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150A01D61E74D00866210 /* TabBarView.swift */; };
 		584150A61D61F30F00866210 /* ImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150A51D61F30F00866210 /* ImportOperation.swift */; };
+		584150AB1D62079900866210 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AA1D62079900866210 /* SearchViewController.swift */; };
+		584150B01D620A0F00866210 /* Food+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AC1D620A0F00866210 /* Food+CoreDataProperties.swift */; };
+		584150B11D620A0F00866210 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AD1D620A0F00866210 /* Food.swift */; };
+		584150B21D620A0F00866210 /* FoodCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */; };
+		584150B31D620A0F00866210 /* FoodCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AF1D620A0F00866210 /* FoodCategory.swift */; };
 		58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A071D61AEBD00A339A1 /* AppDelegate.swift */; };
 		58816A0A1D61AEBD00A339A1 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A091D61AEBD00A339A1 /* CategoryViewController.swift */; };
 		58816A0D1D61AEBD00A339A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58816A0B1D61AEBD00A339A1 /* Main.storyboard */; };
@@ -46,6 +51,11 @@
 		5841509E1D61D9CF00866210 /* StyleSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleSheet.swift; sourceTree = "<group>"; };
 		584150A01D61E74D00866210 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		584150A51D61F30F00866210 /* ImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportOperation.swift; sourceTree = "<group>"; };
+		584150AA1D62079900866210 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		584150AC1D620A0F00866210 /* Food+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Food+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		584150AD1D620A0F00866210 /* Food.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
+		584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FoodCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		584150AF1D620A0F00866210 /* FoodCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCategory.swift; sourceTree = "<group>"; };
 		58816A041D61AEBD00A339A1 /* AlimentsGrossesse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlimentsGrossesse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58816A071D61AEBD00A339A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		58816A091D61AEBD00A339A1 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
@@ -102,7 +112,10 @@
 		584150A21D61EAED00866210 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				584150A51D61F30F00866210 /* ImportOperation.swift */,
+				584150AD1D620A0F00866210 /* Food.swift */,
+				584150AF1D620A0F00866210 /* FoodCategory.swift */,
+				584150B41D620BDC00866210 /* CoreData */,
+				584150B51D620BED00866210 /* Operations */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -113,8 +126,26 @@
 				58816A091D61AEBD00A339A1 /* CategoryViewController.swift */,
 				5841509C1D61D94E00866210 /* CategoryReusableTitleView.swift */,
 				5841509A1D61C36100866210 /* CategoryCell.swift */,
+				584150AA1D62079900866210 /* SearchViewController.swift */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		584150B41D620BDC00866210 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				584150AC1D620A0F00866210 /* Food+CoreDataProperties.swift */,
+				584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		584150B51D620BED00866210 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				584150A51D61F30F00866210 /* ImportOperation.swift */,
+			);
+			name = Operations;
 			sourceTree = "<group>";
 		};
 		588169FB1D61AEBD00A339A1 = {
@@ -366,14 +397,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				584150B11D620A0F00866210 /* Food.swift in Sources */,
+				584150B21D620A0F00866210 /* FoodCategory+CoreDataProperties.swift in Sources */,
 				58816A101D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodeld in Sources */,
 				5841509D1D61D94E00866210 /* CategoryReusableTitleView.swift in Sources */,
 				584150A11D61E74D00866210 /* TabBarView.swift in Sources */,
+				584150AB1D62079900866210 /* SearchViewController.swift in Sources */,
 				58816A0A1D61AEBD00A339A1 /* CategoryViewController.swift in Sources */,
+				584150B01D620A0F00866210 /* Food+CoreDataProperties.swift in Sources */,
 				584150A61D61F30F00866210 /* ImportOperation.swift in Sources */,
 				58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */,
 				5841509B1D61C36100866210 /* CategoryCell.swift in Sources */,
 				5841509F1D61D9CF00866210 /* StyleSheet.swift in Sources */,
+				584150B31D620A0F00866210 /* FoodCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

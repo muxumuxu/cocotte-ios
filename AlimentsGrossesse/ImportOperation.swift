@@ -27,18 +27,70 @@ final class ImportOperation: SHOperation {
 
     override func execute() {
         Alamofire.request(.GET, baseURL).responseJSON { (res) in
-            defer { self.finish() }
+            defer {
+                self.finish()
+            }
 
-            guard let data = res.data else {
+            guard let value = res.result.value else {
                 self.error = res.result.error
-                print("Error: \(self.error)")
                 return
             }
 
-            let json = JSON(data)
-            if let foods = json.array {
-                print(foods)
+            self.importContext.performBlockAndWait {
+                let json = JSON(value)
+                if let jsonFoods = json.array {
+                    do {
+                        var foods = [Food]()
+                        for jsonFood in jsonFoods {
+                            if let id = jsonFood["id"].int {
+                                let food: Food
+                                if let local = try Food.findById(id, inContext: self.importContext) {
+                                    food = local
+                                } else {
+                                    food = Food.insertEntity(inContext: self.importContext)
+                                }
+                                food.id = id
+                                food.name = jsonFood["name"].string
+                                food.danger = jsonFood["dange"].string
+
+                                let jsonCategory = jsonFood["category"]
+                                if let categoryId = jsonCategory["id"].int {
+                                    let cat: FoodCategory
+                                    if let local = try FoodCategory.findById(categoryId, inContext: self.importContext) {
+                                        cat = local
+                                    } else {
+                                        cat = FoodCategory.insertEntity(inContext: self.importContext)
+                                    }
+                                    cat.id = categoryId
+                                    cat.name = jsonCategory["name"].string
+                                    cat.order = jsonCategory["order"].int
+                                    cat.image = jsonCategory["image"].string
+
+                                    food.foodCategory = cat
+                                }
+                                food.risk = jsonFood["risk"].string
+                                food.url = jsonFood["url"].string
+                                food.info = jsonFood["info"].string
+                                foods.append(food)
+                            }
+                        }
+
+                        try self.saveContext()
+                    } catch let err as NSError {
+                        self.error = err
+                    }
+                }
             }
+        }
+    }
+
+    private func saveContext() throws {
+        var ctx: NSManagedObjectContext? = importContext
+        while let toSave = ctx {
+            if toSave.hasChanges {
+                try toSave.save()
+            }
+            ctx = toSave.parentContext
         }
     }
 }
