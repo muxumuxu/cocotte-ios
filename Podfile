@@ -16,5 +16,6 @@ target 'AlimentsGrossesse' do
   pod 'BrightFutures'
   pod 'SwiftyJSON'
   pod 'SnapKit'
+  pod 'Alamofire'
 
 end

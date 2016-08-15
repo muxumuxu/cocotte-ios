@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftHelpers
 
 final class CategoryViewController: UIViewController {
 
@@ -22,14 +23,19 @@ final class CategoryViewController: UIViewController {
         edgesForExtendedLayout = .None
 
         searchBar = UISearchBar()
+        searchBar.tintColor = UIColor.appTintColor()
         searchBar.searchBarStyle = .Minimal
         searchBar.placeholder = "Rechercher un aliment"
         navigationItem.titleView = searchBar
 
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 110, height: 154)
-        layout.minimumInteritemSpacing = 9
-        layout.minimumLineSpacing = 26
+        if DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
+            layout.itemSize = CGSize(width: 90, height: 140)
+        } else {
+            layout.itemSize = CGSize(width: 110, height: 164)
+        }
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 6
         layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 15, right: 10)
 
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -72,36 +78,54 @@ extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CategoryCell.reuseIdentifier, forIndexPath: indexPath) as! CategoryCell
 
+        let image: UIImage?
         if indexPath.row == 0 {
-            cell.categoryImageView.image = UIImage(named: "eggs")
+            image = UIImage(named: "eggs")
             cell.categoryTitleLbl.text = "Oeufs & Laitages"
         } else if indexPath.row == 1 {
-            cell.categoryImageView.image = UIImage(named: "fruits")
+            image = UIImage(named: "fruits")
             cell.categoryTitleLbl.text = "Fruits & Légumes"
         } else if indexPath.row == 2 {
-            cell.categoryImageView.image = UIImage(named: "see_food")
+            image = UIImage(named: "see_food")
             cell.categoryTitleLbl.text = "Poissons & Fruits de mer"
         } else if indexPath.row == 3 {
-            cell.categoryImageView.image = UIImage(named: "condiments")
+            image = UIImage(named: "condiments")
             cell.categoryTitleLbl.text = "Condiments"
         } else if indexPath.row == 4 {
-            cell.categoryImageView.image = UIImage(named: "drinks")
+            image = UIImage(named: "drinks")
             cell.categoryTitleLbl.text = "Boissons"
         } else if indexPath.row == 5 {
-            cell.categoryImageView.image = UIImage(named: "charcuterie")
+            image = UIImage(named: "charcuterie")
             cell.categoryTitleLbl.text = "Charcuterie"
         } else if indexPath.row == 6 {
-            cell.categoryImageView.image = UIImage(named: "desserts")
+            image = UIImage(named: "desserts")
             cell.categoryTitleLbl.text = "Desserts"
         } else if indexPath.row == 7 {
-            cell.categoryImageView.image = UIImage(named: "feculents")
+            image = UIImage(named: "feculents")
             cell.categoryTitleLbl.text = "Féculents"
         } else if indexPath.row == 8 {
-            cell.categoryImageView.image = UIImage(named: "plantes")
+            image = UIImage(named: "plantes")
             cell.categoryTitleLbl.text = "Plantes"
         } else {
-            cell.categoryImageView.image = UIImage(named: "eggs")
+            image = UIImage(named: "eggs")
             cell.categoryTitleLbl.text = "Oeufs & Laitages"
+        }
+
+        if let image = image where DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
+            // Apply a scale factor
+            let size = CGSizeApplyAffineTransform(image.size, CGAffineTransformMakeScale(0.81, 0.81))
+
+            let scale: CGFloat = UIScreen.mainScreen().scale
+
+            UIGraphicsBeginImageContextWithOptions(size, false, scale)
+            image.drawInRect(CGRect(origin: CGPoint.zero, size: size))
+
+            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+
+            cell.categoryImageView.image = scaledImage
+        } else {
+            cell.categoryImageView.image = image
         }
 
         return cell

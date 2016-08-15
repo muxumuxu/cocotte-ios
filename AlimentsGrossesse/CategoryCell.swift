@@ -40,7 +40,7 @@ final class CategoryCell: SHCommonInitCollectionViewCell {
             $0.top.equalTo(self)
             $0.left.equalTo(self)
             $0.right.equalTo(self)
-            $0.height.equalTo(128)
+            $0.height.equalTo(snp_width).multipliedBy(1.16)
         }
 
         categoryTitleLbl.snp_makeConstraints {
