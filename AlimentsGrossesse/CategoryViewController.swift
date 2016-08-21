@@ -82,6 +82,8 @@ final class CategoryViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        navigationController?.setNavigationBarHidden(false, animated: true)
+
         do {
             try fetchedResultsController.performFetch()
 
@@ -179,7 +181,6 @@ extension CategoryViewController: UISearchBarDelegate {
         let text = sanitizeSearchText(searchText)
         searchQueue.cancelAllOperations()
         let op = NSBlockOperation {
-
             let req = Food.entityFetchRequest()
             req.predicate = NSPredicate(format: "name contains[cd] %@", text)
             let ctx = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
@@ -379,5 +380,10 @@ extension CategoryViewController: UITableViewDataSource {
 extension CategoryViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        let food = searchResults[indexPath.row]
+        let foodController = FoodViewController()
+        foodController.food = food
+        navigationController?.pushViewController(foodController, animated: true)
     }
 }

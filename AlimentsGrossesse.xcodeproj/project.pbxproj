@@ -26,6 +26,7 @@
 		58816A201D61AEBE00A339A1 /* AlimentsGrossesseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A1F1D61AEBE00A339A1 /* AlimentsGrossesseTests.swift */; };
 		58816A2B1D61AEBE00A339A1 /* AlimentsGrossesseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A2A1D61AEBE00A339A1 /* AlimentsGrossesseUITests.swift */; };
 		58CA516F1D6A1F3C005B20F8 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA516E1D6A1F3C005B20F8 /* SearchCell.swift */; };
+		58CA51711D6A2B0D005B20F8 /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA51701D6A2B0D005B20F8 /* FoodViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		58816A2A1D61AEBE00A339A1 /* AlimentsGrossesseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlimentsGrossesseUITests.swift; sourceTree = "<group>"; };
 		58816A2C1D61AEBE00A339A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58CA516E1D6A1F3C005B20F8 /* SearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		58CA51701D6A2B0D005B20F8 /* FoodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
 		824E2B64B62221AD3522FEC3 /* Pods_AlimentsGrossesse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlimentsGrossesse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B972308D226F98BF1A01F1A /* Pods-AlimentsGrossesse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlimentsGrossesse.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlimentsGrossesse/Pods-AlimentsGrossesse.release.xcconfig"; sourceTree = "<group>"; };
 		CA4165FA705A45B946D3F0DF /* Pods-AlimentsGrossesse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlimentsGrossesse.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlimentsGrossesse/Pods-AlimentsGrossesse.debug.xcconfig"; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				584150A91D61FCC000866210 /* Categories */,
 				5841509E1D61D9CF00866210 /* StyleSheet.swift */,
 				584150A01D61E74D00866210 /* TabBarView.swift */,
+				58CA51701D6A2B0D005B20F8 /* FoodViewController.swift */,
 				58816A0B1D61AEBD00A339A1 /* Main.storyboard */,
 				58816A111D61AEBD00A339A1 /* Assets.xcassets */,
 				58816A131D61AEBD00A339A1 /* LaunchScreen.storyboard */,
@@ -405,6 +408,7 @@
 				584150A11D61E74D00866210 /* TabBarView.swift in Sources */,
 				58816A0A1D61AEBD00A339A1 /* CategoryViewController.swift in Sources */,
 				584150B01D620A0F00866210 /* Food+CoreDataProperties.swift in Sources */,
+				58CA51711D6A2B0D005B20F8 /* FoodViewController.swift in Sources */,
 				584150A61D61F30F00866210 /* ImportOperation.swift in Sources */,
 				58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */,
 				5841509B1D61C36100866210 /* CategoryCell.swift in Sources */,
