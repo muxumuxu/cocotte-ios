@@ -12,11 +12,15 @@ import CoreData
 
 final class CategoryViewController: UIViewController {
 
+    private var searchResults = [Food]()
+    private var searchBar: UISearchBar!
+    private var searchTableView: UITableView!
+    private let searchQueue = NSOperationQueue()
+    private var currentSearchText = ""
+
     private var collectionView: UICollectionView!
 
-    private var tabBarView = TabBarView()
-
-    private var searchBar: UISearchBar!
+    private var tabBarView: TabBarView!
 
     private var blockOperations: [NSBlockOperation] = []
 
@@ -27,11 +31,24 @@ final class CategoryViewController: UIViewController {
 
         edgesForExtendedLayout = .None
 
+        definesPresentationContext = true
+
+        tabBarView = TabBarView()
+
         searchBar = UISearchBar()
         searchBar.tintColor = UIColor.appTintColor()
         searchBar.searchBarStyle = .Minimal
         searchBar.placeholder = "Rechercher un aliment"
+        searchBar.delegate = self
         navigationItem.titleView = searchBar
+
+        searchTableView = UITableView(frame: .zero, style: .Plain)
+        searchTableView.delegate = self
+        searchTableView.dataSource = self
+        searchTableView.rowHeight = 34
+        searchTableView.registerClass(SearchCell.self, forCellReuseIdentifier: SearchCell.reuseIdentifier)
+        searchTableView.backgroundColor = UIColor.whiteColor()
+        searchTableView.tableFooterView = UIView()
 
         let layout = UICollectionViewFlowLayout()
         if DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
@@ -100,6 +117,7 @@ final class CategoryViewController: UIViewController {
     }
 }
 
+// MARK: - UICollectionViewDataSource
 extension CategoryViewController: UICollectionViewDataSource {
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
@@ -145,18 +163,97 @@ extension CategoryViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UISearchBarDelegate
+extension CategoryViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        showsCancelButton()
+        showsSearchTableView()
+    }
+
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        currentSearchText = searchText
+        performSearch(searchText)
+    }
+
+    private func performSearch(searchText: String) {
+        let text = sanitizeSearchText(searchText)
+        searchQueue.cancelAllOperations()
+        let op = NSBlockOperation {
+
+            let req = Food.entityFetchRequest()
+            req.predicate = NSPredicate(format: "name contains[cd] %@", text)
+            let ctx = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+            ctx.parentContext = CoreDataStack.shared.managedObjectContext
+            if let objects = try! ctx.executeFetchRequest(req) as? [Food] {
+                dispatch_async(dispatch_get_main_queue()) {
+                    let ids = objects.map { $0.objectID }
+                    self.updateTableViewWithResults(ids)
+                }
+            }
+        }
+        searchQueue.addOperation(op)
+    }
+
+    private func updateTableViewWithResults(objectIds: [NSManagedObjectID]) {
+        let ctx = CoreDataStack.shared.managedObjectContext
+        searchResults = objectIds.flatMap {
+            ctx.objectWithID($0) as? Food
+        }
+        searchTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+    }
+
+    private func showsCancelButton() {
+        let cancelBbi = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(CategoryViewController.cancelBtnClicked(_:)))
+        cancelBbi.tintColor = UIColor.appTintColor()
+        navigationItem.setRightBarButtonItem(cancelBbi, animated: true)
+    }
+
+    private func showsSearchTableView() {
+        view.addSubview(searchTableView)
+        searchTableView.snp_makeConstraints {
+            $0.top.equalTo(view)
+            $0.left.equalTo(view)
+            $0.right.equalTo(view)
+            $0.bottom.equalTo(tabBarView.snp_top)
+        }
+        searchTableView.alpha = 0
+        UIView.animateWithDuration(0.35) {
+            self.searchTableView.alpha = 1
+            self.searchTableView.layoutIfNeeded()
+        }
+    }
+
+    private func hideTableView() {
+        UIView.animateWithDuration(0.35, animations: {
+            self.searchTableView.alpha = 0
+            }, completion: { finished in
+                self.searchTableView.removeFromSuperview()
+        })
+    }
+
+    func cancelBtnClicked(sender: UIButton) {
+        searchBar.resignFirstResponder()
+        navigationItem.setRightBarButtonItem(nil, animated: true)
+        hideTableView()
+    }
+
+}
+
+// MARK: - UICollectionViewDelegate
 extension CategoryViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension CategoryViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 34)
     }
 }
 
+// MARK: - NSFetchedResultsControllerDelegate
 extension CategoryViewController: NSFetchedResultsControllerDelegate {
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
 
@@ -233,5 +330,54 @@ extension CategoryViewController: NSFetchedResultsControllerDelegate {
             }, completion: { (finished) -> Void in
                 self.blockOperations.removeAll(keepCapacity: false)
         })
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension CategoryViewController: UITableViewDataSource {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(SearchCell.reuseIdentifier, forIndexPath: indexPath) as! SearchCell
+        let food = searchResults[indexPath.row]
+        cell.iconImageView.image = UIImage(named: "warning_icon")
+        cell.foodLbl.attributedText = attributedTextForSearchResult(food, searchText: currentSearchText)
+        return cell
+    }
+    private func attributedTextForSearchResult(food: Food, searchText: String) -> NSAttributedString {
+        let foodName = food.name ?? ""
+        let attr = NSMutableAttributedString(string: foodName)
+
+        attr.addAttribute(NSFontAttributeName,
+                          value: UIFont.systemFontOfSize(18, weight: UIFontWeightMedium),
+                          range: NSMakeRange(0, attr.length))
+
+        attr.addAttribute(NSForegroundColorAttributeName,
+                          value: UIColor.blackColor().colorWithAlphaComponent(0.4),
+                          range: NSRange(0..<attr.length))
+
+        let foodNameStr = NSString(string: foodName)
+        let range = foodNameStr.rangeOfString(searchText,
+                                              options: [.DiacriticInsensitiveSearch, .CaseInsensitiveSearch],
+                                              range: NSMakeRange(0, attr.length), locale: NSLocale.currentLocale())
+        if range.location != NSNotFound {
+            attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blackColor(), range: range)
+        }
+
+        return attr
+    }
+    private func sanitizeSearchText(searchText: String) -> String {
+        return searchText.lowercaseString.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension CategoryViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }

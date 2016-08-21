@@ -24,9 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), forBarMetrics: .Default)
 
-        window?.tintColor = UIColor.appTintColor()
-
         let op = ImportOperation()
+        op.completionBlock = {
+            if let err = op.error {
+                print("Error while importing data: \(err)")
+            }
+        }
         NSOperationQueue().addOperation(op)
 
         return true

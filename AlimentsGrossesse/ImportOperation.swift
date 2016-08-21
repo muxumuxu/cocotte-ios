@@ -19,14 +19,19 @@ final class ImportOperation: SHOperation {
     private var baseURL = "https://pregnant-foods.herokuapp.com/foods.json"
 
     private let importContext: NSManagedObjectContext
+    private let networkMngr: Alamofire.Manager
 
     override init() {
         importContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
         importContext.parentContext = CoreDataStack.shared.managedObjectContext
+
+        let config = NSURLSession.sharedSession().configuration
+        config.timeoutIntervalForRequest = 5
+        networkMngr = Alamofire.Manager(configuration: config)
     }
 
     override func execute() {
-        Alamofire.request(.GET, baseURL).responseJSON { (res) in
+        networkMngr.request(.GET, baseURL).responseJSON { (res) in
             defer {
                 self.finish()
             }
@@ -39,7 +44,9 @@ final class ImportOperation: SHOperation {
             self.importContext.performBlockAndWait {
                 let json = JSON(value)
                 if let jsonFoods = json.array {
+
                     do {
+
                         var foods = [Food]()
                         for jsonFood in jsonFoods {
                             if let id = jsonFood["id"].int {
@@ -76,6 +83,7 @@ final class ImportOperation: SHOperation {
                         }
 
                         try self.saveContext()
+
                     } catch let err as NSError {
                         self.error = err
                     }
