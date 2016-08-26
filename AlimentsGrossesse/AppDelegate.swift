@@ -21,10 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         CoreDataStack.initializeWithMomd("AlimentsGrossesse", sql: "SingleViewCoreData.sqlite")
 
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), forBarMetrics: .Default)
-        UINavigationBar.appearance().backgroundColor = UIColor.whiteColor()
-
         let op = ImportOperation()
         op.completionBlock = {
             if let err = op.error {
@@ -33,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         NSOperationQueue().addOperation(op)
 
+        customizeAppearance()
+
         return true
     }
 
@@ -40,5 +38,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         CoreDataStack.shared.saveContext()
+    }
+
+    func customizeAppearance() {
+        let nav = UINavigationBar.appearance()
+        nav.shadowImage = UIImage()
+        nav.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
+
+        let app = UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self])
+        app.defaultTextAttributes = [
+            NSFontAttributeName: UIFont.systemFontOfSize(18, weight: UIFontWeightMedium),
+            NSForegroundColorAttributeName: "8E8E93".UIColor
+        ]
     }
 }

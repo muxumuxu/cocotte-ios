@@ -28,12 +28,6 @@ final class CategoryViewController: SHKeyboardViewController {
     override func loadView() {
         super.loadView()
 
-        let app = UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self])
-        app.defaultTextAttributes = [
-            NSFontAttributeName: UIFont.systemFontOfSize(18, weight: UIFontWeightMedium),
-            NSForegroundColorAttributeName: "8E8E93".UIColor
-        ]
-
         searchBarContainer = UIView()
         searchBarContainer.backgroundColor = UIColor.clearColor()
         view.addSubview(searchBarContainer)

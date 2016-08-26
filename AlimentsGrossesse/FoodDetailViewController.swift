@@ -32,8 +32,16 @@ final class FoodDetailViewController: UIViewController {
 
     private var topSeparator: UIView!
 
-    private var riskLbl = UILabel()
-    private var riskValueLbl = UILabel()
+    private var riskLbl: UILabel!
+    private var riskValueLbl: UILabel!
+
+    private var infoLbl: UILabel!
+    private var infoValueLbl: UILabel!
+
+    private var bottomSeparator: UIView!
+
+    private var alertBtn: UIButton!
+    private var warnLbl: UILabel!
 
     override func loadView() {
         super.loadView()
@@ -46,7 +54,10 @@ final class FoodDetailViewController: UIViewController {
         backBtn.contentHorizontalAlignment = .Left
         backBtn.titleEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 0, right: 0)
         backBtn.addTarget(self, action: #selector(FoodDetailViewController.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
-        view.addSubview(backBtn)
+        backBtn.frame = CGRect(x: 0, y: 0, width: 80, height: 30)
+        navigationItem.setHidesBackButton(true, animated: false)
+        let backBbi = UIBarButtonItem(customView: backBtn)
+        navigationItem.leftBarButtonItem = backBbi
 
         addToFavBtn = UIButton(type: .System)
         addToFavBtn.setImage(UIImage(named: "add_to_fav_icon"), forState: .Normal)
@@ -56,7 +67,9 @@ final class FoodDetailViewController: UIViewController {
         addToFavBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 7)
         addToFavBtn.addTarget(self, action: #selector(FoodDetailViewController.favBtnClicked(_:)), forControlEvents: .TouchUpInside)
         addToFavBtn.tintColor = UIColor.appTintColor()
-        view.addSubview(addToFavBtn)
+        addToFavBtn.frame = CGRect(x: 0, y: 0, width: 150, height: 30)
+        let rightBbi = UIBarButtonItem(customView: addToFavBtn)
+        navigationItem.rightBarButtonItem = rightBbi
 
         scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -87,8 +100,12 @@ final class FoodDetailViewController: UIViewController {
         topSeparator.backgroundColor = UIColor.appGrayColor()
         scrollContainerView.addSubview(topSeparator)
 
+        bottomSeparator = UIView()
+        bottomSeparator.backgroundColor = UIColor.appGrayColor()
+        scrollContainerView.addSubview(bottomSeparator)
+
         riskLbl = UILabel()
-        riskLbl.textColor = UIColor.appGrayColor()
+        riskLbl.textColor = UIColor.appBlueColor()
         riskLbl.font = UIFont(name: "Avenir-Medium", size: 13)
         riskLbl.text = L("Risque")
         scrollContainerView.addSubview(riskLbl)
@@ -96,7 +113,32 @@ final class FoodDetailViewController: UIViewController {
         riskValueLbl = UILabel()
         riskValueLbl.textColor = UIColor.blackColor()
         riskValueLbl.font = UIFont(name: "Avenir-Medium", size: 18)
-        scrollContainerView.addSubview(riskLbl)
+        scrollContainerView.addSubview(riskValueLbl)
+
+        infoLbl = UILabel()
+        infoLbl.textColor = UIColor.appGrayColor()
+        infoLbl.font = UIFont(name: "Avenir-Medium", size: 13)
+        infoLbl.text = L("Information")
+        scrollContainerView.addSubview(infoLbl)
+
+        infoValueLbl = UILabel()
+        infoValueLbl.textColor = UIColor.appGrayColor()
+        infoValueLbl.font = UIFont(name: "Avenir-Medium", size: 18)
+        scrollContainerView.addSubview(infoValueLbl)
+
+        alertBtn = UIButton(type: .System)
+        alertBtn.setTitle(L("Signaler cet aliment"), forState: .Normal)
+        alertBtn.titleLabel?.font = UIFont(name: "Avenir-Book", size: 18)
+        alertBtn.tintColor = UIColor.appBlueColor()
+        alertBtn.addTarget(self, action: #selector(FoodDetailViewController.alertBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        scrollContainerView.addSubview(alertBtn)
+
+        warnLbl = UILabel()
+        warnLbl.font = UIFont(name: "Avenir-Book", size: 12)
+        warnLbl.textColor = UIColor.appGrayColor()
+        warnLbl.text = "Toutes ces recommandations sont données à titre indicatif, elles ne peuvent remplacer l'avis de votre médecin."
+        warnLbl.numberOfLines = 0
+        scrollContainerView.addSubview(warnLbl)
     }
 
     override func viewWillLayoutSubviews() {
@@ -117,12 +159,6 @@ final class FoodDetailViewController: UIViewController {
         configureInterfaceBasedOnFood()
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-
     func favBtnClicked(sender: UIButton) {
         if food?.favDate != nil {
             food?.favDate = nil
@@ -140,11 +176,30 @@ final class FoodDetailViewController: UIViewController {
         navigationController?.popViewControllerAnimated(true)
     }
 
+    func alertBtnClicked(sender: UIButton) {
+
+    }
+
     private func configureInterfaceBasedOnFood() {
         foodNameLbl.text = food?.name
-        dangerLbl.text = food?.danger
+
+        if let type = food?.dangerType {
+            switch type {
+            case .Avoid:
+                dangerLbl.text = L("À éviter")
+            case .Care:
+                dangerLbl.text = L("Faire attention")
+            case .Good:
+                dangerLbl.text = L("Aucun")
+            }
+        } else {
+            dangerLbl.text = nil
+        }
+
         dangerImageView.image = food?.dangerImage
+
         riskValueLbl.text = food?.risk
+        infoValueLbl.text = food?.info
 
         if food?.favDate != nil {
             addToFavBtn.tintColor = UIColor.appGrayColor()
@@ -156,24 +211,8 @@ final class FoodDetailViewController: UIViewController {
     }
 
     private func configureLayoutConstraints() {
-        backBtn.snp_makeConstraints {
-            $0.top.equalTo(view).offset(24)
-            $0.left.equalTo(view).offset(15)
-            $0.height.equalTo(44)
-            $0.right.equalTo(view)
-        }
-
-        addToFavBtn.snp_makeConstraints {
-            $0.centerY.equalTo(backBtn).offset(-3)
-            $0.width.equalTo(250)
-            $0.right.equalTo(view).offset(-14)
-        }
-
         scrollView.snp_makeConstraints {
-            $0.top.equalTo(backBtn.snp_bottom)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
-            $0.bottom.equalTo(view)
+            $0.edges.equalTo(view)
         }
 
         scrollContainerView.snp_makeConstraints {
@@ -217,8 +256,37 @@ final class FoodDetailViewController: UIViewController {
         }
 
         riskValueLbl.snp_makeConstraints {
-            $0.top.equalTo(riskLbl).offset(3)
+            $0.top.equalTo(riskLbl.snp_bottom).offset(3)
             $0.left.equalTo(riskLbl)
+        }
+
+        infoLbl.snp_makeConstraints {
+            $0.top.equalTo(riskValueLbl.snp_bottom).offset(22)
+            $0.left.equalTo(scrollContainerView).offset(14)
+            $0.right.equalTo(scrollContainerView).offset(-14)
+        }
+
+        infoValueLbl.snp_makeConstraints {
+            $0.top.equalTo(infoLbl.snp_bottom).offset(3)
+            $0.left.equalTo(infoLbl)
+        }
+
+        bottomSeparator.snp_makeConstraints {
+            $0.top.equalTo(infoValueLbl.snp_bottom).offset(32)
+            $0.left.equalTo(topSeparator)
+            $0.right.equalTo(topSeparator)
+            $0.height.equalTo(1)
+        }
+
+        alertBtn.snp_makeConstraints {
+            $0.top.equalTo(bottomSeparator.snp_bottom).offset(35)
+            $0.left.equalTo(scrollContainerView).offset(14)
+        }
+
+        warnLbl.snp_makeConstraints {
+            $0.top.equalTo(alertBtn.snp_bottom).offset(14)
+            $0.left.equalTo(scrollContainerView).offset(14)
+            $0.right.equalTo(scrollContainerView).offset(-14)
 
             $0.bottom.equalTo(scrollContainerView).offset(-20)
         }

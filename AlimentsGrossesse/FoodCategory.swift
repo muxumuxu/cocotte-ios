@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import SwiftHelpers
 
-class FoodCategory: NSManagedObject, NamedEntity {
+final class FoodCategory: NSManagedObject, NamedEntity {
     static let entityName = "FoodCategory"
 
     class func findById(id: Int, inContext context: NSManagedObjectContext) throws -> FoodCategory? {

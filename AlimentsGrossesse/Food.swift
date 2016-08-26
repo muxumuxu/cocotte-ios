@@ -10,8 +10,12 @@ import Foundation
 import CoreData
 import SwiftHelpers
 
-class Food: NSManagedObject, NamedEntity {
+final class Food: NSManagedObject, NamedEntity {
     static let entityName = "Food"
+
+    enum FoodDangerType: Int {
+        case Care, Avoid, Good
+    }
 
     class func findById(id: Int, inContext context: NSManagedObjectContext) throws -> Food? {
         let req = entityFetchRequest()
@@ -32,5 +36,19 @@ class Food: NSManagedObject, NamedEntity {
             }
         }
         return UIImage(named: "good_icon")
+    }
+
+    var dangerType: FoodDangerType {
+        if let danger = danger {
+            switch danger {
+            case "avoid":
+                return .Avoid
+            case "care":
+                return .Care
+            default:
+                return .Good
+            }
+        }
+        return .Good
     }
 }
