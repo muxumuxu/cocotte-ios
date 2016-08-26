@@ -1,6 +1,6 @@
 //
 //  FoodViewController.swift
-//  AlimentsGrossesse
+//  Foodancy
 //
 //  Created by David Miotti on 21/08/16.
 //  Copyright © 2016 David Miotti. All rights reserved.

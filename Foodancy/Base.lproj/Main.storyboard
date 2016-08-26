@@ -8,7 +8,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="ytI-xI-l03">
             <objects>
-                <tabBarController id="7F9-l9-AXf" customClass="TabBarController" customModule="AlimentsGrossesse" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="7F9-l9-AXf" customClass="TabBarController" customModule="Foodancy" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="tam-0G-F6r">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -44,7 +44,7 @@
         <!--Category View Controller-->
         <scene sceneID="9fF-UO-Ld3">
             <objects>
-                <viewController id="KV0-49-hMD" customClass="CategoryViewController" customModule="AlimentsGrossesse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KV0-49-hMD" customClass="CategoryViewController" customModule="Foodancy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5gY-0h-07y"/>
                         <viewControllerLayoutGuide type="bottom" id="c6Y-cQ-xga"/>
@@ -63,7 +63,7 @@
         <!--Fav List View Controller-->
         <scene sceneID="gOX-ci-dPE">
             <objects>
-                <viewController id="DFL-r8-eoI" customClass="FavListViewController" customModule="AlimentsGrossesse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="DFL-r8-eoI" customClass="FavListViewController" customModule="Foodancy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="htl-eW-cqM"/>
                         <viewControllerLayoutGuide type="bottom" id="G8T-1C-oWI"/>
@@ -82,7 +82,7 @@
         <!--More View Controller-->
         <scene sceneID="7kU-Od-aoY">
             <objects>
-                <viewController id="vnE-Dd-y27" customClass="MoreViewController" customModule="AlimentsGrossesse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vnE-Dd-y27" customClass="MoreViewController" customModule="Foodancy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4NY-tb-tbI"/>
                         <viewControllerLayoutGuide type="bottom" id="min-bM-0fU"/>

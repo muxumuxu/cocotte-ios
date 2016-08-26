@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  AlimentsGrossesse
+//  Foodancy
 //
 //  Created by David Miotti on 15/08/16.
 //  Copyright © 2016 David Miotti. All rights reserved.
@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        CoreDataStack.initializeWithMomd("AlimentsGrossesse", sql: "SingleViewCoreData.sqlite")
+        CoreDataStack.initializeWithMomd("Foodancy", sql: "Foodancy.sqlite")
 
         let op = ImportOperation()
         op.completionBlock = {

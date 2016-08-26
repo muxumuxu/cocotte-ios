@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Xcode 7.0">
+    <entity name="Food" representedClassName=".Food" syncable="YES">
+        <attribute name="danger" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="favDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="info" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="foodCategory" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="FoodCategory" syncable="YES"/>
+        <relationship name="risk" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Risk" syncable="YES"/>
+    </entity>
+    <entity name="FoodCategory" representedClassName=".FoodCategory" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="foods" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Food" syncable="YES"/>
+    </entity>
+    <entity name="Risk" representedClassName=".Risk" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="foods" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Food" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Food" positionX="-54" positionY="-9" width="128" height="165"/>
+        <element name="FoodCategory" positionX="-36" positionY="9" width="128" height="120"/>
+        <element name="Risk" positionX="-18" positionY="27" width="128" height="105"/>
+    </elements>
+</model>

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2DFE17AD358E6BEFE73ABA16 /* Pods_AlimentsGrossesse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E2B64B62221AD3522FEC3 /* Pods_AlimentsGrossesse.framework */; };
 		5841509B1D61C36100866210 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509A1D61C36100866210 /* CategoryCell.swift */; };
 		5841509F1D61D9CF00866210 /* StyleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509E1D61D9CF00866210 /* StyleSheet.swift */; };
 		584150A11D61E74D00866210 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150A01D61E74D00866210 /* TabBarView.swift */; };
@@ -19,14 +18,12 @@
 		587E976C1D707CA800494388 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976B1D707CA800494388 /* Helpers.swift */; };
 		587E976F1D70A2A800494388 /* Risk+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976D1D70A2A800494388 /* Risk+CoreDataProperties.swift */; };
 		587E97701D70A2A800494388 /* Risk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976E1D70A2A800494388 /* Risk.swift */; };
+		587E97741D70B47600494388 /* Foodancy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 587E97721D70B47600494388 /* Foodancy.xcdatamodeld */; };
 		58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A071D61AEBD00A339A1 /* AppDelegate.swift */; };
 		58816A0A1D61AEBD00A339A1 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A091D61AEBD00A339A1 /* CategoryViewController.swift */; };
 		58816A0D1D61AEBD00A339A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58816A0B1D61AEBD00A339A1 /* Main.storyboard */; };
-		58816A101D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 58816A0E1D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodeld */; };
 		58816A121D61AEBD00A339A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58816A111D61AEBD00A339A1 /* Assets.xcassets */; };
 		58816A151D61AEBD00A339A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58816A131D61AEBD00A339A1 /* LaunchScreen.storyboard */; };
-		58816A201D61AEBE00A339A1 /* AlimentsGrossesseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A1F1D61AEBE00A339A1 /* AlimentsGrossesseTests.swift */; };
-		58816A2B1D61AEBE00A339A1 /* AlimentsGrossesseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A2A1D61AEBE00A339A1 /* AlimentsGrossesseUITests.swift */; };
 		58CA516F1D6A1F3C005B20F8 /* FoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA516E1D6A1F3C005B20F8 /* FoodCell.swift */; };
 		58CA51711D6A2B0D005B20F8 /* FoodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA51701D6A2B0D005B20F8 /* FoodDetailViewController.swift */; };
 		58CA67441D70461F006FEB50 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA67431D70461F006FEB50 /* MoreViewController.swift */; };
@@ -34,26 +31,11 @@
 		58CA674B1D7060FE006FEB50 /* FoodNotFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA674A1D7060FE006FEB50 /* FoodNotFoundView.swift */; };
 		58CA674E1D7074F0006FEB50 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA674D1D7074F0006FEB50 /* TabBarController.swift */; };
 		58CA67511D707607006FEB50 /* FavListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA67501D707607006FEB50 /* FavListViewController.swift */; };
+		B7FB8B67AA2409A8FB0870C3 /* Pods_Foodancy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32049C8A99AB469695E3773 /* Pods_Foodancy.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		58816A1C1D61AEBE00A339A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 588169FC1D61AEBD00A339A1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 58816A031D61AEBD00A339A1;
-			remoteInfo = AlimentsGrossesse;
-		};
-		58816A271D61AEBE00A339A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 588169FC1D61AEBD00A339A1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 58816A031D61AEBD00A339A1;
-			remoteInfo = AlimentsGrossesse;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		2D2C9CA366E61F113D4C5456 /* Pods-Foodancy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodancy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Foodancy/Pods-Foodancy.debug.xcconfig"; sourceTree = "<group>"; };
 		5841509A1D61C36100866210 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		5841509E1D61D9CF00866210 /* StyleSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleSheet.swift; sourceTree = "<group>"; };
 		584150A01D61E74D00866210 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -65,20 +47,14 @@
 		587E976B1D707CA800494388 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		587E976D1D70A2A800494388 /* Risk+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Risk+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		587E976E1D70A2A800494388 /* Risk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Risk.swift; sourceTree = "<group>"; };
-		58816A041D61AEBD00A339A1 /* AlimentsGrossesse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlimentsGrossesse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		587E97731D70B47600494388 /* Foodancy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodancy.xcdatamodel; sourceTree = "<group>"; };
+		58816A041D61AEBD00A339A1 /* Foodancy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Foodancy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58816A071D61AEBD00A339A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		58816A091D61AEBD00A339A1 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		58816A0C1D61AEBD00A339A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		58816A0F1D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlimentsGrossesse.xcdatamodel; sourceTree = "<group>"; };
 		58816A111D61AEBD00A339A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58816A141D61AEBD00A339A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		58816A161D61AEBD00A339A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		58816A1B1D61AEBE00A339A1 /* AlimentsGrossesseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlimentsGrossesseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		58816A1F1D61AEBE00A339A1 /* AlimentsGrossesseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlimentsGrossesseTests.swift; sourceTree = "<group>"; };
-		58816A211D61AEBE00A339A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		58816A261D61AEBE00A339A1 /* AlimentsGrossesseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlimentsGrossesseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		58816A2A1D61AEBE00A339A1 /* AlimentsGrossesseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlimentsGrossesseUITests.swift; sourceTree = "<group>"; };
-		58816A2C1D61AEBE00A339A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58CA516E1D6A1F3C005B20F8 /* FoodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCell.swift; sourceTree = "<group>"; };
 		58CA51701D6A2B0D005B20F8 /* FoodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodDetailViewController.swift; sourceTree = "<group>"; };
 		58CA67431D70461F006FEB50 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
@@ -86,8 +62,9 @@
 		58CA674A1D7060FE006FEB50 /* FoodNotFoundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodNotFoundView.swift; sourceTree = "<group>"; };
 		58CA674D1D7074F0006FEB50 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		58CA67501D707607006FEB50 /* FavListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavListViewController.swift; sourceTree = "<group>"; };
-		824E2B64B62221AD3522FEC3 /* Pods_AlimentsGrossesse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlimentsGrossesse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		951CBD0771F607483A0BDE24 /* Pods-Foodancy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodancy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Foodancy/Pods-Foodancy.release.xcconfig"; sourceTree = "<group>"; };
 		9B972308D226F98BF1A01F1A /* Pods-AlimentsGrossesse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlimentsGrossesse.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlimentsGrossesse/Pods-AlimentsGrossesse.release.xcconfig"; sourceTree = "<group>"; };
+		B32049C8A99AB469695E3773 /* Pods_Foodancy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodancy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA4165FA705A45B946D3F0DF /* Pods-AlimentsGrossesse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlimentsGrossesse.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlimentsGrossesse/Pods-AlimentsGrossesse.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,21 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DFE17AD358E6BEFE73ABA16 /* Pods_AlimentsGrossesse.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58816A181D61AEBE00A339A1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58816A231D61AEBE00A339A1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				B7FB8B67AA2409A8FB0870C3 /* Pods_Foodancy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,7 +83,7 @@
 		0EED9957AA0E4BB1835C6C63 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				824E2B64B62221AD3522FEC3 /* Pods_AlimentsGrossesse.framework */,
+				B32049C8A99AB469695E3773 /* Pods_Foodancy.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -167,12 +130,23 @@
 			name = Operations;
 			sourceTree = "<group>";
 		};
+		587E97711D70AFFC00494388 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				58CA674C1D7074DF006FEB50 /* TabBar */,
+				584150A91D61FCC000866210 /* Categories */,
+				58CA674F1D7075F8006FEB50 /* Fav */,
+				58CA67491D705621006FEB50 /* FoodList */,
+				58CA67471D705605006FEB50 /* FoodDetail */,
+				58CA67481D705614006FEB50 /* More */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		588169FB1D61AEBD00A339A1 = {
 			isa = PBXGroup;
 			children = (
-				58816A061D61AEBD00A339A1 /* AlimentsGrossesse */,
-				58816A1E1D61AEBE00A339A1 /* AlimentsGrossesseTests */,
-				58816A291D61AEBE00A339A1 /* AlimentsGrossesseUITests */,
+				58816A061D61AEBD00A339A1 /* Foodancy */,
 				58816A051D61AEBD00A339A1 /* Products */,
 				CB25F2C187BE99A45831B27D /* Pods */,
 				0EED9957AA0E4BB1835C6C63 /* Frameworks */,
@@ -182,50 +156,25 @@
 		58816A051D61AEBD00A339A1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				58816A041D61AEBD00A339A1 /* AlimentsGrossesse.app */,
-				58816A1B1D61AEBE00A339A1 /* AlimentsGrossesseTests.xctest */,
-				58816A261D61AEBE00A339A1 /* AlimentsGrossesseUITests.xctest */,
+				58816A041D61AEBD00A339A1 /* Foodancy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		58816A061D61AEBD00A339A1 /* AlimentsGrossesse */ = {
+		58816A061D61AEBD00A339A1 /* Foodancy */ = {
 			isa = PBXGroup;
 			children = (
 				58816A071D61AEBD00A339A1 /* AppDelegate.swift */,
 				584150A21D61EAED00866210 /* Models */,
-				58CA674C1D7074DF006FEB50 /* TabBar */,
-				584150A91D61FCC000866210 /* Categories */,
-				58CA674F1D7075F8006FEB50 /* Fav */,
-				58CA67491D705621006FEB50 /* FoodList */,
-				58CA67471D705605006FEB50 /* FoodDetail */,
-				58CA67481D705614006FEB50 /* More */,
+				587E97711D70AFFC00494388 /* Controllers */,
 				5841509E1D61D9CF00866210 /* StyleSheet.swift */,
 				58816A0B1D61AEBD00A339A1 /* Main.storyboard */,
 				58816A111D61AEBD00A339A1 /* Assets.xcassets */,
 				58816A131D61AEBD00A339A1 /* LaunchScreen.storyboard */,
 				58816A161D61AEBD00A339A1 /* Info.plist */,
-				58816A0E1D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodeld */,
+				587E97721D70B47600494388 /* Foodancy.xcdatamodeld */,
 			);
-			path = AlimentsGrossesse;
-			sourceTree = "<group>";
-		};
-		58816A1E1D61AEBE00A339A1 /* AlimentsGrossesseTests */ = {
-			isa = PBXGroup;
-			children = (
-				58816A1F1D61AEBE00A339A1 /* AlimentsGrossesseTests.swift */,
-				58816A211D61AEBE00A339A1 /* Info.plist */,
-			);
-			path = AlimentsGrossesseTests;
-			sourceTree = "<group>";
-		};
-		58816A291D61AEBE00A339A1 /* AlimentsGrossesseUITests */ = {
-			isa = PBXGroup;
-			children = (
-				58816A2A1D61AEBE00A339A1 /* AlimentsGrossesseUITests.swift */,
-				58816A2C1D61AEBE00A339A1 /* Info.plist */,
-			);
-			path = AlimentsGrossesseUITests;
+			path = Foodancy;
 			sourceTree = "<group>";
 		};
 		58CA67471D705605006FEB50 /* FoodDetail */ = {
@@ -274,6 +223,8 @@
 			children = (
 				CA4165FA705A45B946D3F0DF /* Pods-AlimentsGrossesse.debug.xcconfig */,
 				9B972308D226F98BF1A01F1A /* Pods-AlimentsGrossesse.release.xcconfig */,
+				2D2C9CA366E61F113D4C5456 /* Pods-Foodancy.debug.xcconfig */,
+				951CBD0771F607483A0BDE24 /* Pods-Foodancy.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -281,9 +232,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		58816A031D61AEBD00A339A1 /* AlimentsGrossesse */ = {
+		58816A031D61AEBD00A339A1 /* Foodancy */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 58816A2F1D61AEBE00A339A1 /* Build configuration list for PBXNativeTarget "AlimentsGrossesse" */;
+			buildConfigurationList = 58816A2F1D61AEBE00A339A1 /* Build configuration list for PBXNativeTarget "Foodancy" */;
 			buildPhases = (
 				326D7F7DB82549BECBD56DCA /* [CP] Check Pods Manifest.lock */,
 				58816A001D61AEBD00A339A1 /* Sources */,
@@ -296,46 +247,10 @@
 			);
 			dependencies = (
 			);
-			name = AlimentsGrossesse;
+			name = Foodancy;
 			productName = AlimentsGrossesse;
-			productReference = 58816A041D61AEBD00A339A1 /* AlimentsGrossesse.app */;
+			productReference = 58816A041D61AEBD00A339A1 /* Foodancy.app */;
 			productType = "com.apple.product-type.application";
-		};
-		58816A1A1D61AEBE00A339A1 /* AlimentsGrossesseTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 58816A321D61AEBE00A339A1 /* Build configuration list for PBXNativeTarget "AlimentsGrossesseTests" */;
-			buildPhases = (
-				58816A171D61AEBE00A339A1 /* Sources */,
-				58816A181D61AEBE00A339A1 /* Frameworks */,
-				58816A191D61AEBE00A339A1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				58816A1D1D61AEBE00A339A1 /* PBXTargetDependency */,
-			);
-			name = AlimentsGrossesseTests;
-			productName = AlimentsGrossesseTests;
-			productReference = 58816A1B1D61AEBE00A339A1 /* AlimentsGrossesseTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		58816A251D61AEBE00A339A1 /* AlimentsGrossesseUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 58816A351D61AEBE00A339A1 /* Build configuration list for PBXNativeTarget "AlimentsGrossesseUITests" */;
-			buildPhases = (
-				58816A221D61AEBE00A339A1 /* Sources */,
-				58816A231D61AEBE00A339A1 /* Frameworks */,
-				58816A241D61AEBE00A339A1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				58816A281D61AEBE00A339A1 /* PBXTargetDependency */,
-			);
-			name = AlimentsGrossesseUITests;
-			productName = AlimentsGrossesseUITests;
-			productReference = 58816A261D61AEBE00A339A1 /* AlimentsGrossesseUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -351,17 +266,9 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 659B2N7HE9;
 					};
-					58816A1A1D61AEBE00A339A1 = {
-						CreatedOnToolsVersion = 7.3.1;
-						TestTargetID = 58816A031D61AEBD00A339A1;
-					};
-					58816A251D61AEBE00A339A1 = {
-						CreatedOnToolsVersion = 7.3.1;
-						TestTargetID = 58816A031D61AEBD00A339A1;
-					};
 				};
 			};
-			buildConfigurationList = 588169FF1D61AEBD00A339A1 /* Build configuration list for PBXProject "AlimentsGrossesse" */;
+			buildConfigurationList = 588169FF1D61AEBD00A339A1 /* Build configuration list for PBXProject "Foodancy" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -374,9 +281,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				58816A031D61AEBD00A339A1 /* AlimentsGrossesse */,
-				58816A1A1D61AEBE00A339A1 /* AlimentsGrossesseTests */,
-				58816A251D61AEBE00A339A1 /* AlimentsGrossesseUITests */,
+				58816A031D61AEBD00A339A1 /* Foodancy */,
 			);
 		};
 /* End PBXProject section */
@@ -389,20 +294,6 @@
 				58816A151D61AEBD00A339A1 /* LaunchScreen.storyboard in Resources */,
 				58816A121D61AEBD00A339A1 /* Assets.xcassets in Resources */,
 				58816A0D1D61AEBD00A339A1 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58816A191D61AEBE00A339A1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58816A241D61AEBE00A339A1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,7 +327,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlimentsGrossesse/Pods-AlimentsGrossesse-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Foodancy/Pods-Foodancy-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FCCCEF69C5F3D53FA7E21D0B /* [CP] Copy Pods Resources */ = {
@@ -451,7 +342,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlimentsGrossesse/Pods-AlimentsGrossesse-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Foodancy/Pods-Foodancy-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -467,7 +358,6 @@
 				58CA674B1D7060FE006FEB50 /* FoodNotFoundView.swift in Sources */,
 				584150B11D620A0F00866210 /* Food.swift in Sources */,
 				584150B21D620A0F00866210 /* FoodCategory+CoreDataProperties.swift in Sources */,
-				58816A101D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodeld in Sources */,
 				58CA516F1D6A1F3C005B20F8 /* FoodCell.swift in Sources */,
 				587E976F1D70A2A800494388 /* Risk+CoreDataProperties.swift in Sources */,
 				58CA674E1D7074F0006FEB50 /* TabBarController.swift in Sources */,
@@ -477,6 +367,7 @@
 				587E97701D70A2A800494388 /* Risk.swift in Sources */,
 				58CA51711D6A2B0D005B20F8 /* FoodDetailViewController.swift in Sources */,
 				58CA67461D704786006FEB50 /* FoodListViewController.swift in Sources */,
+				587E97741D70B47600494388 /* Foodancy.xcdatamodeld in Sources */,
 				584150A61D61F30F00866210 /* ImportOperation.swift in Sources */,
 				58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */,
 				5841509B1D61C36100866210 /* CategoryCell.swift in Sources */,
@@ -485,36 +376,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		58816A171D61AEBE00A339A1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				58816A201D61AEBE00A339A1 /* AlimentsGrossesseTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58816A221D61AEBE00A339A1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				58816A2B1D61AEBE00A339A1 /* AlimentsGrossesseUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		58816A1D1D61AEBE00A339A1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 58816A031D61AEBD00A339A1 /* AlimentsGrossesse */;
-			targetProxy = 58816A1C1D61AEBE00A339A1 /* PBXContainerItemProxy */;
-		};
-		58816A281D61AEBE00A339A1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 58816A031D61AEBD00A339A1 /* AlimentsGrossesse */;
-			targetProxy = 58816A271D61AEBE00A339A1 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		58816A0B1D61AEBD00A339A1 /* Main.storyboard */ = {
@@ -623,82 +485,36 @@
 		};
 		58816A301D61AEBE00A339A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA4165FA705A45B946D3F0DF /* Pods-AlimentsGrossesse.debug.xcconfig */;
+			baseConfigurationReference = 2D2C9CA366E61F113D4C5456 /* Pods-Foodancy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_FILE = AlimentsGrossesse/Info.plist;
+				INFOPLIST_FILE = Foodancy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.alimgrossesse;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Foodancy;
 				PROVISIONING_PROFILE = "f20463f7-d751-4957-9746-cacb79081351";
 			};
 			name = Debug;
 		};
 		58816A311D61AEBE00A339A1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B972308D226F98BF1A01F1A /* Pods-AlimentsGrossesse.release.xcconfig */;
+			baseConfigurationReference = 951CBD0771F607483A0BDE24 /* Pods-Foodancy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: David Miotti (659B2N7HE9)";
-				INFOPLIST_FILE = AlimentsGrossesse/Info.plist;
+				INFOPLIST_FILE = Foodancy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.alimgrossesse;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Foodancy;
 				PROVISIONING_PROFILE = "eacee581-73be-4289-9869-476a4aa66570";
-			};
-			name = Release;
-		};
-		58816A331D61AEBE00A339A1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = AlimentsGrossesseTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.wopata.AlimentsGrossesseTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AlimentsGrossesse.app/AlimentsGrossesse";
-			};
-			name = Debug;
-		};
-		58816A341D61AEBE00A339A1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = AlimentsGrossesseTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.wopata.AlimentsGrossesseTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AlimentsGrossesse.app/AlimentsGrossesse";
-			};
-			name = Release;
-		};
-		58816A361D61AEBE00A339A1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = AlimentsGrossesseUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.wopata.AlimentsGrossesseUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = AlimentsGrossesse;
-			};
-			name = Debug;
-		};
-		58816A371D61AEBE00A339A1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = AlimentsGrossesseUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.wopata.AlimentsGrossesseUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = AlimentsGrossesse;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		588169FF1D61AEBD00A339A1 /* Build configuration list for PBXProject "AlimentsGrossesse" */ = {
+		588169FF1D61AEBD00A339A1 /* Build configuration list for PBXProject "Foodancy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58816A2D1D61AEBE00A339A1 /* Debug */,
@@ -707,7 +523,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		58816A2F1D61AEBE00A339A1 /* Build configuration list for PBXNativeTarget "AlimentsGrossesse" */ = {
+		58816A2F1D61AEBE00A339A1 /* Build configuration list for PBXNativeTarget "Foodancy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58816A301D61AEBE00A339A1 /* Debug */,
@@ -716,34 +532,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		58816A321D61AEBE00A339A1 /* Build configuration list for PBXNativeTarget "AlimentsGrossesseTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				58816A331D61AEBE00A339A1 /* Debug */,
-				58816A341D61AEBE00A339A1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		58816A351D61AEBE00A339A1 /* Build configuration list for PBXNativeTarget "AlimentsGrossesseUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				58816A361D61AEBE00A339A1 /* Debug */,
-				58816A371D61AEBE00A339A1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		58816A0E1D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodeld */ = {
+		587E97721D70B47600494388 /* Foodancy.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				58816A0F1D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodel */,
+				587E97731D70B47600494388 /* Foodancy.xcdatamodel */,
 			);
-			currentVersion = 58816A0F1D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodel */;
-			path = AlimentsGrossesse.xcdatamodeld;
+			currentVersion = 587E97731D70B47600494388 /* Foodancy.xcdatamodel */;
+			path = Foodancy.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
