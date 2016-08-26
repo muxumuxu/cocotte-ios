@@ -81,7 +81,6 @@ final class FoodDetailViewController: UIViewController {
         scrollView.addSubview(scrollContainerView)
 
         categoryImageView = UIImageView()
-        categoryImageView.backgroundColor = UIColor.appTintColor().colorWithAlphaComponent(0.1)
         categoryImageView.clipsToBounds = true
         scrollContainerView.addSubview(categoryImageView)
 
@@ -152,12 +151,6 @@ final class FoodDetailViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        categoryImageView.layer.cornerRadius = categoryImageView.frame.size.height / 2.0
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -219,6 +212,10 @@ final class FoodDetailViewController: UIViewController {
         }
 
         dangerImageView.image = food?.dangerImage
+
+        if let imageName = food?.foodCategory?.image {
+            categoryImageView.image = UIImage(named: "\(imageName)_circle")
+        }
 
         if food?.risk?.url != nil {
             riskValueBtn.setTitleColor(UIColor.appBlueColor(), forState: .Normal)

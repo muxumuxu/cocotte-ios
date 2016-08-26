@@ -25,6 +25,8 @@ final class FavListViewController: SHKeyboardViewController {
 
     private var fetchedResultsController: NSFetchedResultsController!
 
+    private var emptyView: UIView!
+
     override func loadView() {
         super.loadView()
 
@@ -64,6 +66,30 @@ final class FavListViewController: SHKeyboardViewController {
         searchTableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
         searchTableView.backgroundColor = UIColor.whiteColor()
         searchTableView.tableFooterView = UIView()
+
+        emptyView = UIView()
+
+        let emptyImageView = UIImageView(image: UIImage(named: "fav_empty"))
+        emptyView.addSubview(emptyImageView)
+        emptyView.alpha = 0
+        emptyImageView.snp_makeConstraints {
+            $0.centerY.equalTo(emptyView)
+            $0.centerY.equalTo(emptyView)
+        }
+
+        let emptyTitleLbl = UILabel()
+        emptyTitleLbl.numberOfLines = 0
+        emptyTitleLbl.text = "Vous pouvez retrouver ici les aliments que vous voulez ajouter en favoris."
+        emptyTitleLbl.font = UIFont.systemFontOfSize(18, weight: UIFontWeightMedium)
+        emptyView.addSubview(emptyTitleLbl)
+        emptyTitleLbl.snp_makeConstraints {
+            $0.top.equalTo(emptyImageView.snp_bottom)
+            $0.centerX.equalTo(emptyView)
+            $0.left.greaterThanOrEqualTo(emptyView).offset(30)
+            $0.right.lessThanOrEqualTo(emptyView).offset(-30)
+        }
+
+        view.addSubview(emptyView)
     }
 
     override func viewDidLoad() {
@@ -98,9 +124,22 @@ final class FavListViewController: SHKeyboardViewController {
 
         do {
             try fetchedResultsController.performFetch()
+
             favTableView.reloadData()
+
+            showEmptyViewIfNeeded()
         } catch let err as NSError {
             print("Error while fetching faved: \(err)")
+        }
+    }
+
+    private func showEmptyViewIfNeeded() {
+        UIView.animateWithDuration(0.35) {
+            if self.fetchedResultsController == nil || self.fetchedResultsController.fetchedObjects?.count == 0 {
+                self.emptyView.alpha = 1
+            } else {
+                self.emptyView.alpha = 0
+            }
         }
     }
 
@@ -124,6 +163,13 @@ final class FavListViewController: SHKeyboardViewController {
         }
 
         favTableView.snp_makeConstraints {
+            $0.top.equalTo(searchBarContainer.snp_bottom)
+            $0.left.equalTo(view)
+            $0.right.equalTo(view)
+            $0.bottom.equalTo(view)
+        }
+
+        emptyView.snp_makeConstraints {
             $0.top.equalTo(searchBarContainer.snp_bottom)
             $0.left.equalTo(view)
             $0.right.equalTo(view)
