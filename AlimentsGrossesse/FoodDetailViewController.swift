@@ -116,6 +116,7 @@ final class FoodDetailViewController: UIViewController {
         riskValueBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
         riskValueBtn.titleLabel?.font = UIFont(name: "Avenir-Medium", size: 18)
         riskValueBtn.addTarget(self, action: #selector(FoodDetailViewController.riskBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        riskValueBtn.titleLabel?.numberOfLines = 0
         scrollContainerView.addSubview(riskValueBtn)
 
         infoLbl = UILabel()
@@ -126,6 +127,7 @@ final class FoodDetailViewController: UIViewController {
 
         infoValueLbl = UILabel()
         infoValueLbl.textColor = UIColor.appGrayColor()
+        infoValueLbl.numberOfLines = 0
         infoValueLbl.font = UIFont(name: "Avenir-Medium", size: 18)
         scrollContainerView.addSubview(infoValueLbl)
 
@@ -188,7 +190,7 @@ final class FoodDetailViewController: UIViewController {
     func alertBtnClicked(sender: UIButton) {
         let mail = MFMailComposeViewController()
         mail.mailComposeDelegate = self
-        mail.setSubject("Reporter \"\(food!.name)\"")
+        mail.setSubject("Reporter \"\(food!.name!)\"")
         mail.setToRecipients(["contact@foodancy.com"])
         presentViewController(mail, animated: true, completion: nil)
     }
@@ -196,7 +198,6 @@ final class FoodDetailViewController: UIViewController {
     func riskBtnClicked(sender: UIButton) {
         if let url = food?.risk?.url, URL = NSURL(string: url) {
             let safari = SFSafariViewController(URL: URL)
-            safari.delegate = self
             presentViewController(safari, animated: true, completion: nil)
         }
     }
@@ -328,8 +329,4 @@ extension FoodDetailViewController: MFMailComposeViewControllerDelegate, UINavig
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
-}
-
-extension FoodDetailViewController: SFSafariViewControllerDelegate {
-
 }

@@ -9,6 +9,7 @@
 import UIKit
 import SwiftHelpers
 import MessageUI
+import SafariServices
 
 final class MoreViewController: UIViewController {
 
@@ -77,6 +78,7 @@ final class MoreViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension MoreViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return sections.count
@@ -88,7 +90,12 @@ extension MoreViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier(FoodCell.reuseIdentifier, forIndexPath: indexPath) as! FoodCell
 
         let section = sections[indexPath.section].types[indexPath.row]
-        cell.foodLbl.text = section.name
+
+        if section == .Version {
+            cell.foodLbl.text = "\(section.name) - \(appVersion())"
+        } else {
+            cell.foodLbl.text = section.name
+        }
 
         cell.foodLbl.snp_removeConstraints()
         cell.foodLbl.snp_makeConstraints {
@@ -139,13 +146,17 @@ extension MoreViewController: UITableViewDelegate {
             message.mailComposeDelegate = self
             presentViewController(message, animated: true, completion: nil)
         case .MadeByMM:
-            break
+            if let URL = NSURL(string: "https://muxumuxu.com") {
+                let safari = SFSafariViewController(URL: URL)
+                presentViewController(safari, animated: true, completion: nil)
+            }
         case .Version:
             break
         }
     }
 }
 
+// MARK: - MFMailComposeViewControllerDelegate
 extension MoreViewController: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)

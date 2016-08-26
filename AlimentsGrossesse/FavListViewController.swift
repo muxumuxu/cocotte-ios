@@ -179,6 +179,24 @@ extension FavListViewController: UITableViewDataSource {
         }
         return food
     }
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return tableView == favTableView
+    }
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        if tableView == favTableView {
+            return .Delete
+        }
+        return .None
+    }
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        let food = foodAtIndexPath(indexPath)
+        food.favDate = nil
+        do {
+            try food.managedObjectContext?.save()
+        } catch let err as NSError {
+            print("Error while saving context: \(err)")
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate
