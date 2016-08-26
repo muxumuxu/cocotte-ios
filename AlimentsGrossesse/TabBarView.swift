@@ -21,12 +21,15 @@ final class TabBarView: SHCommonInitView {
     private let favBtn = UIButton(type: .System)
     private let moreBtn = UIButton(type: .System)
 
+    private let topSeparator = UIView()
+
     private var stackView = UIStackView()
 
     override func commonInit() {
         super.commonInit()
 
         addSubview(stackView)
+        addSubview(topSeparator)
 
         stackView.distribution = .FillEqually
         stackView.axis = .Horizontal
@@ -48,12 +51,20 @@ final class TabBarView: SHCommonInitView {
         stackView.addArrangedSubview(favBtn)
         stackView.addArrangedSubview(moreBtn)
 
+        topSeparator.backgroundColor = "B2B2B2".UIColor.colorWithAlphaComponent(0.25)
+
         configureLayoutConstraints()
     }
 
     private func configureLayoutConstraints() {
         stackView.snp_makeConstraints {
             $0.edges.equalTo(self)
+        }
+        topSeparator.snp_makeConstraints {
+            $0.top.equalTo(self)
+            $0.left.equalTo(self)
+            $0.right.equalTo(self)
+            $0.height.equalTo(1)
         }
     }
 

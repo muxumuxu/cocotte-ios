@@ -28,6 +28,7 @@
 		58CA51711D6A2B0D005B20F8 /* FoodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA51701D6A2B0D005B20F8 /* FoodDetailViewController.swift */; };
 		58CA67441D70461F006FEB50 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA67431D70461F006FEB50 /* MoreViewController.swift */; };
 		58CA67461D704786006FEB50 /* FoodListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA67451D704786006FEB50 /* FoodListViewController.swift */; };
+		58CA674B1D7060FE006FEB50 /* FoodNotFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA674A1D7060FE006FEB50 /* FoodNotFoundView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		58CA51701D6A2B0D005B20F8 /* FoodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodDetailViewController.swift; sourceTree = "<group>"; };
 		58CA67431D70461F006FEB50 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		58CA67451D704786006FEB50 /* FoodListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodListViewController.swift; sourceTree = "<group>"; };
+		58CA674A1D7060FE006FEB50 /* FoodNotFoundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodNotFoundView.swift; sourceTree = "<group>"; };
 		824E2B64B62221AD3522FEC3 /* Pods_AlimentsGrossesse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlimentsGrossesse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B972308D226F98BF1A01F1A /* Pods-AlimentsGrossesse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlimentsGrossesse.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlimentsGrossesse/Pods-AlimentsGrossesse.release.xcconfig"; sourceTree = "<group>"; };
 		CA4165FA705A45B946D3F0DF /* Pods-AlimentsGrossesse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlimentsGrossesse.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlimentsGrossesse/Pods-AlimentsGrossesse.debug.xcconfig"; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				58816A091D61AEBD00A339A1 /* CategoryViewController.swift */,
 				5841509A1D61C36100866210 /* CategoryCell.swift */,
 				58CA516E1D6A1F3C005B20F8 /* FoodCell.swift */,
+				58CA674A1D7060FE006FEB50 /* FoodNotFoundView.swift */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58CA67441D70461F006FEB50 /* MoreViewController.swift in Sources */,
+				58CA674B1D7060FE006FEB50 /* FoodNotFoundView.swift in Sources */,
 				584150B11D620A0F00866210 /* Food.swift in Sources */,
 				584150B21D620A0F00866210 /* FoodCategory+CoreDataProperties.swift in Sources */,
 				58816A101D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodeld in Sources */,
