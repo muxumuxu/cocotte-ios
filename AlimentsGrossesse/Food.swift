@@ -19,4 +19,18 @@ class Food: NSManagedObject, NamedEntity {
         let res = try context.executeFetchRequest(req)
         return res.first as? Food
     }
+
+    var dangerImage: UIImage? {
+        if let danger = danger {
+            switch danger {
+            case "avoid":
+                return UIImage(named: "forbidden_icon")
+            case "care":
+                return UIImage(named: "warning_icon")
+            default:
+                return UIImage(named: "good_icon")
+            }
+        }
+        return UIImage(named: "good_icon")
+    }
 }

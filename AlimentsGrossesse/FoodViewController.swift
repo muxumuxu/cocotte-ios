@@ -25,6 +25,7 @@ final class FoodViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.whiteColor()
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
         backBtn = UIButton(type: .System)
         backBtn.setImage(UIImage(named: "back_icon"), forState: .Normal)
@@ -43,12 +44,6 @@ final class FoodViewController: UIViewController {
 
     private func configureInterfaceBasedOnFood() {
         foodNameLbl.text = food?.name
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
     func backBtnClicked(sender: UIButton) {

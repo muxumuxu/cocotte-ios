@@ -10,7 +10,7 @@ import UIKit
 import SwiftHelpers
 import CoreData
 
-final class CategoryViewController: UIViewController {
+final class CategoryViewController: SHKeyboardViewController {
 
     private var searchResults = [Food]()
     private var searchBar: UISearchBar!
@@ -26,14 +26,11 @@ final class CategoryViewController: UIViewController {
 
     private var fetchedResultsController: NSFetchedResultsController!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        edgesForExtendedLayout = .None
-
-        definesPresentationContext = true
+    override func loadView() {
+        super.loadView()
 
         tabBarView = TabBarView()
+        view.addSubview(tabBarView)
 
         searchBar = UISearchBar()
         searchBar.tintColor = UIColor.appTintColor()
@@ -45,8 +42,9 @@ final class CategoryViewController: UIViewController {
         searchTableView = UITableView(frame: .zero, style: .Plain)
         searchTableView.delegate = self
         searchTableView.dataSource = self
+        searchTableView.separatorStyle = .None
         searchTableView.rowHeight = 34
-        searchTableView.registerClass(SearchCell.self, forCellReuseIdentifier: SearchCell.reuseIdentifier)
+        searchTableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
         searchTableView.backgroundColor = UIColor.whiteColor()
         searchTableView.tableFooterView = UIView()
 
@@ -68,15 +66,28 @@ final class CategoryViewController: UIViewController {
         collectionView.dataSource = self
         view.addSubview(collectionView)
 
-        view.addSubview(tabBarView)
+    }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        edgesForExtendedLayout = .None
+
+        definesPresentationContext = true
+
+        registerKeyboardNotificationsForScrollableView(searchTableView)
+
+        prepareFechedResultsController()
+
+        configureLayoutConstraints()
+    }
+
+    private func prepareFechedResultsController() {
         let req = FoodCategory.entityFetchRequest()
         req.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
         let ctx = CoreDataStack.shared.managedObjectContext
         fetchedResultsController = NSFetchedResultsController(fetchRequest: req, managedObjectContext: ctx, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
-
-        configureLayoutConstraints()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -206,10 +217,22 @@ extension CategoryViewController: UISearchBarDelegate {
     private func showsCancelButton() {
         let cancelBbi = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(CategoryViewController.cancelBtnClicked(_:)))
         cancelBbi.tintColor = UIColor.appTintColor()
+        cancelBbi.setTitleTextAttributes([
+            NSForegroundColorAttributeName: UIColor.appGrayColor(),
+            NSFontAttributeName: UIFont.systemFontOfSize(13, weight: UIFontWeightMedium)
+            ], forState: .Normal)
         navigationItem.setRightBarButtonItem(cancelBbi, animated: true)
     }
 
     private func showsSearchTableView() {
+        /*
+        searchBar.searchBarStyle = .Default
+        searchBar.setImage(UIImage(), forSearchBarIcon: .Search, state: .Normal)
+        searchBar.setPositionAdjustment(UIOffset(horizontal: -15, vertical: 0), forSearchBarIcon: .Search)
+        let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as! UITextField
+        textFieldInsideSearchBar.font = UIFont.systemFontOfSize(18, weight: UIFontWeightMedium)
+         */
+
         view.addSubview(searchTableView)
         searchTableView.snp_makeConstraints {
             $0.top.equalTo(view)
@@ -217,10 +240,10 @@ extension CategoryViewController: UISearchBarDelegate {
             $0.right.equalTo(view)
             $0.bottom.equalTo(tabBarView.snp_top)
         }
+        searchTableView.layoutIfNeeded()
         searchTableView.alpha = 0
         UIView.animateWithDuration(0.35) {
             self.searchTableView.alpha = 1
-            self.searchTableView.layoutIfNeeded()
         }
     }
 
@@ -234,6 +257,15 @@ extension CategoryViewController: UISearchBarDelegate {
 
     func cancelBtnClicked(sender: UIButton) {
         searchBar.resignFirstResponder()
+
+        /*
+        searchBar.searchBarStyle = .Minimal
+        searchBar.setImage(nil, forSearchBarIcon: .Search, state: .Normal)
+        searchBar.setPositionAdjustment(UIOffset(horizontal: 0, vertical: 5), forSearchBarIcon: .Search)
+        let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as! UITextField
+        textFieldInsideSearchBar.font = nil
+         */
+
         navigationItem.setRightBarButtonItem(nil, animated: true)
         hideTableView()
     }
@@ -244,6 +276,11 @@ extension CategoryViewController: UISearchBarDelegate {
 extension CategoryViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+
+        let cat = fetchedResultsController.objectAtIndexPath(indexPath) as! FoodCategory
+        let foodList = FoodListViewController()
+        foodList.category = cat
+        navigationController?.pushViewController(foodList, animated: true)
     }
 }
 
@@ -343,9 +380,9 @@ extension CategoryViewController: UITableViewDataSource {
         return searchResults.count
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(SearchCell.reuseIdentifier, forIndexPath: indexPath) as! SearchCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(FoodCell.reuseIdentifier, forIndexPath: indexPath) as! FoodCell
         let food = searchResults[indexPath.row]
-        cell.iconImageView.image = UIImage(named: "warning_icon")
+        cell.iconImageView.image = food.dangerImage
         cell.foodLbl.attributedText = attributedTextForSearchResult(food, searchText: currentSearchText)
         return cell
     }

@@ -58,7 +58,7 @@ final class ImportOperation: SHOperation {
                                 }
                                 food.id = id
                                 food.name = jsonFood["name"].string
-                                food.danger = jsonFood["dange"].string
+                                food.danger = jsonFood["danger"].string
 
                                 let jsonCategory = jsonFood["category"]
                                 if let categoryId = jsonCategory["id"].int {

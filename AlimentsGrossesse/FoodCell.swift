@@ -9,8 +9,8 @@
 import UIKit
 import SwiftHelpers
 
-final class SearchCell: SHCommonInitTableViewCell {
-    static let reuseIdentifier = "SearchCell"
+final class FoodCell: SHCommonInitTableViewCell {
+    static let reuseIdentifier = "FoodCell"
 
     let iconImageView = UIImageView()
     let foodLbl = UILabel()
