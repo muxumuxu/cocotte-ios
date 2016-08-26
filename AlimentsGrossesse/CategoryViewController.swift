@@ -48,7 +48,6 @@ final class CategoryViewController: SHKeyboardViewController {
         searchBar = UISearchBar()
         searchBar.tintColor = UIColor.appTintColor()
         searchBar.placeholder = "Rechercher un aliment"
-        searchBar.delegate = self
         let searchImg = UIImage(named: "nav_search")?.resizableImageWithCapInsets(
             UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
         searchBar.backgroundImage = searchImg
@@ -57,8 +56,6 @@ final class CategoryViewController: SHKeyboardViewController {
         searchBarContainer.addSubview(searchBar)
 
         searchTableView = UITableView(frame: .zero, style: .Plain)
-        searchTableView.delegate = self
-        searchTableView.dataSource = self
         searchTableView.separatorStyle = .None
         searchTableView.rowHeight = 44
         searchTableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
@@ -78,8 +75,6 @@ final class CategoryViewController: SHKeyboardViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.whiteColor()
         collectionView.registerClass(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
-        collectionView.delegate = self
-        collectionView.dataSource = self
         view.addSubview(collectionView)
     }
 
@@ -89,6 +84,14 @@ final class CategoryViewController: SHKeyboardViewController {
         edgesForExtendedLayout = .None
 
         definesPresentationContext = true
+
+        searchBar.delegate = self
+
+        collectionView.delegate = self
+        collectionView.dataSource = self
+
+        searchTableView.delegate = self
+        searchTableView.dataSource = self
 
         registerKeyboardNotificationsForScrollableView(searchTableView)
 
