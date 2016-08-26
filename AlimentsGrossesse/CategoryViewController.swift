@@ -60,7 +60,6 @@ final class CategoryViewController: SHKeyboardViewController {
 
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.whiteColor()
-        collectionView.registerClass(CategoryReusableTitleView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CategoryReusableTitleView.reuseIdentifier)
         collectionView.registerClass(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -170,10 +169,6 @@ extension CategoryViewController: UICollectionViewDataSource {
 
         return cell
     }
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: CategoryReusableTitleView.reuseIdentifier, forIndexPath: indexPath)
-        return view
-    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -215,13 +210,15 @@ extension CategoryViewController: UISearchBarDelegate {
     }
 
     private func showsCancelButton() {
-        let cancelBbi = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(CategoryViewController.cancelBtnClicked(_:)))
-        cancelBbi.tintColor = UIColor.appTintColor()
-        cancelBbi.setTitleTextAttributes([
-            NSForegroundColorAttributeName: UIColor.appGrayColor(),
-            NSFontAttributeName: UIFont.systemFontOfSize(13, weight: UIFontWeightMedium)
-            ], forState: .Normal)
-        navigationItem.setRightBarButtonItem(cancelBbi, animated: true)
+        let cancelBtn = UIButton(type: .System)
+        cancelBtn.titleLabel?.font = UIFont.systemFontOfSize(13, weight: UIFontWeightMedium)
+        cancelBtn.setTitle(L("Annuler"), forState: .Normal)
+        cancelBtn.setTitleColor(UIColor.appGrayColor(), forState: .Normal)
+        cancelBtn.addTarget(self, action: #selector(CategoryViewController.cancelBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        cancelBtn.sizeToFit()
+
+        let bbi = UIBarButtonItem(customView: cancelBtn)
+        navigationItem.setRightBarButtonItem(bbi, animated: true)
     }
 
     private func showsSearchTableView() {
@@ -281,13 +278,6 @@ extension CategoryViewController: UICollectionViewDelegate {
         let foodList = FoodListViewController()
         foodList.category = cat
         navigationController?.pushViewController(foodList, animated: true)
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension CategoryViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 34)
     }
 }
 
@@ -418,8 +408,10 @@ extension CategoryViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
+        searchBar.resignFirstResponder()
+
         let food = searchResults[indexPath.row]
-        let foodController = FoodViewController()
+        let foodController = FoodDetailViewController()
         foodController.food = food
         navigationController?.pushViewController(foodController, animated: true)
     }

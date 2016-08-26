@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class FoodViewController: UIViewController {
+final class FoodDetailViewController: UIViewController {
 
     var food: Food? {
         didSet {
@@ -29,7 +29,7 @@ final class FoodViewController: UIViewController {
 
         backBtn = UIButton(type: .System)
         backBtn.setImage(UIImage(named: "back_icon"), forState: .Normal)
-        backBtn.addTarget(self, action: #selector(FoodViewController.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        backBtn.addTarget(self, action: #selector(FoodDetailViewController.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
         view.addSubview(backBtn)
 
         foodNameLbl = UILabel()

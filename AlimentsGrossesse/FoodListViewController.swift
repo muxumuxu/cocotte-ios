@@ -93,5 +93,10 @@ extension FoodListViewController: UITableViewDataSource {
 extension FoodListViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
+        let detail = FoodDetailViewController()
+        detail.food = food
+        navigationController?.pushViewController(detail, animated: true)
     }
 }

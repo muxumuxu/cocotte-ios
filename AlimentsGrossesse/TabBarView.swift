@@ -9,12 +9,17 @@
 import UIKit
 import SwiftHelpers
 
-class TabBarView: SHCommonInitView {
+protocol TabBarViewDelegate: class {
+    func tabBarView(tabBarView: TabBarView, didSelectIndex index: Int)
+}
 
-    private var searchBtn = UIButton(type: .System)
-    private var receipeBtn = UIButton(type: .System)
-    private var listBtn = UIButton(type: .System)
-    private var moreBtn = UIButton(type: .System)
+final class TabBarView: SHCommonInitView {
+
+    weak var delegate: TabBarViewDelegate?
+
+    private let searchBtn = UIButton(type: .System)
+    private let favBtn = UIButton(type: .System)
+    private let moreBtn = UIButton(type: .System)
 
     private var stackView = UIStackView()
 
@@ -26,19 +31,21 @@ class TabBarView: SHCommonInitView {
         stackView.distribution = .FillEqually
         stackView.axis = .Horizontal
 
-        searchBtn.setImage(UIImage(named: "search"), forState: .Normal)
-        receipeBtn.setImage(UIImage(named: "receipt"), forState: .Normal)
-        listBtn.setImage(UIImage(named: "list"), forState: .Normal)
-        moreBtn.setImage(UIImage(named: "more"), forState: .Normal)
+        searchBtn.setImage(UIImage(named: "search_tab"), forState: .Normal)
+        searchBtn.tag = 0
+
+        favBtn.setImage(UIImage(named: "fav_tab"), forState: .Normal)
+        favBtn.tag = 1
+
+        moreBtn.setImage(UIImage(named: "more_tab"), forState: .Normal)
+        moreBtn.tag = 2
 
         searchBtn.tintColor = UIColor.appTintColor()
-        receipeBtn.tintColor = UIColor.appGrayColor()
-        listBtn.tintColor = UIColor.appGrayColor()
+        favBtn.tintColor = UIColor.appGrayColor()
         moreBtn.tintColor = UIColor.appGrayColor()
 
         stackView.addArrangedSubview(searchBtn)
-        stackView.addArrangedSubview(receipeBtn)
-        stackView.addArrangedSubview(listBtn)
+        stackView.addArrangedSubview(favBtn)
         stackView.addArrangedSubview(moreBtn)
 
         configureLayoutConstraints()
@@ -48,5 +55,9 @@ class TabBarView: SHCommonInitView {
         stackView.snp_makeConstraints {
             $0.edges.equalTo(self)
         }
+    }
+
+    func tabBtnClicked(sender: UIButton) {
+        delegate?.tabBarView(self, didSelectIndex: sender.tag)
     }
 }
