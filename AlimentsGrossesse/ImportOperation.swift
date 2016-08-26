@@ -62,20 +62,23 @@ final class ImportOperation: SHOperation {
 
                                 let jsonCategory = jsonFood["category"]
                                 if let categoryId = jsonCategory["id"].int {
-                                    let cat: FoodCategory
-                                    if let local = try FoodCategory.findById(categoryId, inContext: self.importContext) {
-                                        cat = local
-                                    } else {
-                                        cat = FoodCategory.insertEntity(inContext: self.importContext)
-                                    }
+                                    let cat = try self.findOrCreateCategory(categoryId)
                                     cat.id = categoryId
                                     cat.name = jsonCategory["name"].string
                                     cat.order = jsonCategory["order"].int
                                     cat.image = jsonCategory["image"].string
-
                                     food.foodCategory = cat
                                 }
-                                food.risk = jsonFood["risk"].string
+
+                                let jsonRisk = jsonFood["risk"]
+                                if let riskId = jsonRisk["id"].int {
+                                    let risk = try self.findOrCreateRisk(riskId)
+                                    risk.id = riskId
+                                    risk.name = jsonRisk["name"].string
+                                    risk.url = jsonRisk["url"].string
+                                    food.risk = risk
+                                }
+
                                 food.url = jsonFood["url"].string
                                 food.info = jsonFood["info"].string
                                 foods.append(food)
@@ -90,6 +93,26 @@ final class ImportOperation: SHOperation {
                 }
             }
         }
+    }
+
+    private func findOrCreateCategory(categoryId: Int) throws -> FoodCategory {
+        let cat: FoodCategory
+        if let local = try FoodCategory.findById(categoryId, inContext: self.importContext) {
+            cat = local
+        } else {
+            cat = FoodCategory.insertEntity(inContext: self.importContext)
+        }
+        return cat
+    }
+
+    private func findOrCreateRisk(riskId: Int) throws -> Risk {
+        let risk: Risk
+        if let local = try Risk.findById(riskId, inContext: self.importContext) {
+            risk = local
+        } else {
+            risk = Risk.insertEntity(inContext: self.importContext)
+        }
+        return risk
     }
 
     private func saveContext() throws {

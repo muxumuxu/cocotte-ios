@@ -17,6 +17,8 @@
 		584150B21D620A0F00866210 /* FoodCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */; };
 		584150B31D620A0F00866210 /* FoodCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AF1D620A0F00866210 /* FoodCategory.swift */; };
 		587E976C1D707CA800494388 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976B1D707CA800494388 /* Helpers.swift */; };
+		587E976F1D70A2A800494388 /* Risk+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976D1D70A2A800494388 /* Risk+CoreDataProperties.swift */; };
+		587E97701D70A2A800494388 /* Risk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976E1D70A2A800494388 /* Risk.swift */; };
 		58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A071D61AEBD00A339A1 /* AppDelegate.swift */; };
 		58816A0A1D61AEBD00A339A1 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58816A091D61AEBD00A339A1 /* CategoryViewController.swift */; };
 		58816A0D1D61AEBD00A339A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58816A0B1D61AEBD00A339A1 /* Main.storyboard */; };
@@ -61,6 +63,8 @@
 		584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FoodCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		584150AF1D620A0F00866210 /* FoodCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCategory.swift; sourceTree = "<group>"; };
 		587E976B1D707CA800494388 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		587E976D1D70A2A800494388 /* Risk+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Risk+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		587E976E1D70A2A800494388 /* Risk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Risk.swift; sourceTree = "<group>"; };
 		58816A041D61AEBD00A339A1 /* AlimentsGrossesse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlimentsGrossesse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58816A071D61AEBD00A339A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		58816A091D61AEBD00A339A1 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 			children = (
 				584150AD1D620A0F00866210 /* Food.swift */,
 				584150AF1D620A0F00866210 /* FoodCategory.swift */,
+				587E976E1D70A2A800494388 /* Risk.swift */,
 				584150B41D620BDC00866210 /* CoreData */,
 				584150B51D620BED00866210 /* Operations */,
 				587E976B1D707CA800494388 /* Helpers.swift */,
@@ -149,6 +154,7 @@
 			children = (
 				584150AC1D620A0F00866210 /* Food+CoreDataProperties.swift */,
 				584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */,
+				587E976D1D70A2A800494388 /* Risk+CoreDataProperties.swift */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -463,10 +469,12 @@
 				584150B21D620A0F00866210 /* FoodCategory+CoreDataProperties.swift in Sources */,
 				58816A101D61AEBD00A339A1 /* AlimentsGrossesse.xcdatamodeld in Sources */,
 				58CA516F1D6A1F3C005B20F8 /* FoodCell.swift in Sources */,
+				587E976F1D70A2A800494388 /* Risk+CoreDataProperties.swift in Sources */,
 				58CA674E1D7074F0006FEB50 /* TabBarController.swift in Sources */,
 				584150A11D61E74D00866210 /* TabBarView.swift in Sources */,
 				58816A0A1D61AEBD00A339A1 /* CategoryViewController.swift in Sources */,
 				584150B01D620A0F00866210 /* Food+CoreDataProperties.swift in Sources */,
+				587E97701D70A2A800494388 /* Risk.swift in Sources */,
 				58CA51711D6A2B0D005B20F8 /* FoodDetailViewController.swift in Sources */,
 				58CA67461D704786006FEB50 /* FoodListViewController.swift in Sources */,
 				584150A61D61F30F00866210 /* ImportOperation.swift in Sources */,

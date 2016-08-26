@@ -8,6 +8,8 @@
 
 import UIKit
 import SwiftHelpers
+import MessageUI
+import SafariServices
 
 final class FoodDetailViewController: UIViewController {
 
@@ -33,7 +35,7 @@ final class FoodDetailViewController: UIViewController {
     private var topSeparator: UIView!
 
     private var riskLbl: UILabel!
-    private var riskValueLbl: UILabel!
+    private var riskValueBtn: UIButton!
 
     private var infoLbl: UILabel!
     private var infoValueLbl: UILabel!
@@ -54,7 +56,7 @@ final class FoodDetailViewController: UIViewController {
         backBtn.contentHorizontalAlignment = .Left
         backBtn.titleEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 0, right: 0)
         backBtn.addTarget(self, action: #selector(FoodDetailViewController.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
-        backBtn.frame = CGRect(x: 0, y: 0, width: 80, height: 30)
+        backBtn.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
         navigationItem.setHidesBackButton(true, animated: false)
         let backBbi = UIBarButtonItem(customView: backBtn)
         navigationItem.leftBarButtonItem = backBbi
@@ -105,15 +107,16 @@ final class FoodDetailViewController: UIViewController {
         scrollContainerView.addSubview(bottomSeparator)
 
         riskLbl = UILabel()
-        riskLbl.textColor = UIColor.appBlueColor()
+        riskLbl.textColor = UIColor.appGrayColor()
         riskLbl.font = UIFont(name: "Avenir-Medium", size: 13)
         riskLbl.text = L("Risque")
         scrollContainerView.addSubview(riskLbl)
 
-        riskValueLbl = UILabel()
-        riskValueLbl.textColor = UIColor.blackColor()
-        riskValueLbl.font = UIFont(name: "Avenir-Medium", size: 18)
-        scrollContainerView.addSubview(riskValueLbl)
+        riskValueBtn = UIButton(type: .System)
+        riskValueBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        riskValueBtn.titleLabel?.font = UIFont(name: "Avenir-Medium", size: 18)
+        riskValueBtn.addTarget(self, action: #selector(FoodDetailViewController.riskBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        scrollContainerView.addSubview(riskValueBtn)
 
         infoLbl = UILabel()
         infoLbl.textColor = UIColor.appGrayColor()
@@ -139,6 +142,12 @@ final class FoodDetailViewController: UIViewController {
         warnLbl.text = "Toutes ces recommandations sont données à titre indicatif, elles ne peuvent remplacer l'avis de votre médecin."
         warnLbl.numberOfLines = 0
         scrollContainerView.addSubview(warnLbl)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func viewWillLayoutSubviews() {
@@ -177,7 +186,19 @@ final class FoodDetailViewController: UIViewController {
     }
 
     func alertBtnClicked(sender: UIButton) {
+        let mail = MFMailComposeViewController()
+        mail.mailComposeDelegate = self
+        mail.setSubject("Reporter \"\(food!.name)\"")
+        mail.setToRecipients(["contact@foodancy.com"])
+        presentViewController(mail, animated: true, completion: nil)
+    }
 
+    func riskBtnClicked(sender: UIButton) {
+        if let url = food?.risk?.url, URL = NSURL(string: url) {
+            let safari = SFSafariViewController(URL: URL)
+            safari.delegate = self
+            presentViewController(safari, animated: true, completion: nil)
+        }
     }
 
     private func configureInterfaceBasedOnFood() {
@@ -198,7 +219,15 @@ final class FoodDetailViewController: UIViewController {
 
         dangerImageView.image = food?.dangerImage
 
-        riskValueLbl.text = food?.risk
+        if food?.risk?.url != nil {
+            riskValueBtn.setTitleColor(UIColor.appBlueColor(), forState: .Normal)
+            riskValueBtn.userInteractionEnabled = true
+        } else {
+            riskValueBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
+            riskValueBtn.userInteractionEnabled = false
+        }
+        riskValueBtn.setTitle(food?.risk?.name, forState: .Normal)
+
         infoValueLbl.text = food?.info
 
         if food?.favDate != nil {
@@ -246,7 +275,7 @@ final class FoodDetailViewController: UIViewController {
             $0.top.equalTo(categoryImageView.snp_bottom).offset(34)
             $0.left.equalTo(scrollContainerView).offset(14)
             $0.right.equalTo(scrollContainerView).offset(-14)
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.5)
         }
 
         riskLbl.snp_makeConstraints {
@@ -255,13 +284,14 @@ final class FoodDetailViewController: UIViewController {
             $0.right.equalTo(scrollContainerView).offset(-14)
         }
 
-        riskValueLbl.snp_makeConstraints {
+        riskValueBtn.snp_makeConstraints {
             $0.top.equalTo(riskLbl.snp_bottom).offset(3)
             $0.left.equalTo(riskLbl)
+            $0.right.lessThanOrEqualTo(scrollContainerView).offset(-14)
         }
 
         infoLbl.snp_makeConstraints {
-            $0.top.equalTo(riskValueLbl.snp_bottom).offset(22)
+            $0.top.equalTo(riskValueBtn.snp_bottom).offset(22)
             $0.left.equalTo(scrollContainerView).offset(14)
             $0.right.equalTo(scrollContainerView).offset(-14)
         }
@@ -269,13 +299,14 @@ final class FoodDetailViewController: UIViewController {
         infoValueLbl.snp_makeConstraints {
             $0.top.equalTo(infoLbl.snp_bottom).offset(3)
             $0.left.equalTo(infoLbl)
+            $0.right.lessThanOrEqualTo(scrollContainerView).offset(-14)
         }
 
         bottomSeparator.snp_makeConstraints {
             $0.top.equalTo(infoValueLbl.snp_bottom).offset(32)
             $0.left.equalTo(topSeparator)
             $0.right.equalTo(topSeparator)
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.5)
         }
 
         alertBtn.snp_makeConstraints {
@@ -291,4 +322,14 @@ final class FoodDetailViewController: UIViewController {
             $0.bottom.equalTo(scrollContainerView).offset(-20)
         }
     }
+}
+
+extension FoodDetailViewController: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+extension FoodDetailViewController: SFSafariViewControllerDelegate {
+
 }

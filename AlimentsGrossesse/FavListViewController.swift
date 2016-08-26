@@ -50,13 +50,6 @@ final class FavListViewController: SHKeyboardViewController {
         searchBar.searchTextPositionAdjustment = UIOffset(horizontal: 10, vertical: 0)
         searchBarContainer.addSubview(searchBar)
 
-        searchTableView = UITableView(frame: .zero, style: .Plain)
-        searchTableView.separatorStyle = .None
-        searchTableView.rowHeight = 44
-        searchTableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
-        searchTableView.backgroundColor = UIColor.whiteColor()
-        searchTableView.tableFooterView = UIView()
-
         favTableView = UITableView(frame: .zero, style: .Plain)
         favTableView.separatorStyle = .None
         favTableView.rowHeight = 44
@@ -64,6 +57,13 @@ final class FavListViewController: SHKeyboardViewController {
         favTableView.backgroundColor = UIColor.whiteColor()
         favTableView.tableFooterView = UIView()
         view.addSubview(favTableView)
+
+        searchTableView = UITableView(frame: .zero, style: .Plain)
+        searchTableView.separatorStyle = .None
+        searchTableView.rowHeight = 44
+        searchTableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
+        searchTableView.backgroundColor = UIColor.whiteColor()
+        searchTableView.tableFooterView = UIView()
     }
 
     override func viewDidLoad() {
@@ -94,6 +94,7 @@ final class FavListViewController: SHKeyboardViewController {
         req.predicate = NSPredicate(format: "favDate != nil")
         req.sortDescriptors = [ NSSortDescriptor(key: "favDate", ascending: false) ]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: req, managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
 
         do {
             try fetchedResultsController.performFetch()
@@ -161,10 +162,22 @@ extension FavListViewController: UITableViewDataSource {
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(FoodCell.reuseIdentifier, forIndexPath: indexPath) as! FoodCell
-        let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
+        configureCell(cell, atIndexPath: indexPath)
+        return cell
+    }
+    private func configureCell(cell: FoodCell, atIndexPath indexPath: NSIndexPath) {
+        let food = foodAtIndexPath(indexPath)
         cell.foodLbl.text = food.name
         cell.iconImageView.image = food.dangerImage
-        return cell
+    }
+    private func foodAtIndexPath(indexPath: NSIndexPath) -> Food {
+        let food: Food
+        if !searchIsShown {
+            food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
+        } else {
+            food = searchResults[indexPath.row]
+        }
+        return food
     }
 }
 
@@ -172,6 +185,9 @@ extension FavListViewController: UITableViewDataSource {
 extension FavListViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let foodController = FoodDetailViewController()
+        foodController.food = foodAtIndexPath(indexPath)
+        navigationController?.pushViewController(foodController, animated: true)
     }
 }
 
@@ -270,5 +286,57 @@ extension FavListViewController: UISearchBarDelegate {
             hidesCancelButton()
             hideTableView()
         }
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+extension FavListViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        favTableView.beginUpdates()
+    }
+
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        switch (type) {
+        case .Insert:
+            if let indexPath = newIndexPath {
+                favTableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            }
+            break
+        case .Delete:
+            if let indexPath = indexPath {
+                favTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            }
+            break
+        case .Update:
+            if let indexPath = indexPath {
+                let cell = favTableView.cellForRowAtIndexPath(indexPath) as! FoodCell
+                configureCell(cell, atIndexPath: indexPath)
+            }
+            break
+        case .Move:
+            if let indexPath = indexPath {
+                favTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            }
+
+            if let newIndexPath = newIndexPath {
+                favTableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+            }
+            break
+        }
+    }
+
+    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        switch type {
+        case .Insert:
+            break
+        case .Delete:
+            break
+        default:
+            break
+        }
+    }
+
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        favTableView.endUpdates()
     }
 }

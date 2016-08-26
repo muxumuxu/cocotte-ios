@@ -16,7 +16,7 @@ extension Food {
 
     @NSManaged var id: NSNumber?
     @NSManaged var name: String?
-    @NSManaged var risk: String?
+    @NSManaged var risk: Risk?
     @NSManaged var url: String?
     @NSManaged var info: String?
     @NSManaged var danger: String?
