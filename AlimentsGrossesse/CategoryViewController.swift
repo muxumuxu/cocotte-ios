@@ -160,6 +160,26 @@ final class CategoryViewController: SHKeyboardViewController {
 
         collectionViewAnimationBlocks.removeAll(keepCapacity: false)
     }
+
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        let isLandscape = size.height < size.width
+
+        searchBarContainer.snp_removeConstraints()
+        searchBarContainer.snp_makeConstraints {
+            $0.top.equalTo(view)
+            $0.left.equalTo(view)
+            $0.right.equalTo(view)
+            if isLandscape {
+                $0.height.equalTo(64)
+            } else {
+                $0.height.equalTo(84)
+            }
+        }
+
+        coordinator.animateAlongsideTransition({ (context) in
+            self.view.layoutIfNeeded()
+            }, completion: nil)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
