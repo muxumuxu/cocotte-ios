@@ -47,6 +47,12 @@ final class FoodListViewController: UIViewController {
         configureLayoutConstraints()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+
     func backBtnClicked(sender: UIButton) {
         navigationController?.popViewControllerAnimated(true)
     }

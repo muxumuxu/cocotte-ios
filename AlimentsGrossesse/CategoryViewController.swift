@@ -12,32 +12,55 @@ import CoreData
 
 final class CategoryViewController: SHKeyboardViewController {
 
+    private let searchQueue = NSOperationQueue()
     private var searchResults = [Food]()
+    private var searchBarContainer: UIView!
+    private var searchCancelBtn: UIButton!
     private var searchBar: UISearchBar!
     private var searchTableView: UITableView!
-    private let searchQueue = NSOperationQueue()
     private var currentSearchText = ""
 
     private var collectionView: UICollectionView!
+    private var collectionViewAnimationBlocks: [NSBlockOperation] = []
+    private var fetchedResultsController: NSFetchedResultsController!
 
     private var tabBarView: TabBarView!
 
-    private var blockOperations: [NSBlockOperation] = []
-
-    private var fetchedResultsController: NSFetchedResultsController!
+    private var searchIsShown = false
 
     override func loadView() {
         super.loadView()
 
+        let app = UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self])
+        app.defaultTextAttributes = [
+            NSFontAttributeName: UIFont.systemFontOfSize(18, weight: UIFontWeightMedium),
+            NSForegroundColorAttributeName: "8E8E93".UIColor
+        ]
+
         tabBarView = TabBarView()
         view.addSubview(tabBarView)
 
+        searchBarContainer = UIView()
+        searchBarContainer.backgroundColor = UIColor.clearColor()
+        view.addSubview(searchBarContainer)
+
+        searchCancelBtn = UIButton(type: .System)
+        searchCancelBtn.titleLabel?.font = UIFont.systemFontOfSize(13, weight: UIFontWeightMedium)
+        searchCancelBtn.setTitle(L("Annuler"), forState: .Normal)
+        searchCancelBtn.setTitleColor(UIColor.appGrayColor(), forState: .Normal)
+        searchCancelBtn.addTarget(self, action: #selector(CategoryViewController.cancelBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        searchBarContainer.addSubview(searchCancelBtn)
+
         searchBar = UISearchBar()
         searchBar.tintColor = UIColor.appTintColor()
-        searchBar.searchBarStyle = .Minimal
         searchBar.placeholder = "Rechercher un aliment"
         searchBar.delegate = self
-        navigationItem.titleView = searchBar
+        let searchImg = UIImage(named: "nav_search")?.resizableImageWithCapInsets(
+            UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+        searchBar.backgroundImage = searchImg
+        searchBar.setSearchFieldBackgroundImage(searchImg, forState: .Normal)
+        searchBar.searchTextPositionAdjustment = UIOffset(horizontal: 10, vertical: 0)
+        searchBarContainer.addSubview(searchBar)
 
         searchTableView = UITableView(frame: .zero, style: .Plain)
         searchTableView.delegate = self
@@ -56,7 +79,7 @@ final class CategoryViewController: SHKeyboardViewController {
         }
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 6
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 15, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 15, right: 15)
 
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.whiteColor()
@@ -64,7 +87,6 @@ final class CategoryViewController: SHKeyboardViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-
     }
 
     override func viewDidLoad() {
@@ -85,18 +107,21 @@ final class CategoryViewController: SHKeyboardViewController {
         let req = FoodCategory.entityFetchRequest()
         req.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
         let ctx = CoreDataStack.shared.managedObjectContext
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: req, managedObjectContext: ctx, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: req,
+            managedObjectContext: ctx,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
         fetchedResultsController.delegate = self
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
 
         do {
             try fetchedResultsController.performFetch()
-
             collectionView.reloadData()
         } catch let err as NSError {
             print("Error while fetching foods: \(err)")
@@ -104,8 +129,26 @@ final class CategoryViewController: SHKeyboardViewController {
     }
 
     private func configureLayoutConstraints() {
-        collectionView.snp_makeConstraints {
+        searchBarContainer.snp_makeConstraints {
             $0.top.equalTo(view)
+            $0.left.equalTo(view)
+            $0.right.equalTo(view)
+            $0.height.equalTo(84)
+        }
+
+        searchBar.snp_makeConstraints {
+            $0.left.equalTo(searchBarContainer).offset(15)
+            $0.right.equalTo(searchBarContainer).offset(-15)
+            $0.bottom.equalTo(searchBarContainer).offset(-10)
+        }
+
+        searchCancelBtn.snp_remakeConstraints {
+            $0.right.equalTo(searchBarContainer).offset(-14)
+            $0.centerY.equalTo(searchBar)
+        }
+
+        collectionView.snp_makeConstraints {
+            $0.top.equalTo(searchBarContainer.snp_bottom)
             $0.left.equalTo(view)
             $0.right.equalTo(view)
             $0.bottom.equalTo(tabBarView.snp_top)
@@ -121,11 +164,11 @@ final class CategoryViewController: SHKeyboardViewController {
 
     deinit {
         // Cancel all block operations when VC deallocates
-        for operation: NSBlockOperation in blockOperations {
+        for operation: NSBlockOperation in collectionViewAnimationBlocks {
             operation.cancel()
         }
 
-        blockOperations.removeAll(keepCapacity: false)
+        collectionViewAnimationBlocks.removeAll(keepCapacity: false)
     }
 }
 
@@ -174,8 +217,11 @@ extension CategoryViewController: UICollectionViewDataSource {
 // MARK: - UISearchBarDelegate
 extension CategoryViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        showsCancelButton()
-        showsSearchTableView()
+        if !searchIsShown {
+            searchIsShown = true
+            showsCancelButton()
+            showsSearchTableView()
+        }
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
@@ -210,29 +256,31 @@ extension CategoryViewController: UISearchBarDelegate {
     }
 
     private func showsCancelButton() {
-        let cancelBtn = UIButton(type: .System)
-        cancelBtn.titleLabel?.font = UIFont.systemFontOfSize(13, weight: UIFontWeightMedium)
-        cancelBtn.setTitle(L("Annuler"), forState: .Normal)
-        cancelBtn.setTitleColor(UIColor.appGrayColor(), forState: .Normal)
-        cancelBtn.addTarget(self, action: #selector(CategoryViewController.cancelBtnClicked(_:)), forControlEvents: .TouchUpInside)
-        cancelBtn.sizeToFit()
+        searchBar.snp_remakeConstraints {
+            $0.left.equalTo(searchBarContainer).offset(15)
+            $0.right.equalTo(searchCancelBtn.snp_left).offset(-10)
+            $0.bottom.equalTo(searchBarContainer).offset(-10)
+        }
+        UIView.animateWithDuration(0.35) {
+            self.searchBarContainer.layoutIfNeeded()
+        }
+    }
 
-        let bbi = UIBarButtonItem(customView: cancelBtn)
-        navigationItem.setRightBarButtonItem(bbi, animated: true)
+    private func hidesCancelButton() {
+        searchBar.snp_makeConstraints {
+            $0.left.equalTo(searchBarContainer).offset(15)
+            $0.right.equalTo(searchBarContainer).offset(-15)
+            $0.bottom.equalTo(searchBarContainer).offset(-10)
+        }
+        UIView.animateWithDuration(0.35) {
+            self.searchBarContainer.layoutIfNeeded()
+        }
     }
 
     private func showsSearchTableView() {
-        /*
-        searchBar.searchBarStyle = .Default
-        searchBar.setImage(UIImage(), forSearchBarIcon: .Search, state: .Normal)
-        searchBar.setPositionAdjustment(UIOffset(horizontal: -15, vertical: 0), forSearchBarIcon: .Search)
-        let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as! UITextField
-        textFieldInsideSearchBar.font = UIFont.systemFontOfSize(18, weight: UIFontWeightMedium)
-         */
-
         view.addSubview(searchTableView)
         searchTableView.snp_makeConstraints {
-            $0.top.equalTo(view)
+            $0.top.equalTo(searchBarContainer.snp_bottom)
             $0.left.equalTo(view)
             $0.right.equalTo(view)
             $0.bottom.equalTo(tabBarView.snp_top)
@@ -253,18 +301,12 @@ extension CategoryViewController: UISearchBarDelegate {
     }
 
     func cancelBtnClicked(sender: UIButton) {
-        searchBar.resignFirstResponder()
-
-        /*
-        searchBar.searchBarStyle = .Minimal
-        searchBar.setImage(nil, forSearchBarIcon: .Search, state: .Normal)
-        searchBar.setPositionAdjustment(UIOffset(horizontal: 0, vertical: 5), forSearchBarIcon: .Search)
-        let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as! UITextField
-        textFieldInsideSearchBar.font = nil
-         */
-
-        navigationItem.setRightBarButtonItem(nil, animated: true)
-        hideTableView()
+        if searchIsShown {
+            searchIsShown = false
+            searchBar.resignFirstResponder()
+            hidesCancelButton()
+            hideTableView()
+        }
     }
 
 }
@@ -286,7 +328,7 @@ extension CategoryViewController: NSFetchedResultsControllerDelegate {
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
 
         if type == NSFetchedResultsChangeType.Insert {
-            blockOperations.append(
+            collectionViewAnimationBlocks.append(
                 NSBlockOperation(block: { [weak self] in
                     if let this = self {
                         this.collectionView!.insertItemsAtIndexPaths([newIndexPath!])
@@ -294,7 +336,7 @@ extension CategoryViewController: NSFetchedResultsControllerDelegate {
                     })
             )
         } else if type == NSFetchedResultsChangeType.Update {
-            blockOperations.append(
+            collectionViewAnimationBlocks.append(
                 NSBlockOperation(block: { [weak self] in
                     if let this = self {
                         this.collectionView!.reloadItemsAtIndexPaths([indexPath!])
@@ -302,7 +344,7 @@ extension CategoryViewController: NSFetchedResultsControllerDelegate {
                     })
             )
         } else if type == NSFetchedResultsChangeType.Move {
-            blockOperations.append(
+            collectionViewAnimationBlocks.append(
                 NSBlockOperation(block: { [weak self] in
                     if let this = self {
                         this.collectionView!.moveItemAtIndexPath(indexPath!, toIndexPath: newIndexPath!)
@@ -310,7 +352,7 @@ extension CategoryViewController: NSFetchedResultsControllerDelegate {
                     })
             )
         } else if type == NSFetchedResultsChangeType.Delete {
-            blockOperations.append(
+            collectionViewAnimationBlocks.append(
                 NSBlockOperation(block: { [weak self] in
                     if let this = self {
                         this.collectionView!.deleteItemsAtIndexPaths([indexPath!])
@@ -323,7 +365,7 @@ extension CategoryViewController: NSFetchedResultsControllerDelegate {
     // In the did change section method:
     func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
         if type == NSFetchedResultsChangeType.Insert {
-            blockOperations.append(
+            collectionViewAnimationBlocks.append(
                 NSBlockOperation(block: { [weak self] in
                     if let this = self {
                         this.collectionView!.insertSections(NSIndexSet(index: sectionIndex))
@@ -331,7 +373,7 @@ extension CategoryViewController: NSFetchedResultsControllerDelegate {
                     })
             )
         } else if type == NSFetchedResultsChangeType.Update {
-            blockOperations.append(
+            collectionViewAnimationBlocks.append(
                 NSBlockOperation(block: { [weak self] in
                     if let this = self {
                         this.collectionView!.reloadSections(NSIndexSet(index: sectionIndex))
@@ -339,7 +381,7 @@ extension CategoryViewController: NSFetchedResultsControllerDelegate {
                     })
             )
         } else if type == NSFetchedResultsChangeType.Delete {
-            blockOperations.append(
+            collectionViewAnimationBlocks.append(
                 NSBlockOperation(block: { [weak self] in
                     if let this = self {
                         this.collectionView!.deleteSections(NSIndexSet(index: sectionIndex))
@@ -352,11 +394,11 @@ extension CategoryViewController: NSFetchedResultsControllerDelegate {
     // And finally, in the did controller did change content method:
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         collectionView!.performBatchUpdates({ () -> Void in
-            for operation: NSBlockOperation in self.blockOperations {
+            for operation: NSBlockOperation in self.collectionViewAnimationBlocks {
                 operation.start()
             }
             }, completion: { (finished) -> Void in
-                self.blockOperations.removeAll(keepCapacity: false)
+                self.collectionViewAnimationBlocks.removeAll(keepCapacity: false)
         })
     }
 }
