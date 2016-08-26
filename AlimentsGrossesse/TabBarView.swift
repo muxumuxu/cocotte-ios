@@ -31,6 +31,8 @@ final class TabBarView: SHCommonInitView {
         addSubview(stackView)
         addSubview(topSeparator)
 
+        backgroundColor = UIColor.whiteColor()
+
         stackView.distribution = .FillEqually
         stackView.axis = .Horizontal
 
@@ -42,6 +44,10 @@ final class TabBarView: SHCommonInitView {
 
         moreBtn.setImage(UIImage(named: "more_tab"), forState: .Normal)
         moreBtn.tag = 2
+
+        [searchBtn, favBtn, moreBtn].forEach {
+            $0.addTarget(self, action: #selector(TabBarView.tabBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        }
 
         searchBtn.tintColor = UIColor.appTintColor()
         favBtn.tintColor = UIColor.appGrayColor()
@@ -69,6 +75,9 @@ final class TabBarView: SHCommonInitView {
     }
 
     func tabBtnClicked(sender: UIButton) {
+        let all = [searchBtn, favBtn, moreBtn]
+        all.forEach { $0.tintColor = UIColor.appGrayColor() }
+        sender.tintColor = UIColor.appTintColor()
         delegate?.tabBarView(self, didSelectIndex: sender.tag)
     }
 }

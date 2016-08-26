@@ -2,6 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Automatic">
     <entity name="Food" representedClassName=".Food" syncable="YES">
         <attribute name="danger" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="favDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="info" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -17,7 +18,7 @@
         <relationship name="foods" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Food" inverseName="foodCategory" inverseEntity="Food" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Food" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="Food" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="FoodCategory" positionX="-54" positionY="-9" width="128" height="120"/>
     </elements>
 </model>

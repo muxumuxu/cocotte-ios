@@ -21,30 +21,36 @@ final class FoodListViewController: UIViewController {
     override func loadView() {
         super.loadView()
 
+        view.backgroundColor = UIColor.whiteColor()
+
         tableView = UITableView(frame: .zero, style: .Plain)
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.separatorStyle = .None
+        tableView.rowHeight = 44
+        tableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
+        tableView.backgroundColor = UIColor.whiteColor()
         view.addSubview(tableView)
+
+        let backIcon = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .Plain, target: self, action: #selector(FoodListViewController.backBtnClicked(_:)))
+        navigationItem.leftBarButtonItem = backIcon
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        automaticallyAdjustsScrollViewInsets = false
+
         title = category?.name
-        view.backgroundColor = UIColor.whiteColor()
+
+        tableView.tableFooterView = UIView()
+
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
         configureFetchedResultsController()
 
-        let backIcon = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .Plain, target: self, action: #selector(FoodListViewController.backBtnClicked(_:)))
-        navigationItem.leftBarButtonItem = backIcon
-
-        tableView.rowHeight = 34
-        tableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
-        tableView.backgroundColor = UIColor.whiteColor()
-        tableView.tableFooterView = UIView()
         configureLayoutConstraints()
+
+        tableView.delegate = self
+        tableView.dataSource = self
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -74,7 +80,7 @@ final class FoodListViewController: UIViewController {
 
     private func configureLayoutConstraints() {
         tableView.snp_makeConstraints {
-            $0.edges.equalTo(view)
+            $0.edges.equalTo(view).offset(UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0))
         }
     }
 }
@@ -90,7 +96,6 @@ extension FoodListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier(FoodCell.reuseIdentifier, forIndexPath: indexPath) as! FoodCell
         let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
         cell.iconImageView.image = food.dangerImage
-        cell.foodLbl.font = UIFont.systemFontOfSize(18, weight: UIFontWeightMedium)
         cell.foodLbl.text = food.name
         return cell
     }

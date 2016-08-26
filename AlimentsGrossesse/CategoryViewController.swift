@@ -18,15 +18,12 @@ final class CategoryViewController: SHKeyboardViewController {
     private var searchCancelBtn: UIButton!
     private var searchBar: UISearchBar!
     private var searchTableView: UITableView!
-    private var currentSearchText = ""
+    private var searchIsShown = false
+    private var searchingText = ""
 
     private var collectionView: UICollectionView!
     private var collectionViewAnimationBlocks: [NSBlockOperation] = []
     private var fetchedResultsController: NSFetchedResultsController!
-
-    private var tabBarView: TabBarView!
-
-    private var searchIsShown = false
 
     override func loadView() {
         super.loadView()
@@ -36,9 +33,6 @@ final class CategoryViewController: SHKeyboardViewController {
             NSFontAttributeName: UIFont.systemFontOfSize(18, weight: UIFontWeightMedium),
             NSForegroundColorAttributeName: "8E8E93".UIColor
         ]
-
-        tabBarView = TabBarView()
-        view.addSubview(tabBarView)
 
         searchBarContainer = UIView()
         searchBarContainer.backgroundColor = UIColor.clearColor()
@@ -66,7 +60,7 @@ final class CategoryViewController: SHKeyboardViewController {
         searchTableView.delegate = self
         searchTableView.dataSource = self
         searchTableView.separatorStyle = .None
-        searchTableView.rowHeight = 34
+        searchTableView.rowHeight = 44
         searchTableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
         searchTableView.backgroundColor = UIColor.whiteColor()
         searchTableView.tableFooterView = UIView()
@@ -143,7 +137,7 @@ final class CategoryViewController: SHKeyboardViewController {
         }
 
         searchCancelBtn.snp_remakeConstraints {
-            $0.right.equalTo(searchBarContainer).offset(-14)
+            $0.right.equalTo(searchBarContainer).offset(-15)
             $0.centerY.equalTo(searchBar)
         }
 
@@ -151,14 +145,7 @@ final class CategoryViewController: SHKeyboardViewController {
             $0.top.equalTo(searchBarContainer.snp_bottom)
             $0.left.equalTo(view)
             $0.right.equalTo(view)
-            $0.bottom.equalTo(tabBarView.snp_top)
-        }
-
-        tabBarView.snp_makeConstraints {
             $0.bottom.equalTo(view)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
-            $0.height.equalTo(50)
         }
     }
 
@@ -225,7 +212,7 @@ extension CategoryViewController: UISearchBarDelegate {
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        currentSearchText = searchText
+        searchingText = searchText
         performSearch(searchText)
     }
 
@@ -256,7 +243,8 @@ extension CategoryViewController: UISearchBarDelegate {
     }
 
     private func showsCancelButton() {
-        searchBar.snp_remakeConstraints {
+        searchBar.snp_removeConstraints()
+        searchBar.snp_makeConstraints {
             $0.left.equalTo(searchBarContainer).offset(15)
             $0.right.equalTo(searchCancelBtn.snp_left).offset(-10)
             $0.bottom.equalTo(searchBarContainer).offset(-10)
@@ -267,6 +255,7 @@ extension CategoryViewController: UISearchBarDelegate {
     }
 
     private func hidesCancelButton() {
+        searchBar.snp_removeConstraints()
         searchBar.snp_makeConstraints {
             $0.left.equalTo(searchBarContainer).offset(15)
             $0.right.equalTo(searchBarContainer).offset(-15)
@@ -283,7 +272,7 @@ extension CategoryViewController: UISearchBarDelegate {
             $0.top.equalTo(searchBarContainer.snp_bottom)
             $0.left.equalTo(view)
             $0.right.equalTo(view)
-            $0.bottom.equalTo(tabBarView.snp_top)
+            $0.bottom.equalTo(view)
         }
         searchTableView.layoutIfNeeded()
         searchTableView.alpha = 0
@@ -308,7 +297,6 @@ extension CategoryViewController: UISearchBarDelegate {
             hideTableView()
         }
     }
-
 }
 
 // MARK: - UICollectionViewDelegate
@@ -415,7 +403,7 @@ extension CategoryViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier(FoodCell.reuseIdentifier, forIndexPath: indexPath) as! FoodCell
         let food = searchResults[indexPath.row]
         cell.iconImageView.image = food.dangerImage
-        cell.foodLbl.attributedText = attributedTextForSearchResult(food, searchText: currentSearchText)
+        cell.foodLbl.attributedText = attributedTextForSearchResult(food, searchText: searchingText)
         return cell
     }
     private func attributedTextForSearchResult(food: Food, searchText: String) -> NSAttributedString {
@@ -439,9 +427,6 @@ extension CategoryViewController: UITableViewDataSource {
         }
 
         return attr
-    }
-    private func sanitizeSearchText(searchText: String) -> String {
-        return searchText.lowercaseString.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
     }
 }
 

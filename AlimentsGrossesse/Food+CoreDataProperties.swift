@@ -21,5 +21,6 @@ extension Food {
     @NSManaged var info: String?
     @NSManaged var danger: String?
     @NSManaged var foodCategory: FoodCategory?
+    @NSManaged var favDate: NSDate?
 
 }

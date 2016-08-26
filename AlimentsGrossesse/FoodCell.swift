@@ -20,6 +20,8 @@ final class FoodCell: SHCommonInitTableViewCell {
 
         selectionStyle = .None
 
+        foodLbl.font = UIFont.systemFontOfSize(18, weight: UIFontWeightMedium)
+
         contentView.addSubview(iconImageView)
         contentView.addSubview(foodLbl)
 
