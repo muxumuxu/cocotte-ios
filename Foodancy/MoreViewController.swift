@@ -40,7 +40,7 @@ final class MoreViewController: UIViewController {
 
         tableView = UITableView(frame: .zero, style: .Plain)
         tableView.separatorStyle = .None
-        tableView.rowHeight = 30
+        tableView.rowHeight = 40
         tableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.clipsToBounds = true
