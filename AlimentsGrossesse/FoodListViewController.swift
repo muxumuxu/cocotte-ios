@@ -24,6 +24,7 @@ final class FoodListViewController: UIViewController {
         view.backgroundColor = UIColor.whiteColor()
 
         tableView = UITableView(frame: .zero, style: .Plain)
+        tableView.tintColor = UIColor.appTintColor()
         tableView.separatorStyle = .None
         tableView.rowHeight = 44
         tableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
@@ -69,7 +70,7 @@ final class FoodListViewController: UIViewController {
             req.predicate = NSPredicate(format: "foodCategory == %@", category)
         }
         req.sortDescriptors = [ NSSortDescriptor(key: "name", ascending: true) ]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: req, managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: req, managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: "name", cacheName: nil)
 
         do {
             try fetchedResultsController.performFetch()
@@ -85,6 +86,7 @@ final class FoodListViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension FoodListViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
@@ -99,8 +101,15 @@ extension FoodListViewController: UITableViewDataSource {
         cell.foodLbl.text = food.name
         return cell
     }
+    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+        return fetchedResultsController.sectionIndexTitles
+    }
+    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+        return fetchedResultsController.sectionForSectionIndexTitle(title, atIndex: index)
+    }
 }
 
+// MARK: - UITableViewDelegate
 extension FoodListViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
