@@ -511,9 +511,9 @@
 				INFOPLIST_FILE = Foodancy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.alimgrossesse;
+				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.foodancy;
 				PRODUCT_NAME = Foodancy;
-				PROVISIONING_PROFILE = "f20463f7-d751-4957-9746-cacb79081351";
+				PROVISIONING_PROFILE = "276f733c-785c-4503-bf1f-87aba5f94cbc";
 			};
 			name = Debug;
 		};
@@ -525,9 +525,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: David Miotti (659B2N7HE9)";
 				INFOPLIST_FILE = Foodancy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.alimgrossesse;
+				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.foodancy;
 				PRODUCT_NAME = Foodancy;
-				PROVISIONING_PROFILE = "eacee581-73be-4289-9869-476a4aa66570";
+				PROVISIONING_PROFILE = "ce21ff19-e921-46e2-a4a4-dbb5ef5b0178";
 			};
 			name = Release;
 		};

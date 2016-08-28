@@ -1,4 +1,4 @@
-app_identifier "com.davidmiotti.alimgrossesse" # The bundle identifier of your app
+app_identifier "com.davidmiotti.foodancy" # The bundle identifier of your app
 apple_id "dmiotti@me.com" # Your Apple email address
 
 team_id "659B2N7HE9"  # Developer Portal Team ID
