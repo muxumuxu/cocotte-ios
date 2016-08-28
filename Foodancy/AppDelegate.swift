@@ -11,6 +11,8 @@ import CoreData
 import SnapKit
 import SwiftHelpers
 
+let contactEmail = "foodancy@muxumuxu.com"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

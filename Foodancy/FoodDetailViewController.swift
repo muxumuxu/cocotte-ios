@@ -187,8 +187,8 @@ final class FoodDetailViewController: UIViewController {
     func alertBtnClicked(sender: UIButton) {
         let mail = MFMailComposeViewController()
         mail.mailComposeDelegate = self
-        mail.setSubject("Reporter \"\(food!.name!)\"")
-        mail.setToRecipients(["contact@foodancy.com"])
+        mail.setSubject("Signaler \"\(food!.name!)\"")
+        mail.setToRecipients([contactEmail])
         presentViewController(mail, animated: true, completion: nil)
     }
 

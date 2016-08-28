@@ -136,7 +136,7 @@ extension MoreViewController: UITableViewDelegate {
         case .ContactUs:
             let message = MFMailComposeViewController()
             message.mailComposeDelegate = self
-            message.setToRecipients(["contact@foodancy.com"])
+            message.setToRecipients([contactEmail])
             presentViewController(message, animated: true, completion: nil)
         case .Rate:
             let URL = NSURL(string: "https://itunes.apple.com/fr/app/dependn-control-your-addictions/id1093903062?mt=8")!
