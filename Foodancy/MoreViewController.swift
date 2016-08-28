@@ -139,8 +139,9 @@ extension MoreViewController: UITableViewDelegate {
             message.setToRecipients([contactEmail])
             presentViewController(message, animated: true, completion: nil)
         case .Rate:
-            let URL = NSURL(string: "https://itunes.apple.com/fr/app/dependn-control-your-addictions/id1093903062?mt=8")!
-            UIApplication.sharedApplication().openURL(URL)
+            if let URL = NSURL(string: "https://itunes.apple.com/us/app/foodancy/id1148406816?ls=1&mt=8") {
+                UIApplication.sharedApplication().openURL(URL)
+            }
         case .Share:
             let message = MFMailComposeViewController()
             message.mailComposeDelegate = self
