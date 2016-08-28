@@ -25,6 +25,8 @@ final class CategoryViewController: SHKeyboardViewController {
     private var collectionViewAnimationBlocks: [NSBlockOperation] = []
     private var fetchedResultsController: NSFetchedResultsController!
 
+    private var cachedImages = NSMutableDictionary()
+
     override func loadView() {
         super.loadView()
 
@@ -113,7 +115,25 @@ final class CategoryViewController: SHKeyboardViewController {
 
         do {
             try fetchedResultsController.performFetch()
-            collectionView.reloadData()
+
+            if DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
+                // rescale all category images
+                dispatch_on_background {
+                    if let cats = self.fetchedResultsController.fetchedObjects as? [FoodCategory] {
+                        for cat in cats {
+                            if let name = cat.name, imageName = cat.image, img = UIImage(named: imageName) {
+                                let scaled = self.scaleForLowerScreenDevice(img)
+                                self.cachedImages.setObject(scaled, forKey: name)
+                            }
+                        }
+                    }
+                    dispatch_on_main {
+                        self.collectionView.reloadData()
+                    }
+                }
+            } else {
+                collectionView.reloadData()
+            }
         } catch let err as NSError {
             print("Error while fetching foods: \(err)")
         }
@@ -191,30 +211,34 @@ extension CategoryViewController: UICollectionViewDataSource {
 
         cell.categoryTitleLbl.text = category.name
 
-        if let imageName = category.image {
-            let image = UIImage(named: imageName)
+        if let imageName = category.image, name = category.name {
 
-            if let image = image where DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
-                // Apply a scale factor
-                let size = CGSizeApplyAffineTransform(image.size, CGAffineTransformMakeScale(0.81, 0.81))
-
-                let scale: CGFloat = UIScreen.mainScreen().scale
-
-                UIGraphicsBeginImageContextWithOptions(size, false, scale)
-                image.drawInRect(CGRect(origin: CGPoint.zero, size: size))
-
-                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-
-                cell.categoryImageView.image = scaledImage
+            if DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
+                if let img = cachedImages.objectForKey(name) as? UIImage {
+                    cell.categoryImageView.image = img
+                } else if let image = UIImage(named: imageName) {
+                    let img = scaleForLowerScreenDevice(image)
+                    cachedImages.setObject(img, forKey: name)
+                    cell.categoryImageView.image = img
+                }
             } else {
-                cell.categoryImageView.image = image
+                cell.categoryImageView.image = UIImage(named: imageName)
             }
         } else {
             cell.categoryImageView.image = nil
         }
 
         return cell
+    }
+
+    private func scaleForLowerScreenDevice(image: UIImage) -> UIImage {
+        let size = CGSizeApplyAffineTransform(image.size, CGAffineTransformMakeScale(0.81, 0.81))
+        let scale: CGFloat = UIScreen.mainScreen().scale
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        image.drawInRect(CGRect(origin: CGPoint.zero, size: size))
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return scaledImage
     }
 }
 
