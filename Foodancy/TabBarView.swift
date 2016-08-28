@@ -35,23 +35,17 @@ final class TabBarView: SHCommonInitView {
 
         stackView.distribution = .FillEqually
         stackView.axis = .Horizontal
-
-        searchBtn.setImage(UIImage(named: "search_tab"), forState: .Normal)
         searchBtn.tag = 0
-
-        favBtn.setImage(UIImage(named: "fav_tab"), forState: .Normal)
         favBtn.tag = 1
-
-        moreBtn.setImage(UIImage(named: "more_tab"), forState: .Normal)
         moreBtn.tag = 2
 
         [searchBtn, favBtn, moreBtn].forEach {
             $0.addTarget(self, action: #selector(TabBarView.tabBtnClicked(_:)), forControlEvents: .TouchUpInside)
         }
 
-        searchBtn.tintColor = UIColor.appTintColor()
-        favBtn.tintColor = UIColor.appGrayColor()
-        moreBtn.tintColor = UIColor.appGrayColor()
+        searchBtn.setImage(UIImage(named: "search_tab_selected"), forState: .Normal)
+        favBtn.setImage(UIImage(named: "fav_tab"), forState: .Normal)
+        moreBtn.setImage(UIImage(named: "more_tab"), forState: .Normal)
 
         stackView.addArrangedSubview(searchBtn)
         stackView.addArrangedSubview(favBtn)
@@ -75,9 +69,24 @@ final class TabBarView: SHCommonInitView {
     }
 
     func tabBtnClicked(sender: UIButton) {
-        let all = [searchBtn, favBtn, moreBtn]
-        all.forEach { $0.tintColor = UIColor.appGrayColor() }
-        sender.tintColor = UIColor.appTintColor()
+        if searchBtn.tag == sender.tag {
+            searchBtn.setImage(UIImage(named: "search_tab_selected"), forState: .Normal)
+        } else {
+            searchBtn.setImage(UIImage(named: "search_tab"), forState: .Normal)
+        }
+
+        if favBtn.tag == sender.tag {
+            favBtn.setImage(UIImage(named: "fav_tab_selected"), forState: .Normal)
+        } else {
+            favBtn.setImage(UIImage(named: "fav_tab"), forState: .Normal)
+        }
+
+        if moreBtn.tag == sender.tag {
+            moreBtn.setImage(UIImage(named: "more_tab_selected"), forState: .Normal)
+        } else {
+            moreBtn.setImage(UIImage(named: "more_tab"), forState: .Normal)
+        }
+
         delegate?.tabBarView(self, didSelectIndex: sender.tag)
     }
 }
