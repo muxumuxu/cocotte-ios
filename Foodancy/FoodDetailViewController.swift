@@ -88,8 +88,9 @@ final class FoodDetailViewController: UIViewController {
         scrollContainerView.addSubview(dangerImageView)
 
         foodNameLbl = UILabel()
-        foodNameLbl.font = UIFont(name: "Avenir-Medium", size: 38)
-        foodNameLbl.textColor = UIColor.blackColor()
+        foodNameLbl.numberOfLines = 1
+        foodNameLbl.adjustsFontSizeToFitWidth = true
+        foodNameLbl.minimumScaleFactor = 0.5
         scrollContainerView.addSubview(foodNameLbl)
 
         dangerLbl = UILabel()
@@ -154,6 +155,8 @@ final class FoodDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        automaticallyAdjustsScrollViewInsets = false
+
         view.backgroundColor = UIColor.whiteColor()
 
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
@@ -196,7 +199,29 @@ final class FoodDetailViewController: UIViewController {
     }
 
     private func configureInterfaceBasedOnFood() {
-        foodNameLbl.text = food?.name
+        if let name = food?.name {
+            let attr = NSMutableAttributedString(string: name)
+
+            attr.addAttribute(
+                NSFontAttributeName,
+                value: UIFont(name: "Avenir-Medium", size: 38)!,
+                range: NSMakeRange(0, attr.length))
+
+            attr.addAttribute(
+                NSForegroundColorAttributeName,
+                value: UIColor.blackColor(),
+                range: NSMakeRange(0, attr.length))
+
+            let paragraph = NSMutableParagraphStyle()
+            paragraph.lineHeightMultiple = 0.8
+            attr.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: NSMakeRange(0, attr.length))
+
+            foodNameLbl.attributedText = attr
+
+            foodNameLbl.lineBreakMode = .ByTruncatingTail
+        } else {
+            foodNameLbl.attributedText = nil
+        }
 
         if let type = food?.dangerType {
             switch type {
@@ -239,7 +264,7 @@ final class FoodDetailViewController: UIViewController {
 
     private func configureLayoutConstraints() {
         scrollView.snp_makeConstraints {
-            $0.edges.equalTo(view)
+            $0.edges.equalTo(view).offset(UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0))
         }
 
         scrollContainerView.snp_makeConstraints {
@@ -254,8 +279,10 @@ final class FoodDetailViewController: UIViewController {
         }
 
         foodNameLbl.snp_makeConstraints {
-            $0.centerY.equalTo(categoryImageView).offset(-10)
+            $0.top.greaterThanOrEqualTo(scrollContainerView).offset(10)
+            $0.bottom.equalTo(categoryImageView.snp_centerY).offset(10)
             $0.left.equalTo(categoryImageView.snp_right).offset(10)
+            $0.right.lessThanOrEqualTo(scrollContainerView).offset(-10)
         }
 
         dangerImageView.snp_makeConstraints {
