@@ -27,6 +27,13 @@ final class TabBarController: UITabBarController, TabBarViewDelegate {
     }
 
     func tabBarView(tabBarView: TabBarView, didSelectIndex index: Int) {
-        self.selectedIndex = index
+        if selectedIndex == index {
+            // if it's a navigation controller, pop to rootViewController
+            if let nav = viewControllers?[index] as? UINavigationController {
+                nav.popToRootViewControllerAnimated(true)
+            }
+        } else {
+            selectedIndex = index
+        }
     }
 }
