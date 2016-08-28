@@ -514,6 +514,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.foodancy;
 				PRODUCT_NAME = Foodancy;
 				PROVISIONING_PROFILE = "276f733c-785c-4503-bf1f-87aba5f94cbc";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -528,6 +529,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.foodancy;
 				PRODUCT_NAME = Foodancy;
 				PROVISIONING_PROFILE = "ce21ff19-e921-46e2-a4a4-dbb5ef5b0178";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
