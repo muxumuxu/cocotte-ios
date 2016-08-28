@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58379FF61D7352D900584206 /* LocalImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58379FF51D7352D900584206 /* LocalImportOperation.swift */; };
 		5841509B1D61C36100866210 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509A1D61C36100866210 /* CategoryCell.swift */; };
 		5841509F1D61D9CF00866210 /* StyleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509E1D61D9CF00866210 /* StyleSheet.swift */; };
 		584150A11D61E74D00866210 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150A01D61E74D00866210 /* TabBarView.swift */; };
@@ -16,6 +17,7 @@
 		584150B21D620A0F00866210 /* FoodCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */; };
 		584150B31D620A0F00866210 /* FoodCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AF1D620A0F00866210 /* FoodCategory.swift */; };
 		584EF67B1D7316C5000E6F42 /* FavEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584EF67A1D7316C5000E6F42 /* FavEmptyView.swift */; };
+		58536DC71D7353AB004B84CD /* foods.json in Resources */ = {isa = PBXBuildFile; fileRef = 58536DC61D7353AB004B84CD /* foods.json */; };
 		587E976C1D707CA800494388 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976B1D707CA800494388 /* Helpers.swift */; };
 		587E976F1D70A2A800494388 /* Risk+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976D1D70A2A800494388 /* Risk+CoreDataProperties.swift */; };
 		587E97701D70A2A800494388 /* Risk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976E1D70A2A800494388 /* Risk.swift */; };
@@ -37,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		2D2C9CA366E61F113D4C5456 /* Pods-Foodancy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodancy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Foodancy/Pods-Foodancy.debug.xcconfig"; sourceTree = "<group>"; };
+		58379FF51D7352D900584206 /* LocalImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalImportOperation.swift; sourceTree = "<group>"; };
 		5841509A1D61C36100866210 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		5841509E1D61D9CF00866210 /* StyleSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleSheet.swift; sourceTree = "<group>"; };
 		584150A01D61E74D00866210 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -46,6 +49,7 @@
 		584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FoodCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		584150AF1D620A0F00866210 /* FoodCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCategory.swift; sourceTree = "<group>"; };
 		584EF67A1D7316C5000E6F42 /* FavEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavEmptyView.swift; sourceTree = "<group>"; };
+		58536DC61D7353AB004B84CD /* foods.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = foods.json; sourceTree = SOURCE_ROOT; };
 		587E976B1D707CA800494388 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		587E976D1D70A2A800494388 /* Risk+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Risk+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		587E976E1D70A2A800494388 /* Risk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Risk.swift; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 		584150B51D620BED00866210 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				58379FF51D7352D900584206 /* LocalImportOperation.swift */,
 				584150A51D61F30F00866210 /* ImportOperation.swift */,
 			);
 			name = Operations;
@@ -175,6 +180,7 @@
 				58816A131D61AEBD00A339A1 /* LaunchScreen.storyboard */,
 				58816A161D61AEBD00A339A1 /* Info.plist */,
 				587E97721D70B47600494388 /* Foodancy.xcdatamodeld */,
+				58536DC61D7353AB004B84CD /* foods.json */,
 			);
 			path = Foodancy;
 			sourceTree = "<group>";
@@ -296,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58816A151D61AEBD00A339A1 /* LaunchScreen.storyboard in Resources */,
+				58536DC71D7353AB004B84CD /* foods.json in Resources */,
 				58816A121D61AEBD00A339A1 /* Assets.xcassets in Resources */,
 				58816A0D1D61AEBD00A339A1 /* Main.storyboard in Resources */,
 			);
@@ -388,6 +395,7 @@
 				58CA67461D704786006FEB50 /* FoodListViewController.swift in Sources */,
 				587E97741D70B47600494388 /* Foodancy.xcdatamodeld in Sources */,
 				584150A61D61F30F00866210 /* ImportOperation.swift in Sources */,
+				58379FF61D7352D900584206 /* LocalImportOperation.swift in Sources */,
 				58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */,
 				5841509B1D61C36100866210 /* CategoryCell.swift in Sources */,
 				5841509F1D61D9CF00866210 /* StyleSheet.swift in Sources */,
@@ -508,6 +516,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = Foodancy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";

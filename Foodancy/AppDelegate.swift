@@ -58,16 +58,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let importOperationQueue = NSOperationQueue()
 
     private func downloadContent() {
+
+        importOperationQueue.maxConcurrentOperationCount = 1
+
+        if !hasImportedData() {
+            let localImport = LocalImportOperation()
+            localImport.completionBlock = {
+                if let err = localImport.error {
+                    print("Error while local importing data: \(err)")
+                }
+            }
+            importOperationQueue.addOperation(localImport)
+        }
+
         let op = ImportOperation()
         op.completionBlock = {
             if let err = op.error {
                 print("Error while importing data: \(err)")
-                let req = Food.entityFetchRequest()
-                req.sortDescriptors = [ NSSortDescriptor(key: "name", ascending: true) ]
-                let ctx = CoreDataStack.shared.managedObjectContext
-                var err: NSError?
-                let count = ctx.countForFetchRequest(req, error: &err)
-                if count == 0 {
+                if !self.hasImportedData() {
                     self.downloadContent()
                 }
             }
@@ -98,5 +106,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Amplitude.instance().trackingSessionEvents = true
         Amplitude.instance().enableLocationListening()
+    }
+
+    private func hasImportedData() -> Bool {
+        let req = Food.entityFetchRequest()
+        req.sortDescriptors = [ NSSortDescriptor(key: "name", ascending: true) ]
+        let ctx = CoreDataStack.shared.managedObjectContext
+        var err: NSError?
+        let count = ctx.countForFetchRequest(req, error: &err)
+        return count > 0
     }
 }
