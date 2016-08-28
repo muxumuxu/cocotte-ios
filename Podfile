@@ -20,5 +20,6 @@ target 'Foodancy' do
 
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'Amplitude-iOS'
 
 end

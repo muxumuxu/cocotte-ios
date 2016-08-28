@@ -10,6 +10,9 @@ import UIKit
 import CoreData
 import SnapKit
 import SwiftHelpers
+import Amplitude_iOS
+import Fabric
+import Crashlytics
 
 let contactEmail = "foodancy@muxumuxu.com"
 
@@ -23,9 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         CoreDataStack.initializeWithMomd("Foodancy", sql: "Foodancy.sqlite")
 
+        configureCrashlytics()
+
         downloadContent()
 
         customizeAppearance()
+
+        configureAmplitudeSDK()
 
         return true
     }
@@ -66,5 +73,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         importOperationQueue.addOperation(op)
+    }
+
+    private func configureCrashlytics() {
+        Fabric.with([Crashlytics.self])
+    }
+
+    private func configureAmplitudeSDK() {
+        #if DEBUG
+            Amplitude.instance().initializeApiKey("00d4356f153e0d7ccdac41869b9199bf")
+        #else
+            Amplitude.instance().initializeApiKey("460ce79c6ad144a4f4ffa5549bebd674")
+        #endif
+
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let userId = defaults.objectForKey("userId") as? String {
+            Amplitude.instance().setUserId(userId)
+        } else {
+            let userId = NSUUID().UUIDString
+            defaults.setObject(userId, forKey: "userId")
+            defaults.synchronize()
+            Amplitude.instance().setUserId(userId)
+        }
+
+        Amplitude.instance().trackingSessionEvents = true
+        Amplitude.instance().enableLocationListening()
     }
 }

@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (3.4.1)
+  - Amplitude-iOS (3.8.4)
   - BrightFutures (4.1.1):
     - Result (~> 2.0)
   - Crashlytics (3.7.3):
@@ -12,6 +13,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Amplitude-iOS
   - BrightFutures
   - Crashlytics
   - Fabric
@@ -30,6 +32,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  Amplitude-iOS: e7a4a711c1f4f09133d6f34294fc74ed6bfcfae1
   BrightFutures: 2b9f317ca249be86025f5747a76e72c9a0b4f4d2
   Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
@@ -38,6 +41,6 @@ SPEC CHECKSUMS:
   SwiftHelpers: acde0b2eec8ecd19dfcdbaf2376051cb292f9332
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 2b55446766b709cd7abd384ed04fa215e073bc46
+PODFILE CHECKSUM: 94b59c1dfa8fe2c066bec436d374e4331d3075fa
 
 COCOAPODS: 1.0.1

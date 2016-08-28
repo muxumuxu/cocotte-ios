@@ -510,6 +510,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Foodancy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.alimgrossesse;
 				PRODUCT_NAME = Foodancy;
 				PROVISIONING_PROFILE = "f20463f7-d751-4957-9746-cacb79081351";
