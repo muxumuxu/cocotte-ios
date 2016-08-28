@@ -7,21 +7,21 @@
         <attribute name="info" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="foodCategory" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="FoodCategory" syncable="YES"/>
-        <relationship name="risk" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Risk" syncable="YES"/>
+        <relationship name="foodCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FoodCategory" inverseName="foods" inverseEntity="FoodCategory" syncable="YES"/>
+        <relationship name="risk" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Risk" inverseName="foods" inverseEntity="Risk" syncable="YES"/>
     </entity>
     <entity name="FoodCategory" representedClassName=".FoodCategory" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="foods" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Food" syncable="YES"/>
+        <relationship name="foods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Food" inverseName="foodCategory" inverseEntity="Food" syncable="YES"/>
     </entity>
     <entity name="Risk" representedClassName=".Risk" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="foods" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Food" syncable="YES"/>
+        <relationship name="foods" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Food" inverseName="risk" inverseEntity="Food" syncable="YES"/>
     </entity>
     <elements>
         <element name="Food" positionX="-54" positionY="-9" width="128" height="165"/>

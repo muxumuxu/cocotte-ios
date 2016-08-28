@@ -15,6 +15,7 @@
 		584150B11D620A0F00866210 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AD1D620A0F00866210 /* Food.swift */; };
 		584150B21D620A0F00866210 /* FoodCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */; };
 		584150B31D620A0F00866210 /* FoodCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584150AF1D620A0F00866210 /* FoodCategory.swift */; };
+		584EF67B1D7316C5000E6F42 /* FavEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584EF67A1D7316C5000E6F42 /* FavEmptyView.swift */; };
 		587E976C1D707CA800494388 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976B1D707CA800494388 /* Helpers.swift */; };
 		587E976F1D70A2A800494388 /* Risk+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976D1D70A2A800494388 /* Risk+CoreDataProperties.swift */; };
 		587E97701D70A2A800494388 /* Risk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E976E1D70A2A800494388 /* Risk.swift */; };
@@ -44,6 +45,7 @@
 		584150AD1D620A0F00866210 /* Food.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
 		584150AE1D620A0F00866210 /* FoodCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FoodCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		584150AF1D620A0F00866210 /* FoodCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCategory.swift; sourceTree = "<group>"; };
+		584EF67A1D7316C5000E6F42 /* FavEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavEmptyView.swift; sourceTree = "<group>"; };
 		587E976B1D707CA800494388 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		587E976D1D70A2A800494388 /* Risk+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Risk+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		587E976E1D70A2A800494388 /* Risk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Risk.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				58CA67501D707607006FEB50 /* FavListViewController.swift */,
+				584EF67A1D7316C5000E6F42 /* FavEmptyView.swift */,
 			);
 			name = Fav;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				584EF67B1D7316C5000E6F42 /* FavEmptyView.swift in Sources */,
 				58CA67511D707607006FEB50 /* FavListViewController.swift in Sources */,
 				587E976C1D707CA800494388 /* Helpers.swift in Sources */,
 				58CA67441D70461F006FEB50 /* MoreViewController.swift in Sources */,

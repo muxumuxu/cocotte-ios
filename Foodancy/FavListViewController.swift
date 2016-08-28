@@ -10,47 +10,16 @@ import UIKit
 import SwiftHelpers
 import CoreData
 
-final class FavListViewController: SHKeyboardViewController {
-
-    private let searchQueue = NSOperationQueue()
-    private var searchResults = [Food]()
-    private var searchBarContainer: UIView!
-    private var searchCancelBtn: UIButton!
-    private var searchBar: UISearchBar!
-    private var searchTableView: UITableView!
-    private var searchIsShown = false
-    private var searchingText = ""
+final class FavListViewController: UIViewController {
 
     private var favTableView: UITableView!
 
     private var fetchedResultsController: NSFetchedResultsController!
 
-    private var emptyView: UIView!
+    private var emptyView: FavEmptyView!
 
     override func loadView() {
         super.loadView()
-
-        searchBarContainer = UIView()
-        searchBarContainer.backgroundColor = UIColor.clearColor()
-        view.addSubview(searchBarContainer)
-
-        searchCancelBtn = UIButton(type: .System)
-        searchCancelBtn.titleLabel?.font = UIFont.systemFontOfSize(13, weight: UIFontWeightMedium)
-        searchCancelBtn.setTitle(L("Annuler"), forState: .Normal)
-        searchCancelBtn.setTitleColor(UIColor.appGrayColor(), forState: .Normal)
-        searchCancelBtn.addTarget(self, action: #selector(CategoryViewController.cancelBtnClicked(_:)), forControlEvents: .TouchUpInside)
-        searchBarContainer.addSubview(searchCancelBtn)
-
-        searchBar = UISearchBar()
-        searchBar.tintColor = UIColor.appTintColor()
-        searchBar.placeholder = "Rechercher un aliment"
-        searchBar.delegate = self
-        let searchImg = UIImage(named: "nav_search")?.resizableImageWithCapInsets(
-            UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
-        searchBar.backgroundImage = searchImg
-        searchBar.setSearchFieldBackgroundImage(searchImg, forState: .Normal)
-        searchBar.searchTextPositionAdjustment = UIOffset(horizontal: 10, vertical: 0)
-        searchBarContainer.addSubview(searchBar)
 
         favTableView = UITableView(frame: .zero, style: .Plain)
         favTableView.separatorStyle = .None
@@ -60,59 +29,22 @@ final class FavListViewController: SHKeyboardViewController {
         favTableView.tableFooterView = UIView()
         view.addSubview(favTableView)
 
-        searchTableView = UITableView(frame: .zero, style: .Plain)
-        searchTableView.separatorStyle = .None
-        searchTableView.rowHeight = 44
-        searchTableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
-        searchTableView.backgroundColor = UIColor.whiteColor()
-        searchTableView.tableFooterView = UIView()
-
-        emptyView = UIView()
-
-        let emptyImageView = UIImageView(image: UIImage(named: "fav_empty"))
-        emptyView.addSubview(emptyImageView)
+        emptyView = FavEmptyView()
         emptyView.alpha = 0
-        emptyImageView.snp_makeConstraints {
-            $0.centerY.equalTo(emptyView)
-            $0.centerY.equalTo(emptyView)
-        }
-
-        let emptyTitleLbl = UILabel()
-        emptyTitleLbl.numberOfLines = 0
-        emptyTitleLbl.text = "Vous pouvez retrouver ici les aliments que vous voulez ajouter en favoris."
-        emptyTitleLbl.font = UIFont.systemFontOfSize(18, weight: UIFontWeightMedium)
-        emptyView.addSubview(emptyTitleLbl)
-        emptyTitleLbl.snp_makeConstraints {
-            $0.top.equalTo(emptyImageView.snp_bottom)
-            $0.centerX.equalTo(emptyView)
-            $0.left.greaterThanOrEqualTo(emptyView).offset(30)
-            $0.right.lessThanOrEqualTo(emptyView).offset(-30)
-        }
-
         view.addSubview(emptyView)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        edgesForExtendedLayout = .None
-
-        definesPresentationContext = true
+        title = L("Mes favoris")
 
         prepareFechedResultsController()
-
-        registerKeyboardNotificationsForScrollableView(searchTableView)
 
         favTableView.delegate = self
         favTableView.dataSource = self
 
         configureLayoutConstraints()
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
     private func prepareFechedResultsController() {
@@ -144,57 +76,13 @@ final class FavListViewController: SHKeyboardViewController {
     }
 
     private func configureLayoutConstraints() {
-        searchBarContainer.snp_makeConstraints {
-            $0.top.equalTo(view)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
-            $0.height.equalTo(84)
-        }
-
-        searchBar.snp_makeConstraints {
-            $0.left.equalTo(searchBarContainer).offset(15)
-            $0.right.equalTo(searchBarContainer).offset(-15)
-            $0.bottom.equalTo(searchBarContainer).offset(-10)
-        }
-
-        searchCancelBtn.snp_remakeConstraints {
-            $0.right.equalTo(searchBarContainer).offset(-14)
-            $0.centerY.equalTo(searchBar)
-        }
-
         favTableView.snp_makeConstraints {
-            $0.top.equalTo(searchBarContainer.snp_bottom)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
-            $0.bottom.equalTo(view)
+            $0.edges.equalTo(view)
         }
 
         emptyView.snp_makeConstraints {
-            $0.top.equalTo(searchBarContainer.snp_bottom)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
-            $0.bottom.equalTo(view)
+            $0.edges.equalTo(view)
         }
-    }
-
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        let isLandscape = size.height < size.width
-
-        searchBarContainer.snp_removeConstraints()
-        searchBarContainer.snp_makeConstraints {
-            $0.top.equalTo(view)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
-            if isLandscape {
-                $0.height.equalTo(64)
-            } else {
-                $0.height.equalTo(84)
-            }
-        }
-
-        coordinator.animateAlongsideTransition({ (context) in
-            self.view.layoutIfNeeded()
-            }, completion: nil)
     }
 }
 
@@ -212,30 +100,18 @@ extension FavListViewController: UITableViewDataSource {
         return cell
     }
     private func configureCell(cell: FoodCell, atIndexPath indexPath: NSIndexPath) {
-        let food = foodAtIndexPath(indexPath)
+        let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
         cell.foodLbl.text = food.name
         cell.iconImageView.image = food.dangerImage
     }
-    private func foodAtIndexPath(indexPath: NSIndexPath) -> Food {
-        let food: Food
-        if !searchIsShown {
-            food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
-        } else {
-            food = searchResults[indexPath.row]
-        }
-        return food
-    }
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return tableView == favTableView
+        return true
     }
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        if tableView == favTableView {
-            return .Delete
-        }
-        return .None
+        return .Delete
     }
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        let food = foodAtIndexPath(indexPath)
+        let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
         food.favDate = nil
         do {
             try food.managedObjectContext?.save()
@@ -250,106 +126,8 @@ extension FavListViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let foodController = FoodDetailViewController()
-        foodController.food = foodAtIndexPath(indexPath)
+        foodController.food = fetchedResultsController.objectAtIndexPath(indexPath) as? Food
         navigationController?.pushViewController(foodController, animated: true)
-    }
-}
-
-// MARK: - UISearchBarDelegate
-extension FavListViewController: UISearchBarDelegate {
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        if !searchIsShown {
-            searchIsShown = true
-            showsCancelButton()
-            showsSearchTableView()
-        }
-    }
-
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        searchingText = searchText
-        performSearch(searchText)
-    }
-
-    private func performSearch(searchText: String) {
-        let text = sanitizeSearchText(searchText)
-        searchQueue.cancelAllOperations()
-        let op = NSBlockOperation {
-            let req = Food.entityFetchRequest()
-            req.predicate = NSPredicate(format: "name contains[cd] %@", text)
-            let ctx = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-            ctx.parentContext = CoreDataStack.shared.managedObjectContext
-            if let objects = try! ctx.executeFetchRequest(req) as? [Food] {
-                dispatch_async(dispatch_get_main_queue()) {
-                    let ids = objects.map { $0.objectID }
-                    self.updateTableViewWithResults(ids)
-                }
-            }
-        }
-        searchQueue.addOperation(op)
-    }
-
-    private func updateTableViewWithResults(objectIds: [NSManagedObjectID]) {
-        let ctx = CoreDataStack.shared.managedObjectContext
-        searchResults = objectIds.flatMap {
-            ctx.objectWithID($0) as? Food
-        }
-        searchTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-    }
-
-    private func showsCancelButton() {
-        searchBar.snp_removeConstraints()
-        searchBar.snp_remakeConstraints {
-            $0.left.equalTo(searchBarContainer).offset(15)
-            $0.right.equalTo(searchCancelBtn.snp_left).offset(-10)
-            $0.bottom.equalTo(searchBarContainer).offset(-10)
-        }
-        UIView.animateWithDuration(0.35) {
-            self.searchBarContainer.layoutIfNeeded()
-        }
-    }
-
-    private func hidesCancelButton() {
-        searchBar.snp_removeConstraints()
-        searchBar.snp_makeConstraints {
-            $0.left.equalTo(searchBarContainer).offset(15)
-            $0.right.equalTo(searchBarContainer).offset(-15)
-            $0.bottom.equalTo(searchBarContainer).offset(-10)
-        }
-        UIView.animateWithDuration(0.35) {
-            self.searchBarContainer.layoutIfNeeded()
-        }
-    }
-
-    private func showsSearchTableView() {
-        view.addSubview(searchTableView)
-        searchTableView.snp_makeConstraints {
-            $0.top.equalTo(searchBarContainer.snp_bottom)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
-            $0.bottom.equalTo(view)
-        }
-        searchTableView.layoutIfNeeded()
-        searchTableView.alpha = 0
-        UIView.animateWithDuration(0.35) {
-            self.searchTableView.alpha = 1
-        }
-    }
-
-    private func hideTableView() {
-        UIView.animateWithDuration(0.35, animations: {
-            self.searchTableView.alpha = 0
-            }, completion: { finished in
-                self.searchTableView.removeFromSuperview()
-        })
-    }
-
-    func cancelBtnClicked(sender: UIButton) {
-        if searchIsShown {
-            searchIsShown = false
-            searchBar.resignFirstResponder()
-            hidesCancelButton()
-            hideTableView()
-        }
     }
 }
 
@@ -402,5 +180,6 @@ extension FavListViewController: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         favTableView.endUpdates()
+        showEmptyViewIfNeeded()
     }
 }
