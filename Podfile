@@ -18,4 +18,7 @@ target 'Foodancy' do
   pod 'SnapKit'
   pod 'Alamofire'
 
+  pod 'Fabric'
+  pod 'Crashlytics'
+
 end
