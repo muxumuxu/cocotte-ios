@@ -23,13 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         CoreDataStack.initializeWithMomd("Foodancy", sql: "Foodancy.sqlite")
 
-        let op = ImportOperation()
-        op.completionBlock = {
-            if let err = op.error {
-                print("Error while importing data: \(err)")
-            }
-        }
-        NSOperationQueue().addOperation(op)
+        downloadContent()
 
         customizeAppearance()
 
@@ -52,5 +46,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSFontAttributeName: UIFont.systemFontOfSize(18, weight: UIFontWeightMedium),
             NSForegroundColorAttributeName: "8E8E93".UIColor
         ]
+    }
+
+    private let importOperationQueue = NSOperationQueue()
+
+    private func downloadContent() {
+        let op = ImportOperation()
+        op.completionBlock = {
+            if let err = op.error {
+                print("Error while importing data: \(err)")
+                let req = Food.entityFetchRequest()
+                req.sortDescriptors = [ NSSortDescriptor(key: "name", ascending: true) ]
+                let ctx = CoreDataStack.shared.managedObjectContext
+                var err: NSError?
+                let count = ctx.countForFetchRequest(req, error: &err)
+                if count == 0 {
+                    self.downloadContent()
+                }
+            }
+        }
+        importOperationQueue.addOperation(op)
     }
 }
