@@ -35,9 +35,13 @@ final class FoodDetailViewController: UIViewController {
 
     private var topSeparator: UIView!
 
+    private var infoStackView: UIStackView!
+
+    private var riskView: UIView!
     private var riskLbl: UILabel!
     private var riskValueBtn: UIButton!
 
+    private var infoView: UIView!
     private var infoLbl: UILabel!
     private var infoValueLbl: UILabel!
 
@@ -99,38 +103,13 @@ final class FoodDetailViewController: UIViewController {
         dangerLbl.textColor = UIColor.blackColor()
         scrollContainerView.addSubview(dangerLbl)
 
-        topSeparator = UIView()
-        topSeparator.backgroundColor = UIColor.appGrayColor()
-        scrollContainerView.addSubview(topSeparator)
+        infoStackView = UIStackView()
+        infoStackView.axis = .Vertical
+        infoStackView.backgroundColor = UIColor.greenColor().colorWithAlphaComponent(0.3)
+        infoStackView.spacing = 34
+        scrollContainerView.addSubview(infoStackView)
 
-        bottomSeparator = UIView()
-        bottomSeparator.backgroundColor = UIColor.appGrayColor()
-        scrollContainerView.addSubview(bottomSeparator)
-
-        riskLbl = UILabel()
-        riskLbl.textColor = UIColor.appGrayColor()
-        riskLbl.font = UIFont(name: "Avenir-Medium", size: 13)
-        riskLbl.text = L("Risque")
-        scrollContainerView.addSubview(riskLbl)
-
-        riskValueBtn = UIButton(type: .System)
-        riskValueBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        riskValueBtn.titleLabel?.font = UIFont(name: "Avenir-Medium", size: 18)
-        riskValueBtn.addTarget(self, action: #selector(FoodDetailViewController.riskBtnClicked(_:)), forControlEvents: .TouchUpInside)
-        riskValueBtn.titleLabel?.numberOfLines = 0
-        scrollContainerView.addSubview(riskValueBtn)
-
-        infoLbl = UILabel()
-        infoLbl.textColor = UIColor.appGrayColor()
-        infoLbl.font = UIFont(name: "Avenir-Medium", size: 13)
-        infoLbl.text = L("Information")
-        scrollContainerView.addSubview(infoLbl)
-
-        infoValueLbl = UILabel()
-        infoValueLbl.textColor = UIColor.appGrayColor()
-        infoValueLbl.numberOfLines = 0
-        infoValueLbl.font = UIFont(name: "Avenir-Medium", size: 18)
-        scrollContainerView.addSubview(infoValueLbl)
+        configureStackView()
 
         alertBtn = UIButton(type: .System)
         alertBtn.setTitle(L("Signaler cet aliment"), forState: .Normal)
@@ -248,16 +227,30 @@ final class FoodDetailViewController: UIViewController {
             categoryImageView.image = UIImage(named: "\(imageName)_circle")
         }
 
-        if food?.risk?.url != nil {
-            riskValueBtn.setTitleColor(UIColor.appBlueColor(), forState: .Normal)
-            riskValueBtn.userInteractionEnabled = true
+        if nilOrEmpty(food?.risk?.name) && nilOrEmpty(food?.info) {
+            infoStackView.arrangedSubviews.forEach {
+                infoStackView.removeArrangedSubview($0)
+            }
         } else {
-            riskValueBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
-            riskValueBtn.userInteractionEnabled = false
-        }
-        riskValueBtn.setTitle(food?.risk?.name, forState: .Normal)
+            if let name = food?.risk?.name where !name.isEmpty {
+                riskValueBtn.setTitle(name, forState: .Normal)
+                if food?.risk?.url != nil {
+                    riskValueBtn.setTitleColor(UIColor.appBlueColor(), forState: .Normal)
+                    riskValueBtn.userInteractionEnabled = true
+                } else {
+                    riskValueBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
+                    riskValueBtn.userInteractionEnabled = false
+                }
+            } else {
+                infoStackView.removeArrangedSubview(riskView)
+            }
 
-        infoValueLbl.text = food?.info
+            if let info = food?.info where !info.isEmpty {
+                infoValueLbl.text = info
+            } else {
+                infoStackView.removeArrangedSubview(infoView)
+            }
+        }
 
         if food?.favDate != nil {
             addToFavBtn.tintColor = UIColor.appGrayColor()
@@ -266,6 +259,17 @@ final class FoodDetailViewController: UIViewController {
             addToFavBtn.tintColor = UIColor.appTintColor()
             addToFavBtn.setTitle(L("Ajouter aux favoris"), forState: .Normal)
         }
+
+        infoStackView.setNeedsLayout()
+        infoStackView.layoutIfNeeded()
+        view.layoutIfNeeded()
+    }
+
+    private func nilOrEmpty(str: String?) -> Bool {
+        guard let str = str else {
+            return true
+        }
+        return str.isEmpty
     }
 
     private func configureLayoutConstraints() {
@@ -302,46 +306,14 @@ final class FoodDetailViewController: UIViewController {
             $0.left.equalTo(dangerImageView.snp_right).offset(7)
         }
 
-        topSeparator.snp_makeConstraints {
+        infoStackView.snp_makeConstraints {
             $0.top.equalTo(categoryImageView.snp_bottom).offset(34)
             $0.left.equalTo(scrollContainerView).offset(14)
             $0.right.equalTo(scrollContainerView).offset(-14)
-            $0.height.equalTo(0.5)
-        }
-
-        riskLbl.snp_makeConstraints {
-            $0.top.equalTo(topSeparator.snp_bottom).offset(34)
-            $0.left.equalTo(scrollContainerView).offset(14)
-            $0.right.equalTo(scrollContainerView).offset(-14)
-        }
-
-        riskValueBtn.snp_makeConstraints {
-            $0.top.equalTo(riskLbl.snp_bottom).offset(3)
-            $0.left.equalTo(riskLbl)
-            $0.right.lessThanOrEqualTo(scrollContainerView).offset(-14)
-        }
-
-        infoLbl.snp_makeConstraints {
-            $0.top.equalTo(riskValueBtn.snp_bottom).offset(22)
-            $0.left.equalTo(scrollContainerView).offset(14)
-            $0.right.equalTo(scrollContainerView).offset(-14)
-        }
-
-        infoValueLbl.snp_makeConstraints {
-            $0.top.equalTo(infoLbl.snp_bottom).offset(3)
-            $0.left.equalTo(infoLbl)
-            $0.right.lessThanOrEqualTo(scrollContainerView).offset(-14)
-        }
-
-        bottomSeparator.snp_makeConstraints {
-            $0.top.equalTo(infoValueLbl.snp_bottom).offset(32)
-            $0.left.equalTo(topSeparator)
-            $0.right.equalTo(topSeparator)
-            $0.height.equalTo(0.5)
         }
 
         alertBtn.snp_makeConstraints {
-            $0.top.equalTo(bottomSeparator.snp_bottom).offset(35)
+            $0.top.equalTo(infoStackView.snp_bottom).offset(35)
             $0.left.equalTo(scrollContainerView).offset(14)
         }
 
@@ -351,6 +323,70 @@ final class FoodDetailViewController: UIViewController {
             $0.right.equalTo(scrollContainerView).offset(-14)
 
             $0.bottom.equalTo(scrollContainerView).offset(-20)
+        }
+    }
+
+    private func configureStackView() {
+        topSeparator = UIView()
+        topSeparator.backgroundColor = UIColor.appGrayColor().colorWithAlphaComponent(0.2)
+        infoStackView.addArrangedSubview(topSeparator)
+        topSeparator.snp_makeConstraints {
+            $0.height.equalTo(0.5)
+        }
+
+        riskView = UIView()
+        riskLbl = UILabel()
+        riskLbl.textColor = UIColor.appGrayColor()
+        riskLbl.font = UIFont(name: "Avenir-Medium", size: 13)
+        riskLbl.text = L("Risque")
+        riskView.addSubview(riskLbl)
+        riskLbl.snp_makeConstraints {
+            $0.top.equalTo(riskView)
+            $0.left.equalTo(riskView)
+        }
+        riskValueBtn = UIButton(type: .System)
+        riskValueBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        riskValueBtn.titleLabel?.font = UIFont(name: "Avenir-Medium", size: 18)
+        riskValueBtn.addTarget(
+            self,
+            action: #selector(FoodDetailViewController.riskBtnClicked(_:)),
+            forControlEvents: .TouchUpInside)
+        riskValueBtn.titleLabel?.numberOfLines = 0
+        riskView.addSubview(riskValueBtn)
+        riskValueBtn.snp_makeConstraints {
+            $0.top.equalTo(riskLbl.snp_bottom).offset(3)
+            $0.left.equalTo(riskView)
+            $0.bottom.equalTo(riskView)
+        }
+        infoStackView.addArrangedSubview(riskView)
+
+        infoView = UIView()
+        infoLbl = UILabel()
+        infoLbl.textColor = UIColor.appGrayColor()
+        infoLbl.font = UIFont(name: "Avenir-Medium", size: 13)
+        infoLbl.text = L("Information")
+        infoView.addSubview(infoLbl)
+        infoLbl.snp_makeConstraints {
+            $0.top.equalTo(infoView)
+            $0.left.equalTo(infoView)
+        }
+        infoValueLbl = UILabel()
+        infoValueLbl.textColor = UIColor.blackColor()
+        infoValueLbl.font = UIFont(name: "Avenir-Medium", size: 18)
+        infoValueLbl.numberOfLines = 0
+        infoView.addSubview(infoValueLbl)
+        infoValueLbl.snp_makeConstraints {
+            $0.top.equalTo(infoLbl.snp_bottom).offset(3)
+            $0.left.equalTo(infoView)
+            $0.bottom.equalTo(infoView)
+        }
+        infoStackView.addArrangedSubview(infoView)
+
+        bottomSeparator = UIView()
+        bottomSeparator.backgroundColor = UIColor.appGrayColor().colorWithAlphaComponent(0.2)
+        infoStackView.addArrangedSubview(bottomSeparator)
+        bottomSeparator.snp_makeConstraints {
+            $0.height.equalTo(0.5)
         }
     }
 }
