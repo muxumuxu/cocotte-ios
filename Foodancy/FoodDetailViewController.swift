@@ -215,7 +215,7 @@ final class FoodDetailViewController: UIViewController {
             case .Care:
                 dangerLbl.text = L("Faire attention")
             case .Good:
-                dangerLbl.text = L("Aucun")
+                dangerLbl.text = L("Autorisé")
             }
         } else {
             dangerLbl.text = nil
