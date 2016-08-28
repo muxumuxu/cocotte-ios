@@ -146,7 +146,12 @@ extension MoreViewController: UITableViewDelegate {
             message.mailComposeDelegate = self
             presentViewController(message, animated: true, completion: nil)
         case .MadeByMM:
-            if let URL = NSURL(string: "https://muxumuxu.com") {
+            if !Reachability.isConnectedToNetwork() {
+                let alert = UIAlertController(title: L("Internet not found"), message: L("Vous devez être connecté à internet pour visualiser le contenu"), preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: L("OK"), style: .Default, handler: nil)
+                alert.addAction(okAction)
+                presentViewController(alert, animated: true, completion: nil)
+            } else if let URL = NSURL(string: "https://muxumuxu.com") {
                 let safari = SFSafariViewController(URL: URL)
                 presentViewController(safari, animated: true, completion: nil)
             }

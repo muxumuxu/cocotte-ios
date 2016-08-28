@@ -10,6 +10,7 @@ import UIKit
 import SwiftHelpers
 import MessageUI
 import SafariServices
+import SystemConfiguration
 
 final class FoodDetailViewController: UIViewController {
 
@@ -192,7 +193,12 @@ final class FoodDetailViewController: UIViewController {
     }
 
     func riskBtnClicked(sender: UIButton) {
-        if let url = food?.risk?.url, URL = NSURL(string: url) {
+        if !Reachability.isConnectedToNetwork() {
+            let alert = UIAlertController(title: L("Internet not found"), message: L("Vous devez être connecté à internet pour visualiser le contenu"), preferredStyle: .Alert)
+            let okAction = UIAlertAction(title: L("OK"), style: .Default, handler: nil)
+            alert.addAction(okAction)
+            presentViewController(alert, animated: true, completion: nil)
+        } else if let url = food?.risk?.url, URL = NSURL(string: url) {
             let safari = SFSafariViewController(URL: URL)
             presentViewController(safari, animated: true, completion: nil)
         }
@@ -352,5 +358,23 @@ final class FoodDetailViewController: UIViewController {
 extension FoodDetailViewController: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+public class Reachability {
+    class func isConnectedToNetwork() -> Bool {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
+            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        }
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+            return false
+        }
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        return (isReachable && !needsConnection)
     }
 }
