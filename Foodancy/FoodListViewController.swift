@@ -101,11 +101,30 @@ extension FoodListViewController: UITableViewDataSource {
         cell.foodLbl.text = food.name
         return cell
     }
+
+    private var sectionTitles: [String] {
+        let titles = fetchedResultsController.sectionIndexTitles
+        var newTitles = [String]()
+        for (index, title) in titles.enumerate() {
+            newTitles.append(title)
+            if index < titles.count - 1 {
+                newTitles.append("")
+            }
+        }
+        return newTitles
+    }
+
     func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
-        return fetchedResultsController.sectionIndexTitles
+        return sectionTitles
     }
     func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
-        return fetchedResultsController.sectionForSectionIndexTitle(title, atIndex: index)
+        var newIndex = index
+        var newTitle = title
+        if index % 2 != 0 {
+            newIndex = index - 1
+        }
+        newTitle = sectionTitles[newIndex]
+        return fetchedResultsController.sectionForSectionIndexTitle(newTitle, atIndex: newIndex / 2)
     }
 }
 
