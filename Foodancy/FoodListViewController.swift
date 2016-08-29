@@ -81,7 +81,7 @@ final class FoodListViewController: UIViewController {
 
     private func configureLayoutConstraints() {
         tableView.snp_makeConstraints {
-            $0.edges.equalTo(view).offset(UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0))
+            $0.edges.equalTo(view).offset(UIEdgeInsets(top: 64, left: 0, bottom: -50, right: 0))
         }
     }
 }
