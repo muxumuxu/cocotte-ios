@@ -146,6 +146,12 @@ final class FoodDetailViewController: UIViewController {
         configureInterfaceBasedOnFood()
     }
 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        infoValueLbl.preferredMaxLayoutWidth = infoStackView.bounds.width
+    }
+
     func favBtnClicked(sender: UIButton) {
         if food?.favDate != nil {
             food?.favDate = nil
