@@ -95,7 +95,6 @@ final class FoodDetailViewController: UIViewController {
         foodNameLbl = UILabel()
         foodNameLbl.numberOfLines = 1
         foodNameLbl.adjustsFontSizeToFitWidth = true
-        foodNameLbl.minimumScaleFactor = 0.5
         scrollContainerView.addSubview(foodNameLbl)
 
         dangerLbl = UILabel()
