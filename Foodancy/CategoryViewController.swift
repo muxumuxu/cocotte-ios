@@ -35,7 +35,7 @@ final class CategoryViewController: SHKeyboardViewController {
         view.addSubview(searchBarContainer)
 
         searchCancelBtn = UIButton(type: .System)
-        searchCancelBtn.titleLabel?.font = UIFont.systemFontOfSize(13, weight: UIFontWeightMedium)
+        searchCancelBtn.titleLabel?.font = UIFont.systemFontOfSize(17, weight: UIFontWeightMedium)
         searchCancelBtn.setTitle(L("Annuler"), forState: .Normal)
         searchCancelBtn.setTitleColor(UIColor.appGrayColor(), forState: .Normal)
         searchCancelBtn.addTarget(self, action: #selector(CategoryViewController.cancelBtnClicked(_:)), forControlEvents: .TouchUpInside)
@@ -246,6 +246,7 @@ extension CategoryViewController: UICollectionViewDataSource {
 extension CategoryViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         if !searchIsShown {
+            searchBar.placeholder = "Rechercher"
             searchIsShown = true
             showsCancelButton()
             showsSearchTableView()
@@ -332,6 +333,7 @@ extension CategoryViewController: UISearchBarDelegate {
 
     func cancelBtnClicked(sender: UIButton) {
         if searchIsShown {
+            searchBar.placeholder = "Rechercher un aliment"
             searchIsShown = false
             searchBar.resignFirstResponder()
             hidesCancelButton()
