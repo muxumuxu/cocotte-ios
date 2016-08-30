@@ -136,6 +136,6 @@ extension FoodListViewController: UITableViewDelegate {
         let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
         let detail = FoodDetailViewController()
         detail.food = food
-        navigationController?.pushViewController(detail, animated: true)
+        navigationController?.showViewController(detail, sender: nil)
     }
 }

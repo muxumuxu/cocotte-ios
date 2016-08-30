@@ -350,7 +350,7 @@ extension CategoryViewController: UICollectionViewDelegate {
         let cat = fetchedResultsController.objectAtIndexPath(indexPath) as! FoodCategory
         let foodList = FoodListViewController()
         foodList.category = cat
-        navigationController?.pushViewController(foodList, animated: true)
+        navigationController?.showViewController(foodList, sender: nil)
     }
 }
 
@@ -483,6 +483,6 @@ extension CategoryViewController: UITableViewDelegate {
         let food = searchResults[indexPath.row]
         let foodController = FoodDetailViewController()
         foodController.food = food
-        navigationController?.pushViewController(foodController, animated: true)
+        navigationController?.showViewController(foodController, sender: nil)
     }
 }

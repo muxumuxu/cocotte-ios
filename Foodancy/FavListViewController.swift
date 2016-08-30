@@ -127,7 +127,7 @@ extension FavListViewController: UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let foodController = FoodDetailViewController()
         foodController.food = fetchedResultsController.objectAtIndexPath(indexPath) as? Food
-        navigationController?.pushViewController(foodController, animated: true)
+        navigationController?.showViewController(foodController, sender: nil)
     }
 }
 
