@@ -15,6 +15,7 @@ import Fabric
 import Crashlytics
 
 let contactEmail = "foodancy@muxumuxu.com"
+let iTunesLink = "https://itunes.apple.com/us/app/foodancy/id1148406816?ls=1&mt=8"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

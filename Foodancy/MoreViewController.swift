@@ -139,13 +139,14 @@ extension MoreViewController: UITableViewDelegate {
             message.setToRecipients([contactEmail])
             presentViewController(message, animated: true, completion: nil)
         case .Rate:
-            if let URL = NSURL(string: "https://itunes.apple.com/us/app/foodancy/id1148406816?ls=1&mt=8") {
+            if let URL = NSURL(string: iTunesLink) {
                 UIApplication.sharedApplication().openURL(URL)
             }
         case .Share:
-            let message = MFMailComposeViewController()
-            message.mailComposeDelegate = self
-            presentViewController(message, animated: true, completion: nil)
+            if let URL = NSURL(string: iTunesLink) {
+                let activity = UIActivityViewController(activityItems: [URL], applicationActivities: nil)
+                presentViewController(activity, animated: true, completion: nil)
+            }
         case .MadeByMM:
             if !Reachability.isConnectedToNetwork() {
                 let alert = UIAlertController(title: L("Internet not found"), message: L("Vous devez être connecté à internet pour visualiser le contenu"), preferredStyle: .Alert)

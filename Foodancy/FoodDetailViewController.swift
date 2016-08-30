@@ -170,6 +170,9 @@ final class FoodDetailViewController: UIViewController {
     }
 
     func alertBtnClicked(sender: UIButton) {
+        guard MFMailComposeViewController.canSendMail() else {
+            return
+        }
         let mail = MFMailComposeViewController()
         mail.mailComposeDelegate = self
         mail.setSubject("Signaler \"\(food!.name!)\"")
