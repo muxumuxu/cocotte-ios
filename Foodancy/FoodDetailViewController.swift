@@ -237,7 +237,7 @@ final class FoodDetailViewController: UIViewController {
 
         if nilOrEmpty(food?.risk?.name) && nilOrEmpty(food?.info) {
             infoStackView.arrangedSubviews.forEach {
-                infoStackView.removeArrangedSubview($0)
+                $0.removeFromSuperview()
             }
         } else {
             if let name = food?.risk?.name where !name.isEmpty {
@@ -250,7 +250,7 @@ final class FoodDetailViewController: UIViewController {
                     riskValueBtn.userInteractionEnabled = false
                 }
             } else {
-                infoStackView.removeArrangedSubview(riskView)
+                riskView.removeFromSuperview()
             }
 
             if let info = food?.info where !info.isEmpty {
@@ -273,7 +273,7 @@ final class FoodDetailViewController: UIViewController {
         view.layoutIfNeeded()
     }
 
-    private func nilOrEmpty(str: String?) -> Bool {
+private func nilOrEmpty(str: String?) -> Bool {
         guard let str = str else {
             return true
         }
