@@ -25,7 +25,7 @@ final class FavEmptyView: SHCommonInitView {
         let titleLbl = UILabel()
         titleLbl.numberOfLines = 0
         titleLbl.textAlignment = .Center
-        titleLbl.text = "Vous pouvez retrouver ici les aliments que vous voulez ajouter en favoris."
+        titleLbl.text = "Retrouvez ici les aliments que vous avez ajouté en favoris."
         titleLbl.font = UIFont.systemFontOfSize(18, weight: UIFontWeightMedium)
         addSubview(titleLbl)
 
