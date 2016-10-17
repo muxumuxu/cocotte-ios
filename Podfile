@@ -22,4 +22,6 @@ target 'Foodancy' do
   pod 'Crashlytics'
   pod 'Amplitude-iOS'
 
+  pod 'FBSDKCoreKit'
+
 end

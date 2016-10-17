@@ -13,6 +13,7 @@ import SwiftHelpers
 import Amplitude_iOS
 import Fabric
 import Crashlytics
+import FBSDKCoreKit
 
 let contactEmail = "foodancy@muxumuxu.com"
 let iTunesLink = "https://itunes.apple.com/us/app/foodancy/id1148406816?ls=1&mt=8"
@@ -35,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         configureAmplitudeSDK()
 
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+
         return true
     }
 
@@ -54,6 +57,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSFontAttributeName: UIFont.systemFontOfSize(18, weight: UIFontWeightMedium),
             NSForegroundColorAttributeName: "8E8E93".UIColor
         ]
+    }
+
+    func applicationDidBecomeActive() {
+        FBSDKAppEvents.activateApp()
+    }
+
+    func application(application: UIApplication, open url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        return true
     }
 
     private let importOperationQueue = NSOperationQueue()
