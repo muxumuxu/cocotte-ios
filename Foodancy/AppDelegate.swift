@@ -59,13 +59,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
     }
 
-    func applicationDidBecomeActive() {
+    func applicationDidBecomeActive(application: UIApplication) {
         FBSDKAppEvents.activateApp()
     }
 
-    func application(application: UIApplication, open url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
-        return true
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
     private let importOperationQueue = NSOperationQueue()
