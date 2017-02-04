@@ -14,24 +14,24 @@ final class FoodListViewController: UIViewController {
 
     var category: FoodCategory?
 
-    private var tableView: UITableView!
+    fileprivate var tableView: UITableView!
 
-    private var fetchedResultsController: NSFetchedResultsController!
+    fileprivate var fetchedResultsController: NSFetchedResultsController<Food>!
 
     override func loadView() {
         super.loadView()
 
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
 
-        tableView = UITableView(frame: .zero, style: .Plain)
+        tableView = UITableView(frame: .zero, style: .plain)
         tableView.tintColor = UIColor.appTintColor()
-        tableView.separatorStyle = .None
+        tableView.separatorStyle = .none
         tableView.rowHeight = 44
-        tableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.register(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
+        tableView.backgroundColor = UIColor.white
         view.addSubview(tableView)
 
-        let backIcon = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .Plain, target: self, action: #selector(FoodListViewController.backBtnClicked(_:)))
+        let backIcon = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(FoodListViewController.backBtnClicked(_:)))
         navigationItem.leftBarButtonItem = backIcon
     }
 
@@ -54,18 +54,18 @@ final class FoodListViewController: UIViewController {
         tableView.dataSource = self
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-    func backBtnClicked(sender: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
+    func backBtnClicked(_ sender: UIButton) {
+        let _ = navigationController?.popViewController(animated: true)
     }
 
-    private func configureFetchedResultsController() {
-        let req = Food.entityFetchRequest()
+    fileprivate func configureFetchedResultsController() {
+        let req = NSFetchRequest<Food>(entityName: Food.entityName)
         if let category = category {
             req.predicate = NSPredicate(format: "foodCategory == %@", category)
         }
@@ -79,33 +79,33 @@ final class FoodListViewController: UIViewController {
         }
     }
 
-    private func configureLayoutConstraints() {
-        tableView.snp_makeConstraints {
-            $0.edges.equalTo(view).offset(UIEdgeInsets(top: 64, left: 0, bottom: -50, right: 0))
+    fileprivate func configureLayoutConstraints() {
+        tableView.snp.makeConstraints {
+            $0.edges.equalTo(view).inset(UIEdgeInsets(top: 64, left: 0, bottom: 50, right: 0))
         }
     }
 }
 
 // MARK: - UITableViewDataSource
 extension FoodListViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(FoodCell.reuseIdentifier, forIndexPath: indexPath) as! FoodCell
-        let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FoodCell.reuseIdentifier, for: indexPath) as! FoodCell
+        let food = fetchedResultsController.object(at: indexPath)
         cell.iconImageView.image = food.dangerImage
         cell.foodLbl.text = food.name
         return cell
     }
 
-    private var sectionTitles: [String] {
+    fileprivate var sectionTitles: [String] {
         let titles = fetchedResultsController.sectionIndexTitles
         var newTitles = [String]()
-        for (index, title) in titles.enumerate() {
+        for (index, title) in titles.enumerated() {
             newTitles.append(title)
             if index < titles.count - 1 {
                 newTitles.append("")
@@ -114,28 +114,28 @@ extension FoodListViewController: UITableViewDataSource {
         return newTitles
     }
 
-    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return sectionTitles
     }
-    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         var newIndex = index
         var newTitle = title
         if index % 2 != 0 {
             newIndex = index - 1
         }
         newTitle = sectionTitles[newIndex]
-        return fetchedResultsController.sectionForSectionIndexTitle(newTitle, atIndex: newIndex / 2)
+        return fetchedResultsController.section(forSectionIndexTitle: newTitle, at: newIndex / 2)
     }
 }
 
 // MARK: - UITableViewDelegate
 extension FoodListViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
 
-        let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
+        let food = fetchedResultsController.object(at: indexPath) 
         let detail = FoodDetailViewController()
         detail.food = food
-        navigationController?.showViewController(detail, sender: nil)
+        navigationController?.show(detail, sender: nil)
     }
 }

@@ -10,20 +10,20 @@ import UIKit
 import SwiftHelpers
 
 protocol TabBarViewDelegate: class {
-    func tabBarView(tabBarView: TabBarView, didSelectIndex index: Int)
+    func tabBarView(_ tabBarView: TabBarView, didSelectIndex index: Int)
 }
 
 final class TabBarView: SHCommonInitView {
 
     weak var delegate: TabBarViewDelegate?
 
-    private let searchBtn = UIButton(type: .System)
-    private let favBtn = UIButton(type: .System)
-    private let moreBtn = UIButton(type: .System)
+    fileprivate let searchBtn = UIButton(type: .system)
+    fileprivate let favBtn = UIButton(type: .system)
+    fileprivate let moreBtn = UIButton(type: .system)
 
-    private let topSeparator = UIView()
+    fileprivate let topSeparator = UIView()
 
-    private var stackView = UIStackView()
+    fileprivate var stackView = UIStackView()
 
     override func commonInit() {
         super.commonInit()
@@ -31,36 +31,36 @@ final class TabBarView: SHCommonInitView {
         addSubview(stackView)
         addSubview(topSeparator)
 
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = .white
 
-        stackView.distribution = .FillEqually
-        stackView.axis = .Horizontal
+        stackView.distribution = .fillEqually
+        stackView.axis = .horizontal
         searchBtn.tag = 0
         favBtn.tag = 1
         moreBtn.tag = 2
 
         [searchBtn, favBtn, moreBtn].forEach {
-            $0.addTarget(self, action: #selector(TabBarView.tabBtnClicked(_:)), forControlEvents: .TouchUpInside)
+            $0.addTarget(self, action: #selector(TabBarView.tabBtnClicked(_:)), for: .touchUpInside)
         }
 
-        searchBtn.setImage(UIImage(named: "search_tab_selected"), forState: .Normal)
-        favBtn.setImage(UIImage(named: "fav_tab"), forState: .Normal)
-        moreBtn.setImage(UIImage(named: "more_tab"), forState: .Normal)
+        searchBtn.setImage(UIImage(named: "search_tab_selected"), for: UIControlState())
+        favBtn.setImage(UIImage(named: "fav_tab"), for: UIControlState())
+        moreBtn.setImage(UIImage(named: "more_tab"), for: UIControlState())
 
         stackView.addArrangedSubview(searchBtn)
         stackView.addArrangedSubview(favBtn)
         stackView.addArrangedSubview(moreBtn)
 
-        topSeparator.backgroundColor = "B2B2B2".UIColor.colorWithAlphaComponent(0.25)
+        topSeparator.backgroundColor = "B2B2B2".UIColor.withAlphaComponent(0.25)
 
         configureLayoutConstraints()
     }
 
-    private func configureLayoutConstraints() {
-        stackView.snp_makeConstraints {
+    fileprivate func configureLayoutConstraints() {
+        stackView.snp.makeConstraints {
             $0.edges.equalTo(self)
         }
-        topSeparator.snp_makeConstraints {
+        topSeparator.snp.makeConstraints {
             $0.top.equalTo(self)
             $0.left.equalTo(self)
             $0.right.equalTo(self)
@@ -68,23 +68,23 @@ final class TabBarView: SHCommonInitView {
         }
     }
 
-    func tabBtnClicked(sender: UIButton) {
+    func tabBtnClicked(_ sender: UIButton) {
         if searchBtn.tag == sender.tag {
-            searchBtn.setImage(UIImage(named: "search_tab_selected"), forState: .Normal)
+            searchBtn.setImage(UIImage(named: "search_tab_selected"), for: UIControlState())
         } else {
-            searchBtn.setImage(UIImage(named: "search_tab"), forState: .Normal)
+            searchBtn.setImage(UIImage(named: "search_tab"), for: UIControlState())
         }
 
         if favBtn.tag == sender.tag {
-            favBtn.setImage(UIImage(named: "fav_tab_selected"), forState: .Normal)
+            favBtn.setImage(UIImage(named: "fav_tab_selected"), for: UIControlState())
         } else {
-            favBtn.setImage(UIImage(named: "fav_tab"), forState: .Normal)
+            favBtn.setImage(UIImage(named: "fav_tab"), for: UIControlState())
         }
 
         if moreBtn.tag == sender.tag {
-            moreBtn.setImage(UIImage(named: "more_tab_selected"), forState: .Normal)
+            moreBtn.setImage(UIImage(named: "more_tab_selected"), for: UIControlState())
         } else {
-            moreBtn.setImage(UIImage(named: "more_tab"), forState: .Normal)
+            moreBtn.setImage(UIImage(named: "more_tab"), for: UIControlState())
         }
 
         delegate?.tabBarView(self, didSelectIndex: sender.tag)

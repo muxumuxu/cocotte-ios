@@ -10,27 +10,27 @@ import UIKit
 
 final class TabBarController: UITabBarController, TabBarViewDelegate {
 
-    private var tabBarView: TabBarView!
+    fileprivate var tabBarView: TabBarView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tabBar.hidden = true
+        tabBar.isHidden = true
 
         tabBarView = TabBarView()
         tabBarView.delegate = self
         view.addSubview(tabBarView)
 
-        tabBarView.snp_makeConstraints {
+        tabBarView.snp.makeConstraints {
             $0.edges.equalTo(tabBar)
         }
     }
 
-    func tabBarView(tabBarView: TabBarView, didSelectIndex index: Int) {
+    func tabBarView(_ tabBarView: TabBarView, didSelectIndex index: Int) {
         if selectedIndex == index {
             // if it's a navigation controller, pop to rootViewController
             if let nav = viewControllers?[index] as? UINavigationController {
-                nav.popToRootViewControllerAnimated(true)
+                nav.popToRootViewController(animated: true)
             }
         } else {
             selectedIndex = index

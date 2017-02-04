@@ -8,6 +8,6 @@
 
 import Foundation
 
-func sanitizeSearchText(searchText: String) -> String {
-    return searchText.lowercaseString.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+func sanitizeSearchText(_ searchText: String) -> String {
+    return searchText.lowercased().folding(options: .diacriticInsensitive, locale: Locale.current)
 }

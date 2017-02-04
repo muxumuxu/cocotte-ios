@@ -12,20 +12,20 @@ import CoreData
 
 final class FavListViewController: UIViewController {
 
-    private var favTableView: UITableView!
+    fileprivate var favTableView: UITableView!
 
-    private var fetchedResultsController: NSFetchedResultsController!
+    fileprivate var fetchedResultsController: NSFetchedResultsController<Food>!
 
-    private var emptyView: FavEmptyView!
+    fileprivate var emptyView: FavEmptyView!
 
     override func loadView() {
         super.loadView()
 
-        favTableView = UITableView(frame: .zero, style: .Plain)
-        favTableView.separatorStyle = .None
+        favTableView = UITableView(frame: .zero, style: .plain)
+        favTableView.separatorStyle = .none
         favTableView.rowHeight = 44
-        favTableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
-        favTableView.backgroundColor = UIColor.whiteColor()
+        favTableView.register(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
+        favTableView.backgroundColor = UIColor.white
         favTableView.tableFooterView = UIView()
         view.addSubview(favTableView)
 
@@ -47,8 +47,8 @@ final class FavListViewController: UIViewController {
         configureLayoutConstraints()
     }
 
-    private func prepareFechedResultsController() {
-        let req = Food.entityFetchRequest()
+    fileprivate func prepareFechedResultsController() {
+        let req = NSFetchRequest<Food>(entityName: Food.entityName)
         req.predicate = NSPredicate(format: "favDate != nil")
         req.sortDescriptors = [ NSSortDescriptor(key: "favDate", ascending: false) ]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: req, managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -65,22 +65,22 @@ final class FavListViewController: UIViewController {
         }
     }
 
-    private func showEmptyViewIfNeeded() {
-        UIView.animateWithDuration(0.35) {
+    fileprivate func showEmptyViewIfNeeded() {
+        UIView.animate(withDuration: 0.35, animations: {
             if self.fetchedResultsController == nil || self.fetchedResultsController.fetchedObjects?.count == 0 {
                 self.emptyView.alpha = 1
             } else {
                 self.emptyView.alpha = 0
             }
-        }
+        }) 
     }
 
-    private func configureLayoutConstraints() {
-        favTableView.snp_makeConstraints {
+    fileprivate func configureLayoutConstraints() {
+        favTableView.snp.makeConstraints {
             $0.edges.equalTo(view)
         }
 
-        emptyView.snp_makeConstraints {
+        emptyView.snp.makeConstraints {
             $0.edges.equalTo(view)
         }
     }
@@ -88,30 +88,30 @@ final class FavListViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension FavListViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(FoodCell.reuseIdentifier, forIndexPath: indexPath) as! FoodCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FoodCell.reuseIdentifier, for: indexPath) as! FoodCell
         configureCell(cell, atIndexPath: indexPath)
         return cell
     }
-    private func configureCell(cell: FoodCell, atIndexPath indexPath: NSIndexPath) {
-        let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
+    fileprivate func configureCell(_ cell: FoodCell, atIndexPath indexPath: IndexPath) {
+        let food = fetchedResultsController.object(at: indexPath) 
         cell.foodLbl.text = food.name
         cell.iconImageView.image = food.dangerImage
     }
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return .Delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .delete
     }
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        let food = fetchedResultsController.objectAtIndexPath(indexPath) as! Food
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let food = fetchedResultsController.object(at: indexPath)
         food.favDate = nil
         do {
             try food.managedObjectContext?.save()
@@ -123,62 +123,62 @@ extension FavListViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension FavListViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let foodController = FoodDetailViewController()
-        foodController.food = fetchedResultsController.objectAtIndexPath(indexPath) as? Food
-        navigationController?.showViewController(foodController, sender: nil)
+        foodController.food = fetchedResultsController.object(at: indexPath)
+        navigationController?.show(foodController, sender: nil)
     }
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
 extension FavListViewController: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         favTableView.beginUpdates()
     }
 
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch (type) {
-        case .Insert:
+        case .insert:
             if let indexPath = newIndexPath {
-                favTableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                favTableView.insertRows(at: [indexPath], with: .fade)
             }
             break
-        case .Delete:
+        case .delete:
             if let indexPath = indexPath {
-                favTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                favTableView.deleteRows(at: [indexPath], with: .fade)
             }
             break
-        case .Update:
+        case .update:
             if let indexPath = indexPath {
-                let cell = favTableView.cellForRowAtIndexPath(indexPath) as! FoodCell
+                let cell = favTableView.cellForRow(at: indexPath) as! FoodCell
                 configureCell(cell, atIndexPath: indexPath)
             }
             break
-        case .Move:
+        case .move:
             if let indexPath = indexPath {
-                favTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                favTableView.deleteRows(at: [indexPath], with: .fade)
             }
 
             if let newIndexPath = newIndexPath {
-                favTableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+                favTableView.insertRows(at: [newIndexPath], with: .fade)
             }
             break
         }
     }
 
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
-        case .Insert:
+        case .insert:
             break
-        case .Delete:
+        case .delete:
             break
         default:
             break
         }
     }
 
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         favTableView.endUpdates()
         showEmptyViewIfNeeded()
     }

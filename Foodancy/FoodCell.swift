@@ -18,9 +18,9 @@ final class FoodCell: SHCommonInitTableViewCell {
     override func commonInit() {
         super.commonInit()
 
-        selectionStyle = .None
+        selectionStyle = .none
 
-        foodLbl.font = UIFont.systemFontOfSize(18, weight: UIFontWeightMedium)
+        foodLbl.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium)
 
         contentView.addSubview(iconImageView)
         contentView.addSubview(foodLbl)
@@ -28,18 +28,18 @@ final class FoodCell: SHCommonInitTableViewCell {
         configureLayoutConstraints()
     }
 
-    private func configureLayoutConstraints() {
-        iconImageView.snp_makeConstraints {
+    fileprivate func configureLayoutConstraints() {
+        iconImageView.snp.makeConstraints {
             $0.left.equalTo(contentView).offset(15)
             $0.centerY.equalTo(contentView)
             $0.width.height.equalTo(20)
         }
 
-        foodLbl.snp_makeConstraints {
+        foodLbl.snp.makeConstraints {
             $0.top.equalTo(contentView)
             $0.bottom.equalTo(contentView)
             $0.right.equalTo(contentView)
-            $0.left.equalTo(iconImageView.snp_right).offset(5)
+            $0.left.equalTo(iconImageView.snp.right).offset(5)
         }
     }
 }

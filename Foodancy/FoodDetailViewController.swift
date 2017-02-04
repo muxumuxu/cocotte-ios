@@ -16,63 +16,63 @@ final class FoodDetailViewController: UIViewController {
 
     var food: Food? {
         didSet {
-            if isViewLoaded() {
+            if isViewLoaded {
                 configureInterfaceBasedOnFood()
             }
         }
     }
 
-    private var backBtn: UIButton!
-    private var addToFavBtn: UIButton!
+    fileprivate var backBtn: UIButton!
+    fileprivate var addToFavBtn: UIButton!
 
-    private var scrollView: UIScrollView!
-    private var scrollContainerView: UIView!
+    fileprivate var scrollView: UIScrollView!
+    fileprivate var scrollContainerView: UIView!
 
-    private var foodNameLbl: UILabel!
-    private var categoryImageView: UIImageView!
-    private var dangerImageView: UIImageView!
-    private var dangerLbl: UILabel!
+    fileprivate var foodNameLbl: UILabel!
+    fileprivate var categoryImageView: UIImageView!
+    fileprivate var dangerImageView: UIImageView!
+    fileprivate var dangerLbl: UILabel!
 
-    private var topSeparator: UIView!
+    fileprivate var topSeparator: UIView!
 
-    private var infoStackView: UIStackView!
+    fileprivate var infoStackView: UIStackView!
 
-    private var riskView: UIView!
-    private var riskLbl: UILabel!
-    private var riskValueBtn: UIButton!
+    fileprivate var riskView: UIView!
+    fileprivate var riskLbl: UILabel!
+    fileprivate var riskValueBtn: UIButton!
 
-    private var infoView: UIView!
-    private var infoLbl: UILabel!
-    private var infoValueLbl: UILabel!
+    fileprivate var infoView: UIView!
+    fileprivate var infoLbl: UILabel!
+    fileprivate var infoValueLbl: UILabel!
 
-    private var bottomSeparator: UIView!
+    fileprivate var bottomSeparator: UIView!
 
-    private var alertBtn: UIButton!
-    private var warnLbl: UILabel!
+    fileprivate var alertBtn: UIButton!
+    fileprivate var warnLbl: UILabel!
 
     override func loadView() {
         super.loadView()
 
-        backBtn = UIButton(type: .System)
-        backBtn.setImage(UIImage(named: "back_icon"), forState: .Normal)
-        backBtn.setTitle(L("Recherche"), forState: .Normal)
+        backBtn = UIButton(type: .system)
+        backBtn.setImage(UIImage(named: "back_icon"), for: UIControlState())
+        backBtn.setTitle(L("Recherche"), for: .normal)
         backBtn.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 13)
-        backBtn.setTitleColor(UIColor.appGrayColor(), forState: .Normal)
-        backBtn.contentHorizontalAlignment = .Left
+        backBtn.setTitleColor(UIColor.appGrayColor(), for: UIControlState())
+        backBtn.contentHorizontalAlignment = .left
         backBtn.titleEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 0, right: 0)
-        backBtn.addTarget(self, action: #selector(FoodDetailViewController.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        backBtn.addTarget(self, action: #selector(FoodDetailViewController.backBtnClicked(_:)), for: .touchUpInside)
         backBtn.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
         navigationItem.setHidesBackButton(true, animated: false)
         let backBbi = UIBarButtonItem(customView: backBtn)
         navigationItem.leftBarButtonItem = backBbi
 
-        addToFavBtn = UIButton(type: .System)
-        addToFavBtn.setImage(UIImage(named: "add_to_fav_icon"), forState: .Normal)
-        addToFavBtn.contentHorizontalAlignment = .Right
+        addToFavBtn = UIButton(type: .system)
+        addToFavBtn.setImage(UIImage(named: "add_to_fav_icon"), for: UIControlState())
+        addToFavBtn.contentHorizontalAlignment = .right
         addToFavBtn.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 13)
         addToFavBtn.titleEdgeInsets = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
         addToFavBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 7)
-        addToFavBtn.addTarget(self, action: #selector(FoodDetailViewController.favBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        addToFavBtn.addTarget(self, action: #selector(FoodDetailViewController.favBtnClicked(_:)), for: .touchUpInside)
         addToFavBtn.tintColor = UIColor.appTintColor()
         addToFavBtn.frame = CGRect(x: 0, y: 0, width: 150, height: 30)
         let rightBbi = UIBarButtonItem(customView: addToFavBtn)
@@ -99,22 +99,22 @@ final class FoodDetailViewController: UIViewController {
 
         dangerLbl = UILabel()
         dangerLbl.font = UIFont(name: "Avenir-Medium", size: 18)
-        dangerLbl.textColor = UIColor.blackColor()
+        dangerLbl.textColor = UIColor.black
         scrollContainerView.addSubview(dangerLbl)
 
         infoStackView = UIStackView()
-        infoStackView.axis = .Vertical
-        infoStackView.backgroundColor = UIColor.greenColor().colorWithAlphaComponent(0.3)
+        infoStackView.axis = .vertical
+        infoStackView.backgroundColor = UIColor.green.withAlphaComponent(0.3)
         infoStackView.spacing = 34
         scrollContainerView.addSubview(infoStackView)
 
         configureStackView()
 
-        alertBtn = UIButton(type: .System)
-        alertBtn.setTitle(L("Signaler cet aliment"), forState: .Normal)
+        alertBtn = UIButton(type: .system)
+        alertBtn.setTitle(L("Signaler cet aliment"), for: .normal)
         alertBtn.titleLabel?.font = UIFont(name: "Avenir-Book", size: 18)
         alertBtn.tintColor = UIColor.appBlueColor()
-        alertBtn.addTarget(self, action: #selector(FoodDetailViewController.alertBtnClicked(_:)), forControlEvents: .TouchUpInside)
+        alertBtn.addTarget(self, action: #selector(FoodDetailViewController.alertBtnClicked(_:)), for: .touchUpInside)
         scrollContainerView.addSubview(alertBtn)
 
         warnLbl = UILabel()
@@ -125,7 +125,7 @@ final class FoodDetailViewController: UIViewController {
         scrollContainerView.addSubview(warnLbl)
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -136,7 +136,7 @@ final class FoodDetailViewController: UIViewController {
 
         automaticallyAdjustsScrollViewInsets = false
 
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
 
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
@@ -151,24 +151,24 @@ final class FoodDetailViewController: UIViewController {
         infoValueLbl.preferredMaxLayoutWidth = infoStackView.bounds.width
     }
 
-    func favBtnClicked(sender: UIButton) {
+    func favBtnClicked(_ sender: UIButton) {
         if food?.favDate != nil {
             food?.favDate = nil
             addToFavBtn.tintColor = UIColor.appTintColor()
-            addToFavBtn.setTitle(L("Ajouter aux favoris"), forState: .Normal)
+            addToFavBtn.setTitle(L("Ajouter aux favoris"), for: .normal)
         } else {
-            food?.favDate = NSDate()
+            food?.favDate = Date()
             addToFavBtn.tintColor = UIColor.appGrayColor()
-            addToFavBtn.setTitle(L("Retirer des favoris"), forState: .Normal)
+            addToFavBtn.setTitle(L("Retirer des favoris"), for: .normal)
         }
         try! food?.managedObjectContext?.save()
     }
 
-    func backBtnClicked(sender: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
+    func backBtnClicked(_ sender: UIButton) {
+        let _ = navigationController?.popViewController(animated: true)
     }
 
-    func alertBtnClicked(sender: UIButton) {
+    func alertBtnClicked(_ sender: UIButton) {
         guard MFMailComposeViewController.canSendMail() else {
             return
         }
@@ -176,22 +176,22 @@ final class FoodDetailViewController: UIViewController {
         mail.mailComposeDelegate = self
         mail.setSubject("Signaler \"\(food!.name!)\"")
         mail.setToRecipients([contactEmail])
-        presentViewController(mail, animated: true, completion: nil)
+        present(mail, animated: true, completion: nil)
     }
 
-    func riskBtnClicked(sender: UIButton) {
+    func riskBtnClicked(_ sender: UIButton) {
         if !Reachability.isConnectedToNetwork() {
-            let alert = UIAlertController(title: L("Internet not found"), message: L("Vous devez être connecté à internet pour visualiser le contenu"), preferredStyle: .Alert)
-            let okAction = UIAlertAction(title: L("OK"), style: .Default, handler: nil)
+            let alert = UIAlertController(title: L("Internet not found"), message: L("Vous devez être connecté à internet pour visualiser le contenu"), preferredStyle: .alert)
+            let okAction = UIAlertAction(title: L("OK"), style: .default, handler: nil)
             alert.addAction(okAction)
-            presentViewController(alert, animated: true, completion: nil)
-        } else if let url = food?.risk?.url, URL = NSURL(string: url) {
-            let safari = SFSafariViewController(URL: URL)
-            presentViewController(safari, animated: true, completion: nil)
+            present(alert, animated: true)
+        } else if let url = food?.risk?.url, let URL = URL(string: url) {
+            let safari = SFSafariViewController(url: URL)
+            present(safari, animated: true, completion: nil)
         }
     }
 
-    private func configureInterfaceBasedOnFood() {
+    fileprivate func configureInterfaceBasedOnFood() {
         if let name = food?.name {
             let attr = NSMutableAttributedString(string: name)
 
@@ -202,7 +202,7 @@ final class FoodDetailViewController: UIViewController {
 
             attr.addAttribute(
                 NSForegroundColorAttributeName,
-                value: UIColor.blackColor(),
+                value: UIColor.black,
                 range: NSMakeRange(0, attr.length))
 
             let paragraph = NSMutableParagraphStyle()
@@ -211,18 +211,18 @@ final class FoodDetailViewController: UIViewController {
 
             foodNameLbl.attributedText = attr
 
-            foodNameLbl.lineBreakMode = .ByTruncatingTail
+            foodNameLbl.lineBreakMode = .byTruncatingTail
         } else {
             foodNameLbl.attributedText = nil
         }
 
         if let type = food?.dangerType {
             switch type {
-            case .Avoid:
+            case .avoid:
                 dangerLbl.text = L("À éviter")
-            case .Care:
+            case .care:
                 dangerLbl.text = L("Faire attention")
-            case .Good:
+            case .good:
                 dangerLbl.text = L("Autorisé")
             }
         } else {
@@ -240,20 +240,20 @@ final class FoodDetailViewController: UIViewController {
                 $0.removeFromSuperview()
             }
         } else {
-            if let name = food?.risk?.name where !name.isEmpty {
-                riskValueBtn.setTitle(name, forState: .Normal)
+            if let name = food?.risk?.name, !name.isEmpty {
+                riskValueBtn.setTitle(name, for: UIControlState())
                 if food?.risk?.url != nil {
-                    riskValueBtn.setTitleColor(UIColor.appBlueColor(), forState: .Normal)
-                    riskValueBtn.userInteractionEnabled = true
+                    riskValueBtn.setTitleColor(UIColor.appBlueColor(), for: UIControlState())
+                    riskValueBtn.isUserInteractionEnabled = true
                 } else {
-                    riskValueBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
-                    riskValueBtn.userInteractionEnabled = false
+                    riskValueBtn.setTitleColor(UIColor.black, for: UIControlState())
+                    riskValueBtn.isUserInteractionEnabled = false
                 }
             } else {
                 riskView.removeFromSuperview()
             }
 
-            if let info = food?.info where !info.isEmpty {
+            if let info = food?.info, !info.isEmpty {
                 infoValueLbl.text = info
             } else {
                 infoStackView.removeArrangedSubview(infoView)
@@ -262,10 +262,10 @@ final class FoodDetailViewController: UIViewController {
 
         if food?.favDate != nil {
             addToFavBtn.tintColor = UIColor.appGrayColor()
-            addToFavBtn.setTitle(L("Retirer des favoris"), forState: .Normal)
+            addToFavBtn.setTitle(L("Retirer des favoris"), for: .normal)
         } else {
             addToFavBtn.tintColor = UIColor.appTintColor()
-            addToFavBtn.setTitle(L("Ajouter aux favoris"), forState: .Normal)
+            addToFavBtn.setTitle(L("Ajouter aux favoris"), for: .normal)
         }
 
         infoStackView.setNeedsLayout()
@@ -273,60 +273,60 @@ final class FoodDetailViewController: UIViewController {
         view.layoutIfNeeded()
     }
 
-private func nilOrEmpty(str: String?) -> Bool {
+fileprivate func nilOrEmpty(_ str: String?) -> Bool {
         guard let str = str else {
             return true
         }
         return str.isEmpty
     }
 
-    private func configureLayoutConstraints() {
-        scrollView.snp_makeConstraints {
-            $0.edges.equalTo(view).offset(UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0))
+    fileprivate func configureLayoutConstraints() {
+        scrollView.snp.makeConstraints {
+            $0.edges.equalTo(view).inset(UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0))
         }
 
-        scrollContainerView.snp_makeConstraints {
+        scrollContainerView.snp.makeConstraints {
             $0.edges.equalTo(scrollView)
             $0.width.equalTo(view)
         }
 
-        categoryImageView.snp_makeConstraints {
+        categoryImageView.snp.makeConstraints {
             $0.top.equalTo(scrollContainerView).offset(24)
             $0.left.equalTo(scrollContainerView).offset(14)
             $0.width.height.equalTo(92)
         }
 
-        foodNameLbl.snp_makeConstraints {
+        foodNameLbl.snp.makeConstraints {
             $0.top.greaterThanOrEqualTo(scrollContainerView).offset(10)
-            $0.bottom.equalTo(categoryImageView.snp_centerY).offset(10)
-            $0.left.equalTo(categoryImageView.snp_right).offset(10)
+            $0.bottom.equalTo(categoryImageView.snp.centerY).offset(10)
+            $0.left.equalTo(categoryImageView.snp.right).offset(10)
             $0.right.lessThanOrEqualTo(scrollContainerView).offset(-10)
         }
 
-        dangerImageView.snp_makeConstraints {
-            $0.top.equalTo(foodNameLbl.snp_bottom)
-            $0.left.equalTo(categoryImageView.snp_right).offset(10)
+        dangerImageView.snp.makeConstraints {
+            $0.top.equalTo(foodNameLbl.snp.bottom)
+            $0.left.equalTo(categoryImageView.snp.right).offset(10)
             $0.width.height.equalTo(20)
         }
 
-        dangerLbl.snp_makeConstraints {
+        dangerLbl.snp.makeConstraints {
             $0.centerY.equalTo(dangerImageView)
-            $0.left.equalTo(dangerImageView.snp_right).offset(7)
+            $0.left.equalTo(dangerImageView.snp.right).offset(7)
         }
 
-        infoStackView.snp_makeConstraints {
-            $0.top.equalTo(categoryImageView.snp_bottom).offset(34)
+        infoStackView.snp.makeConstraints {
+            $0.top.equalTo(categoryImageView.snp.bottom).offset(34)
             $0.left.equalTo(scrollContainerView).offset(14)
             $0.right.equalTo(scrollContainerView).offset(-14)
         }
 
-        alertBtn.snp_makeConstraints {
-            $0.top.equalTo(infoStackView.snp_bottom).offset(35)
+        alertBtn.snp.makeConstraints {
+            $0.top.equalTo(infoStackView.snp.bottom).offset(35)
             $0.left.equalTo(scrollContainerView).offset(14)
         }
 
-        warnLbl.snp_makeConstraints {
-            $0.top.equalTo(alertBtn.snp_bottom).offset(14)
+        warnLbl.snp.makeConstraints {
+            $0.top.equalTo(alertBtn.snp.bottom).offset(14)
             $0.left.equalTo(scrollContainerView).offset(14)
             $0.right.equalTo(scrollContainerView).offset(-14)
 
@@ -334,11 +334,11 @@ private func nilOrEmpty(str: String?) -> Bool {
         }
     }
 
-    private func configureStackView() {
+    fileprivate func configureStackView() {
         topSeparator = UIView()
-        topSeparator.backgroundColor = UIColor.appGrayColor().colorWithAlphaComponent(0.2)
+        topSeparator.backgroundColor = UIColor.appGrayColor().withAlphaComponent(0.2)
         infoStackView.addArrangedSubview(topSeparator)
-        topSeparator.snp_makeConstraints {
+        topSeparator.snp.makeConstraints {
             $0.height.equalTo(0.5)
         }
 
@@ -348,21 +348,21 @@ private func nilOrEmpty(str: String?) -> Bool {
         riskLbl.font = UIFont(name: "Avenir-Medium", size: 13)
         riskLbl.text = L("Risque")
         riskView.addSubview(riskLbl)
-        riskLbl.snp_makeConstraints {
+        riskLbl.snp.makeConstraints {
             $0.top.equalTo(riskView)
             $0.left.equalTo(riskView)
         }
-        riskValueBtn = UIButton(type: .System)
-        riskValueBtn.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        riskValueBtn = UIButton(type: .system)
+        riskValueBtn.setTitleColor(UIColor.black, for: UIControlState())
         riskValueBtn.titleLabel?.font = UIFont(name: "Avenir-Medium", size: 18)
         riskValueBtn.addTarget(
             self,
             action: #selector(FoodDetailViewController.riskBtnClicked(_:)),
-            forControlEvents: .TouchUpInside)
+            for: .touchUpInside)
         riskValueBtn.titleLabel?.numberOfLines = 0
         riskView.addSubview(riskValueBtn)
-        riskValueBtn.snp_makeConstraints {
-            $0.top.equalTo(riskLbl.snp_bottom).offset(3)
+        riskValueBtn.snp.makeConstraints {
+            $0.top.equalTo(riskLbl.snp.bottom).offset(3)
             $0.left.equalTo(riskView)
             $0.bottom.equalTo(riskView)
         }
@@ -374,44 +374,46 @@ private func nilOrEmpty(str: String?) -> Bool {
         infoLbl.font = UIFont(name: "Avenir-Medium", size: 13)
         infoLbl.text = L("Information")
         infoView.addSubview(infoLbl)
-        infoLbl.snp_makeConstraints {
+        infoLbl.snp.makeConstraints {
             $0.top.equalTo(infoView)
             $0.left.equalTo(infoView)
         }
         infoValueLbl = UILabel()
-        infoValueLbl.textColor = UIColor.blackColor()
+        infoValueLbl.textColor = UIColor.black
         infoValueLbl.font = UIFont(name: "Avenir-Medium", size: 18)
         infoValueLbl.numberOfLines = 0
         infoView.addSubview(infoValueLbl)
-        infoValueLbl.snp_makeConstraints {
-            $0.top.equalTo(infoLbl.snp_bottom).offset(3)
+        infoValueLbl.snp.makeConstraints {
+            $0.top.equalTo(infoLbl.snp.bottom).offset(3)
             $0.left.equalTo(infoView)
             $0.bottom.equalTo(infoView)
         }
         infoStackView.addArrangedSubview(infoView)
 
         bottomSeparator = UIView()
-        bottomSeparator.backgroundColor = UIColor.appGrayColor().colorWithAlphaComponent(0.2)
+        bottomSeparator.backgroundColor = UIColor.appGrayColor().withAlphaComponent(0.2)
         infoStackView.addArrangedSubview(bottomSeparator)
-        bottomSeparator.snp_makeConstraints {
+        bottomSeparator.snp.makeConstraints {
             $0.height.equalTo(0.5)
         }
     }
 }
 
 extension FoodDetailViewController: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 
-public class Reachability {
+open class Reachability {
     class func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
         }
         var flags = SCNetworkReachabilityFlags()
         if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {

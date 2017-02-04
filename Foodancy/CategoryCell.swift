@@ -19,10 +19,10 @@ final class CategoryCell: SHCommonInitCollectionViewCell {
     override func commonInit() {
         super.commonInit()
 
-        categoryImageView.contentMode = .Center
+        categoryImageView.contentMode = .center
         addSubview(categoryImageView)
 
-        categoryTitleLbl.font = UIFont.systemFontOfSize(13, weight: UIFontWeightMedium)
+        categoryTitleLbl.font = UIFont.systemFont(ofSize: 13, weight: UIFontWeightMedium)
         categoryTitleLbl.textColor = UIColor.appGrayColor()
         categoryTitleLbl.numberOfLines = 0
         addSubview(categoryTitleLbl)
@@ -35,16 +35,16 @@ final class CategoryCell: SHCommonInitCollectionViewCell {
         categoryTitleLbl.preferredMaxLayoutWidth = bounds.width
     }
 
-    private func configureLayoutConstraints() {
-        categoryImageView.snp_makeConstraints {
+    fileprivate func configureLayoutConstraints() {
+        categoryImageView.snp.makeConstraints {
             $0.top.equalTo(self)
             $0.left.equalTo(self)
             $0.right.equalTo(self)
             $0.height.equalTo(snp_width).multipliedBy(1.16)
         }
 
-        categoryTitleLbl.snp_makeConstraints {
-            $0.top.equalTo(categoryImageView.snp_bottom).offset(4)
+        categoryTitleLbl.snp.makeConstraints {
+            $0.top.equalTo(categoryImageView.snp.bottom).offset(4)
             $0.left.equalTo(self)
             $0.right.equalTo(self)
         }

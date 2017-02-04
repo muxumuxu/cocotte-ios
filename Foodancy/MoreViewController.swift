@@ -14,14 +14,14 @@ import SafariServices
 final class MoreViewController: UIViewController {
 
     enum SectionType: Int {
-        case ContactUs, Rate, Share, MadeByMM, Version
+        case contactUs, rate, share, madeByMM, version
         var name: String {
             switch self {
-            case .ContactUs:    return "💌 Nous contacter"
-            case .Rate:         return "✨ Noter l'application"
-            case .Share:        return "🕊 Partager l'application"
-            case .MadeByMM:     return "Made with 💚 by Muxu•Muxu"
-            case .Version:      return "Ma version de Foodancy"
+            case .contactUs:    return "💌 Nous contacter"
+            case .rate:         return "✨ Noter l'application"
+            case .share:        return "🕊 Partager l'application"
+            case .madeByMM:     return "Made with 💚 by Muxu•Muxu"
+            case .version:      return "Ma version de Foodancy"
             }
         }
     }
@@ -31,21 +31,21 @@ final class MoreViewController: UIViewController {
         var types = [SectionType]()
     }
 
-    private var sections = [Section]()
+    fileprivate var sections = [Section]()
 
-    private var tableView: UITableView!
+    fileprivate var tableView: UITableView!
 
     override func loadView() {
         super.loadView()
 
-        tableView = UITableView(frame: .zero, style: .Plain)
-        tableView.separatorStyle = .None
+        tableView = UITableView(frame: .zero, style: .plain)
+        tableView.separatorStyle = .none
         tableView.rowHeight = 40
-        tableView.registerClass(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.register(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
+        tableView.backgroundColor = UIColor.white
         tableView.clipsToBounds = true
         view.addSubview(tableView)
-        tableView.snp_makeConstraints {
+        tableView.snp.makeConstraints {
             $0.edges.equalTo(view)
         }
 
@@ -56,7 +56,7 @@ final class MoreViewController: UIViewController {
         footerLbl.font = UIFont(name: "Avenir-Book", size: 12)
         footerLbl.textColor = UIColor.appGrayColor()
         footerView.addSubview(footerLbl)
-        footerLbl.snp_makeConstraints {
+        footerLbl.snp.makeConstraints {
             $0.left.equalTo(footerView).offset(14)
             $0.right.equalTo(footerView).offset(-14)
             $0.bottom.equalTo(footerView)
@@ -69,8 +69,8 @@ final class MoreViewController: UIViewController {
 
         title = L("Plus")
 
-        let support = Section(name: L("Support"), types: [.ContactUs, .Rate, .Share])
-        let about = Section(name: L("À propos"), types: [.MadeByMM, .Version])
+        let support = Section(name: L("Support"), types: [.contactUs, .rate, .share])
+        let about = Section(name: L("À propos"), types: [.madeByMM, .version])
         sections = [support, about]
 
         tableView.delegate = self
@@ -80,25 +80,25 @@ final class MoreViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension MoreViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].types.count
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(FoodCell.reuseIdentifier, forIndexPath: indexPath) as! FoodCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FoodCell.reuseIdentifier, for: indexPath) as! FoodCell
 
         let section = sections[indexPath.section].types[indexPath.row]
 
-        if section == .Version {
+        if section == .version {
             cell.foodLbl.text = "\(section.name) - \(appVersion())"
         } else {
             cell.foodLbl.text = section.name
         }
 
-        cell.foodLbl.snp_removeConstraints()
-        cell.foodLbl.snp_makeConstraints {
+        cell.foodLbl.snp.removeConstraints()
+        cell.foodLbl.snp.makeConstraints {
             $0.top.equalTo(cell.contentView)
             $0.bottom.equalTo(cell.contentView)
             $0.right.equalTo(cell.contentView)
@@ -107,57 +107,57 @@ extension MoreViewController: UITableViewDataSource {
 
         return cell
     }
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = UIColor.whiteColor()
+        headerView.backgroundColor = UIColor.white
         let titleLbl = UILabel()
         titleLbl.textColor = UIColor.appGrayColor()
-        titleLbl.font = UIFont.systemFontOfSize(13, weight: UIFontWeightMedium)
+        titleLbl.font = UIFont.systemFont(ofSize: 13, weight: UIFontWeightMedium)
         titleLbl.text = sections[section].name
         headerView.addSubview(titleLbl)
-        titleLbl.snp_makeConstraints {
+        titleLbl.snp.makeConstraints {
             $0.left.equalTo(headerView).offset(14)
             $0.bottom.equalTo(headerView).offset(-5)
         }
         return headerView
     }
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
 }
 
 // MARK: - UITableViewDelegate
 extension MoreViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let section = sections[indexPath.section].types[indexPath.row]
 
         switch section {
-        case .ContactUs:
+        case .contactUs:
             let message = MFMailComposeViewController()
             message.mailComposeDelegate = self
             message.setToRecipients([contactEmail])
-            presentViewController(message, animated: true, completion: nil)
-        case .Rate:
-            if let URL = NSURL(string: iTunesLink) {
-                UIApplication.sharedApplication().openURL(URL)
+            present(message, animated: true, completion: nil)
+        case .rate:
+            if let URL = URL(string: iTunesLink) {
+                UIApplication.shared.openURL(URL)
             }
-        case .Share:
-            if let URL = NSURL(string: iTunesLink) {
+        case .share:
+            if let URL = URL(string: iTunesLink) {
                 let activity = UIActivityViewController(activityItems: [URL], applicationActivities: nil)
-                presentViewController(activity, animated: true, completion: nil)
+                present(activity, animated: true, completion: nil)
             }
-        case .MadeByMM:
+        case .madeByMM:
             if !Reachability.isConnectedToNetwork() {
-                let alert = UIAlertController(title: L("Internet not found"), message: L("Vous devez être connecté à internet pour visualiser le contenu"), preferredStyle: .Alert)
-                let okAction = UIAlertAction(title: L("OK"), style: .Default, handler: nil)
+                let alert = UIAlertController(title: L("Internet not found"), message: L("Vous devez être connecté à internet pour visualiser le contenu"), preferredStyle: .alert)
+                let okAction = UIAlertAction(title: L("OK"), style: .default, handler: nil)
                 alert.addAction(okAction)
-                presentViewController(alert, animated: true, completion: nil)
-            } else if let URL = NSURL(string: "https://muxumuxu.com") {
-                let safari = SFSafariViewController(URL: URL)
-                presentViewController(safari, animated: true, completion: nil)
+                present(alert, animated: true)
+            } else if let URL = URL(string: "https://muxumuxu.com") {
+                let safari = SFSafariViewController(url: URL)
+                present(safari, animated: true)
             }
-        case .Version:
+        case .version:
             break
         }
     }
@@ -165,7 +165,7 @@ extension MoreViewController: UITableViewDelegate {
 
 // MARK: - MFMailComposeViewControllerDelegate
 extension MoreViewController: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }

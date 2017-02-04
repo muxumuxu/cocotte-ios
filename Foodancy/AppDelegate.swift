@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         CoreDataStack.initializeWithMomd("Foodancy", sql: "Foodancy.sqlite")
 
@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         CoreDataStack.shared.saveContext()
@@ -50,26 +50,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func customizeAppearance() {
         let nav = UINavigationBar.appearance()
         nav.shadowImage = UIImage()
-        nav.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
+        nav.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
 
-        let app = UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self])
+        let app = UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self])
         app.defaultTextAttributes = [
-            NSFontAttributeName: UIFont.systemFontOfSize(18, weight: UIFontWeightMedium),
+            NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium),
             NSForegroundColorAttributeName: "8E8E93".UIColor
         ]
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         FBSDKAppEvents.activateApp()
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
-    private let importOperationQueue = NSOperationQueue()
+    fileprivate let importOperationQueue = OperationQueue()
 
-    private func downloadContent() {
+    fileprivate func downloadContent() {
 
         importOperationQueue.maxConcurrentOperationCount = 1
 
@@ -95,23 +95,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         importOperationQueue.addOperation(op)
     }
 
-    private func configureCrashlytics() {
+    fileprivate func configureCrashlytics() {
         Fabric.with([Crashlytics.self])
     }
 
-    private func configureAmplitudeSDK() {
+    fileprivate func configureAmplitudeSDK() {
         #if DEBUG
             Amplitude.instance().initializeApiKey("00d4356f153e0d7ccdac41869b9199bf")
         #else
             Amplitude.instance().initializeApiKey("460ce79c6ad144a4f4ffa5549bebd674")
         #endif
 
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let userId = defaults.objectForKey("userId") as? String {
+        let defaults = UserDefaults.standard
+        if let userId = defaults.object(forKey: "userId") as? String {
             Amplitude.instance().setUserId(userId)
         } else {
-            let userId = NSUUID().UUIDString
-            defaults.setObject(userId, forKey: "userId")
+            let userId = UUID().uuidString
+            defaults.set(userId, forKey: "userId")
             defaults.synchronize()
             Amplitude.instance().setUserId(userId)
         }
@@ -120,12 +120,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Amplitude.instance().enableLocationListening()
     }
 
-    private func hasImportedData() -> Bool {
-        let req = Food.entityFetchRequest()
+    fileprivate func hasImportedData() -> Bool {
+        let req = NSFetchRequest<Food>(entityName: Food.entityName)
         req.sortDescriptors = [ NSSortDescriptor(key: "name", ascending: true) ]
         let ctx = CoreDataStack.shared.managedObjectContext
-        var err: NSError?
-        let count = ctx.countForFetchRequest(req, error: &err)
+        let count = (try? ctx.count(for: req)) ?? 0
         return count > 0
     }
 }

@@ -14,14 +14,7 @@ final class Food: NSManagedObject, NamedEntity {
     static let entityName = "Food"
 
     enum FoodDangerType: Int {
-        case Care, Avoid, Good
-    }
-
-    class func findById(id: Int, inContext context: NSManagedObjectContext) throws -> Food? {
-        let req = entityFetchRequest()
-        req.predicate = NSPredicate(format: "id == %@", NSNumber(integer: id))
-        let res = try context.executeFetchRequest(req)
-        return res.first as? Food
+        case care, avoid, good
     }
 
     var dangerImage: UIImage? {
@@ -42,13 +35,13 @@ final class Food: NSManagedObject, NamedEntity {
         if let danger = danger {
             switch danger {
             case "avoid":
-                return .Avoid
+                return .avoid
             case "care":
-                return .Care
+                return .care
             default:
-                return .Good
+                return .good
             }
         }
-        return .Good
+        return .good
     }
 }
