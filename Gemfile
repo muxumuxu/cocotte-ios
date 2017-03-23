@@ -3,3 +3,4 @@ ruby  '2.3.1'
 
 gem 'fastlane'
 gem 'cocoapods'
+gem 'xcode-install'
