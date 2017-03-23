@@ -274,8 +274,9 @@
 				TargetAttributes = {
 					58816A031D61AEBD00A339A1 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 659B2N7HE9;
+						DevelopmentTeam = B58NS3SSSN;
 						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -519,13 +520,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = B58NS3SSSN;
 				INFOPLIST_FILE = Foodancy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.foodancy;
 				PRODUCT_NAME = Foodancy;
-				PROVISIONING_PROFILE = "276f733c-785c-4503-bf1f-87aba5f94cbc";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -536,11 +539,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: David Miotti (659B2N7HE9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = B58NS3SSSN;
 				INFOPLIST_FILE = Foodancy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidmiotti.foodancy;
 				PRODUCT_NAME = Foodancy;
-				PROVISIONING_PROFILE = "ce21ff19-e921-46e2-a4a4-dbb5ef5b0178";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
