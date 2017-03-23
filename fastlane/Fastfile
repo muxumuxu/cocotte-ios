@@ -26,12 +26,17 @@ platform :ios do
   lane :test do
     scan
   end
+  
+  desc "Increment build number"
+  lane :bump_version do
+    increment_build_number(build_number: number_of_commits)
+  end
 
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
-
-    increment_build_number(build_number: number_of_commits)
+    
+    bump_version
     
     xcversion(version: "8.2.1")
     
