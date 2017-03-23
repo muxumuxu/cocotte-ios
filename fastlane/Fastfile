@@ -32,6 +32,9 @@ platform :ios do
   lane :beta do
 
     increment_build_number(build_number: number_of_commits)
+    
+    xcversion(version: "8.2.1")
+    
     # match(type: "appstore") # more information: https://codesigning.guide
     gym(scheme: "Foodancy") # Build your app - more options available
     pilot
