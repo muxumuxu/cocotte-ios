@@ -386,6 +386,7 @@ fileprivate func nilOrEmpty(_ str: String?) -> Bool {
         infoValueLbl.snp.makeConstraints {
             $0.top.equalTo(infoLbl.snp.bottom).offset(3)
             $0.left.equalTo(infoView)
+            $0.right.equalTo(infoView)
             $0.bottom.equalTo(infoView)
         }
         infoStackView.addArrangedSubview(infoView)
@@ -396,6 +397,14 @@ fileprivate func nilOrEmpty(_ str: String?) -> Bool {
         bottomSeparator.snp.makeConstraints {
             $0.height.equalTo(0.5)
         }
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { (context) in
+            self.infoValueLbl.preferredMaxLayoutWidth = self.view.bounds.width - 28
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 }
 
