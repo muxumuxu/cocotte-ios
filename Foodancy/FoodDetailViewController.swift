@@ -256,7 +256,7 @@ final class FoodDetailViewController: UIViewController {
             if let info = food?.info, !info.isEmpty {
                 infoValueLbl.text = info
             } else {
-                infoStackView.removeArrangedSubview(infoView)
+                infoStackView.removeFromSuperview()
             }
         }
 
