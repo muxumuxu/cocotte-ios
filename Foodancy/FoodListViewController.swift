@@ -38,8 +38,6 @@ final class FoodListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        automaticallyAdjustsScrollViewInsets = false
-
         title = category?.name
 
         tableView.tableFooterView = UIView()
@@ -81,7 +79,7 @@ final class FoodListViewController: UIViewController {
 
     fileprivate func configureLayoutConstraints() {
         tableView.snp.makeConstraints {
-            $0.edges.equalTo(view).inset(UIEdgeInsets(top: 64, left: 0, bottom: 50, right: 0))
+            $0.edges.equalTo(view).inset(UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0))
         }
     }
 }
