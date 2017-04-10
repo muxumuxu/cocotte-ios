@@ -88,8 +88,8 @@ final class CategoryViewController: SHKeyboardViewController {
 
         searchTableView.delegate = self
         searchTableView.dataSource = self
-
-        registerKeyboardNotificationsForScrollableView(searchTableView)
+        
+        registerKeyboardNotifications(for: searchTableView)
 
         prepareFechedResultsController()
 
@@ -118,7 +118,7 @@ final class CategoryViewController: SHKeyboardViewController {
 
             if DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
                 // rescale all category images
-                dispatch_on_background {
+                DispatchQueue.global().async {
                     if let cats = self.fetchedResultsController.fetchedObjects {
                         for cat in cats {
                             if let name = cat.name, let imageName = cat.image, let img = UIImage(named: imageName) {
@@ -127,9 +127,7 @@ final class CategoryViewController: SHKeyboardViewController {
                             }
                         }
                     }
-                    dispatch_on_main {
-                        self.collectionView.reloadData()
-                    }
+                    DispatchQueue.main.async(execute: self.collectionView.reloadData)
                 }
             } else {
                 collectionView.reloadData()

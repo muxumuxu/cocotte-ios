@@ -37,7 +37,7 @@ final class ImportOperation: SHOperation {
             }
 
             guard let value = res.result.value else {
-                self.error = res.result.error as? NSError
+                self.error = res.result.error as NSError?
                 return
             }
 
