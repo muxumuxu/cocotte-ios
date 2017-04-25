@@ -57,7 +57,7 @@ final class FoodDetailViewController: UIViewController {
         backBtn.setImage(UIImage(named: "back_icon"), for: UIControlState())
         backBtn.setTitle(L("Recherche"), for: .normal)
         backBtn.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 13)
-        backBtn.setTitleColor(UIColor.appGrayColor(), for: UIControlState())
+        backBtn.setTitleColor(.appGrayColor(), for: UIControlState())
         backBtn.contentHorizontalAlignment = .left
         backBtn.titleEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 0, right: 0)
         backBtn.addTarget(self, action: #selector(FoodDetailViewController.backBtnClicked(_:)), for: .touchUpInside)
@@ -73,7 +73,7 @@ final class FoodDetailViewController: UIViewController {
         addToFavBtn.titleEdgeInsets = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
         addToFavBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 7)
         addToFavBtn.addTarget(self, action: #selector(FoodDetailViewController.favBtnClicked(_:)), for: .touchUpInside)
-        addToFavBtn.tintColor = UIColor.appTintColor()
+        addToFavBtn.tintColor = .appTintColor()
         addToFavBtn.frame = CGRect(x: 0, y: 0, width: 150, height: 30)
         let rightBbi = UIBarButtonItem(customView: addToFavBtn)
         navigationItem.rightBarButtonItem = rightBbi
@@ -99,7 +99,7 @@ final class FoodDetailViewController: UIViewController {
 
         dangerLbl = UILabel()
         dangerLbl.font = UIFont(name: "Avenir-Medium", size: 18)
-        dangerLbl.textColor = UIColor.black
+        dangerLbl.textColor = .black
         scrollContainerView.addSubview(dangerLbl)
 
         infoStackView = UIStackView()
@@ -127,7 +127,6 @@ final class FoodDetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
@@ -194,24 +193,10 @@ final class FoodDetailViewController: UIViewController {
     fileprivate func configureInterfaceBasedOnFood() {
         if let name = food?.name {
             let attr = NSMutableAttributedString(string: name)
-
-            attr.addAttribute(
-                NSFontAttributeName,
-                value: UIFont(name: "Avenir-Medium", size: 38)!,
-                range: NSMakeRange(0, attr.length))
-
-            attr.addAttribute(
-                NSForegroundColorAttributeName,
-                value: UIColor.black,
-                range: NSMakeRange(0, attr.length))
-
-            let paragraph = NSMutableParagraphStyle()
-            paragraph.lineHeightMultiple = 0.8
-            attr.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: NSMakeRange(0, attr.length))
-
+            let range = NSMakeRange(0, attr.length)
+            attr.addAttribute(NSFontAttributeName, value: UIFont(name: "Avenir-Medium", size: 38)!, range: range)
+            attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: range)
             foodNameLbl.attributedText = attr
-
-            foodNameLbl.lineBreakMode = .byTruncatingTail
         } else {
             foodNameLbl.attributedText = nil
         }
