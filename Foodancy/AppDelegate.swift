@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         customizeAppearance()
 
-        configureAmplitudeSDK()
+        Analytics.instance.setup()
 
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
@@ -97,27 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     fileprivate func configureCrashlytics() {
         Fabric.with([Crashlytics.self])
-    }
-
-    fileprivate func configureAmplitudeSDK() {
-        #if DEBUG
-            Amplitude.instance().initializeApiKey("00d4356f153e0d7ccdac41869b9199bf")
-        #else
-            Amplitude.instance().initializeApiKey("460ce79c6ad144a4f4ffa5549bebd674")
-        #endif
-
-        let defaults = UserDefaults.standard
-        if let userId = defaults.object(forKey: "userId") as? String {
-            Amplitude.instance().setUserId(userId)
-        } else {
-            let userId = UUID().uuidString
-            defaults.set(userId, forKey: "userId")
-            defaults.synchronize()
-            Amplitude.instance().setUserId(userId)
-        }
-
-        Amplitude.instance().trackingSessionEvents = true
-        Amplitude.instance().enableLocationListening()
     }
 
     fileprivate func hasImportedData() -> Bool {

@@ -135,5 +135,9 @@ extension FoodListViewController: UITableViewDelegate {
         let detail = FoodDetailViewController()
         detail.food = food
         navigationController?.show(detail, sender: nil)
+        
+        if let name = food.name {
+            Analytics.instance.trackViewFood(name, from: "category")
+        }
     }
 }

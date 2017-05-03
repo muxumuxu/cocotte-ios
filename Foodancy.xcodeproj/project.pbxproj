@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5819453F1EBA8B8700669CFA /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5819453E1EBA8B8700669CFA /* Analytics.swift */; };
 		58379FF61D7352D900584206 /* LocalImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58379FF51D7352D900584206 /* LocalImportOperation.swift */; };
 		5841509B1D61C36100866210 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509A1D61C36100866210 /* CategoryCell.swift */; };
 		5841509F1D61D9CF00866210 /* StyleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5841509E1D61D9CF00866210 /* StyleSheet.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		2D2C9CA366E61F113D4C5456 /* Pods-Foodancy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodancy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Foodancy/Pods-Foodancy.debug.xcconfig"; sourceTree = "<group>"; };
+		5819453E1EBA8B8700669CFA /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		58379FF51D7352D900584206 /* LocalImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalImportOperation.swift; sourceTree = "<group>"; };
 		5841509A1D61C36100866210 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		5841509E1D61D9CF00866210 /* StyleSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleSheet.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				58816A071D61AEBD00A339A1 /* AppDelegate.swift */,
+				5819453E1EBA8B8700669CFA /* Analytics.swift */,
 				584150A21D61EAED00866210 /* Models */,
 				587E97711D70AFFC00494388 /* Controllers */,
 				5841509E1D61D9CF00866210 /* StyleSheet.swift */,
@@ -381,6 +384,7 @@
 			files = (
 				584EF67B1D7316C5000E6F42 /* FavEmptyView.swift in Sources */,
 				58CA67511D707607006FEB50 /* FavListViewController.swift in Sources */,
+				5819453F1EBA8B8700669CFA /* Analytics.swift in Sources */,
 				587E976C1D707CA800494388 /* Helpers.swift in Sources */,
 				58CA67441D70461F006FEB50 /* MoreViewController.swift in Sources */,
 				58CA674B1D7060FE006FEB50 /* FoodNotFoundView.swift in Sources */,

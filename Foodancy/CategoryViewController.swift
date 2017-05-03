@@ -347,6 +347,10 @@ extension CategoryViewController: UICollectionViewDelegate {
         let foodList = FoodListViewController()
         foodList.category = cat
         navigationController?.show(foodList, sender: nil)
+        
+        if let name = cat.name {
+            Analytics.instance.trackViewCategory(name)
+        }
     }
 }
 
@@ -480,5 +484,9 @@ extension CategoryViewController: UITableViewDelegate {
         let foodController = FoodDetailViewController()
         foodController.food = food
         navigationController?.show(foodController, sender: nil)
+        
+        if let name = food.name {
+            Analytics.instance.trackViewFood(name, from: "search")
+        }
     }
 }
