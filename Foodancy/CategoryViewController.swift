@@ -37,7 +37,7 @@ final class CategoryViewController: SHKeyboardViewController {
         searchCancelBtn = UIButton(type: .system)
         searchCancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightMedium)
         searchCancelBtn.setTitle(L("Annuler"), for: .normal)
-        searchCancelBtn.setTitleColor(UIColor.appGrayColor(), for: UIControlState())
+        searchCancelBtn.setTitleColor(UIColor.appGrayColor(), for: .normal)
         searchCancelBtn.addTarget(self, action: #selector(CategoryViewController.cancelBtnClicked(_:)), for: .touchUpInside)
         searchBarContainer.addSubview(searchCancelBtn)
 
@@ -47,7 +47,7 @@ final class CategoryViewController: SHKeyboardViewController {
         let searchImg = UIImage(named: "nav_search")?.resizableImage(
             withCapInsets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
         searchBar.backgroundImage = searchImg
-        searchBar.setSearchFieldBackgroundImage(searchImg, for: UIControlState())
+        searchBar.setSearchFieldBackgroundImage(searchImg, for: .normal)
         searchBar.searchTextPositionAdjustment = UIOffset(horizontal: 10, vertical: 0)
         searchBarContainer.addSubview(searchBar)
 

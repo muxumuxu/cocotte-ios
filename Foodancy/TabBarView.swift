@@ -43,9 +43,9 @@ final class TabBarView: SHCommonInitView {
             $0.addTarget(self, action: #selector(TabBarView.tabBtnClicked(_:)), for: .touchUpInside)
         }
 
-        searchBtn.setImage(UIImage(named: "search_tab_selected"), for: UIControlState())
-        favBtn.setImage(UIImage(named: "fav_tab"), for: UIControlState())
-        moreBtn.setImage(UIImage(named: "more_tab"), for: UIControlState())
+        searchBtn.setImage(UIImage(named: "search_tab_selected"), for: .normal)
+        favBtn.setImage(UIImage(named: "fav_tab"), for: .normal)
+        moreBtn.setImage(UIImage(named: "more_tab"), for: .normal)
 
         stackView.addArrangedSubview(searchBtn)
         stackView.addArrangedSubview(favBtn)
@@ -70,21 +70,21 @@ final class TabBarView: SHCommonInitView {
 
     func tabBtnClicked(_ sender: UIButton) {
         if searchBtn.tag == sender.tag {
-            searchBtn.setImage(UIImage(named: "search_tab_selected"), for: UIControlState())
+            searchBtn.setImage(UIImage(named: "search_tab_selected"), for: .normal)
         } else {
-            searchBtn.setImage(UIImage(named: "search_tab"), for: UIControlState())
+            searchBtn.setImage(UIImage(named: "search_tab"), for: .normal)
         }
 
         if favBtn.tag == sender.tag {
-            favBtn.setImage(UIImage(named: "fav_tab_selected"), for: UIControlState())
+            favBtn.setImage(UIImage(named: "fav_tab_selected"), for: .normal)
         } else {
-            favBtn.setImage(UIImage(named: "fav_tab"), for: UIControlState())
+            favBtn.setImage(UIImage(named: "fav_tab"), for: .normal)
         }
 
         if moreBtn.tag == sender.tag {
-            moreBtn.setImage(UIImage(named: "more_tab_selected"), for: UIControlState())
+            moreBtn.setImage(UIImage(named: "more_tab_selected"), for: .normal)
         } else {
-            moreBtn.setImage(UIImage(named: "more_tab"), for: UIControlState())
+            moreBtn.setImage(UIImage(named: "more_tab"), for: .normal)
         }
 
         delegate?.tabBarView(self, didSelectIndex: sender.tag)

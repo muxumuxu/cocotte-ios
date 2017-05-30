@@ -54,10 +54,10 @@ final class FoodDetailViewController: UIViewController {
         super.loadView()
 
         backBtn = UIButton(type: .system)
-        backBtn.setImage(UIImage(named: "back_icon"), for: UIControlState())
+        backBtn.setImage(UIImage(named: "back_icon"), for: .normal)
         backBtn.setTitle(L("Recherche"), for: .normal)
         backBtn.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 13)
-        backBtn.setTitleColor(.appGrayColor(), for: UIControlState())
+        backBtn.setTitleColor(.appGrayColor(), for: .normal)
         backBtn.contentHorizontalAlignment = .left
         backBtn.titleEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 0, right: 0)
         backBtn.addTarget(self, action: #selector(FoodDetailViewController.backBtnClicked(_:)), for: .touchUpInside)
@@ -67,7 +67,7 @@ final class FoodDetailViewController: UIViewController {
         navigationItem.leftBarButtonItem = backBbi
 
         addToFavBtn = UIButton(type: .system)
-        addToFavBtn.setImage(UIImage(named: "add_to_fav_icon"), for: UIControlState())
+        addToFavBtn.setImage(UIImage(named: "add_to_fav_icon"), for: .normal)
         addToFavBtn.contentHorizontalAlignment = .right
         addToFavBtn.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 13)
         addToFavBtn.titleEdgeInsets = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
@@ -226,12 +226,12 @@ final class FoodDetailViewController: UIViewController {
             }
         } else {
             if let name = food?.risk?.name, !name.isEmpty {
-                riskValueBtn.setTitle(name, for: UIControlState())
+                riskValueBtn.setTitle(name, for: .normal)
                 if food?.risk?.url != nil {
-                    riskValueBtn.setTitleColor(UIColor.appBlueColor(), for: UIControlState())
+                    riskValueBtn.setTitleColor(UIColor.appBlueColor(), for: .normal)
                     riskValueBtn.isUserInteractionEnabled = true
                 } else {
-                    riskValueBtn.setTitleColor(UIColor.black, for: UIControlState())
+                    riskValueBtn.setTitleColor(UIColor.black, for: .normal)
                     riskValueBtn.isUserInteractionEnabled = false
                 }
             } else {
@@ -338,7 +338,7 @@ fileprivate func nilOrEmpty(_ str: String?) -> Bool {
             $0.left.equalTo(riskView)
         }
         riskValueBtn = UIButton(type: .system)
-        riskValueBtn.setTitleColor(UIColor.black, for: UIControlState())
+        riskValueBtn.setTitleColor(UIColor.black, for: .normal)
         riskValueBtn.titleLabel?.font = UIFont(name: "Avenir-Medium", size: 18)
         riskValueBtn.addTarget(
             self,
