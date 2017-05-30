@@ -26,6 +26,21 @@ final class CategoryViewController: SHKeyboardViewController {
     fileprivate var fetchedResultsController: NSFetchedResultsController<FoodCategory>!
 
     fileprivate var cachedImages = NSMutableDictionary()
+    
+    private func customizeNavigationBar() {
+        let navBorder = UIView()
+        navBorder.backgroundColor = UIColor.black.withAlphaComponent(0.05)
+        navigationController?.navigationBar.addSubview(navBorder)
+        navBorder.snp.makeConstraints {
+            $0.bottom.left.right.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSFontAttributeName: UIFont.systemFont(ofSize: 13, weight: UIFontWeightMedium),
+            NSForegroundColorAttributeName: "99999E".UIColor
+        ]
+    }
 
     override func loadView() {
         super.loadView()
@@ -72,6 +87,8 @@ final class CategoryViewController: SHKeyboardViewController {
         collectionView.backgroundColor = UIColor.white
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
         view.addSubview(collectionView)
+        
+        customizeNavigationBar()
     }
 
     override func viewDidLoad() {

@@ -49,13 +49,20 @@ final class FoodDetailViewController: UIViewController {
 
     fileprivate var alertBtn: UIButton!
     fileprivate var warnLbl: UILabel!
+    
+    fileprivate var toolbar: UIView!
+    fileprivate var toolbarStackView: UIStackView!
+    fileprivate var toolbarShareBtn: UIButton!
+    fileprivate var toolbarReportBtn: UIButton!
 
     override func loadView() {
         super.loadView()
+        
+        title = food?.foodCategory?.name
 
         backBtn = UIButton(type: .system)
         backBtn.setImage(UIImage(named: "back_icon"), for: .normal)
-        backBtn.setTitle(L("Recherche"), for: .normal)
+        backBtn.setTitle(nil, for: .normal)
         backBtn.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 13)
         backBtn.setTitleColor(.appGrayColor(), for: .normal)
         backBtn.contentHorizontalAlignment = .left
@@ -65,18 +72,6 @@ final class FoodDetailViewController: UIViewController {
         navigationItem.setHidesBackButton(true, animated: false)
         let backBbi = UIBarButtonItem(customView: backBtn)
         navigationItem.leftBarButtonItem = backBbi
-
-        addToFavBtn = UIButton(type: .system)
-        addToFavBtn.setImage(UIImage(named: "add_to_fav_icon"), for: .normal)
-        addToFavBtn.contentHorizontalAlignment = .right
-        addToFavBtn.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 13)
-        addToFavBtn.titleEdgeInsets = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
-        addToFavBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 7)
-        addToFavBtn.addTarget(self, action: #selector(FoodDetailViewController.favBtnClicked(_:)), for: .touchUpInside)
-        addToFavBtn.tintColor = .appTintColor()
-        addToFavBtn.frame = CGRect(x: 0, y: 0, width: 150, height: 30)
-        let rightBbi = UIBarButtonItem(customView: addToFavBtn)
-        navigationItem.rightBarButtonItem = rightBbi
 
         scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -108,13 +103,11 @@ final class FoodDetailViewController: UIViewController {
         infoStackView.spacing = 34
         scrollContainerView.addSubview(infoStackView)
 
-        configureStackView()
-
         alertBtn = UIButton(type: .system)
         alertBtn.setTitle(L("Signaler cet aliment"), for: .normal)
         alertBtn.titleLabel?.font = UIFont(name: "Avenir-Book", size: 18)
         alertBtn.tintColor = UIColor.appBlueColor()
-        alertBtn.addTarget(self, action: #selector(FoodDetailViewController.alertBtnClicked(_:)), for: .touchUpInside)
+        alertBtn.addTarget(self, action: #selector(reportBtnClicked(_:)), for: .touchUpInside)
         scrollContainerView.addSubview(alertBtn)
 
         warnLbl = UILabel()
@@ -123,6 +116,57 @@ final class FoodDetailViewController: UIViewController {
         warnLbl.text = "Toutes ces recommandations sont données à titre indicatif, elles ne peuvent remplacer l'avis de votre médecin."
         warnLbl.numberOfLines = 0
         scrollContainerView.addSubview(warnLbl)
+        
+        configureToolbackActions()
+        
+        configureStackView()
+    }
+    
+    private func configureToolbackActions() {
+        toolbar = UIView()
+        view.addSubview(toolbar)
+        toolbar.snp.makeConstraints {
+            $0.left.right.bottom.equalToSuperview()
+            $0.height.equalTo(49)
+        }
+        
+        toolbarStackView = UIStackView()
+        toolbarStackView.spacing = 54
+        toolbar.addSubview(toolbarStackView)
+        toolbarStackView.snp.makeConstraints {
+            $0.height.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(50)
+            $0.centerX.equalToSuperview()
+        }
+        
+        addToFavBtn = UIButton(type: .system)
+        addToFavBtn.setImage(#imageLiteral(resourceName: "food_fav_icon"), for: .normal)
+        addToFavBtn.addTarget(self, action: #selector(favBtnClicked(_:)), for: .touchUpInside)
+        addToFavBtn.contentMode = .center
+        toolbarStackView.addArrangedSubview(addToFavBtn)
+        addToFavBtn.snp.makeConstraints { $0.width.height.equalTo(44) }
+        
+        toolbarShareBtn = UIButton(type: .system)
+        toolbarShareBtn.setImage(#imageLiteral(resourceName: "food_share_icon"), for: .normal)
+        toolbarShareBtn.contentMode = .center
+        toolbarShareBtn.addTarget(self, action: #selector(shareBtnClicked(_:)), for: .touchUpInside)
+        toolbarStackView.addArrangedSubview(toolbarShareBtn)
+        toolbarShareBtn.snp.makeConstraints { $0.width.height.equalTo(44) }
+        
+        toolbarReportBtn = UIButton(type: .system)
+        toolbarReportBtn.setImage(#imageLiteral(resourceName: "food_report_icon"), for: .normal)
+        toolbarReportBtn.contentMode = .center
+        toolbarReportBtn.addTarget(self, action: #selector(reportBtnClicked(_:)), for: .touchUpInside)
+        toolbarStackView.addArrangedSubview(toolbarReportBtn)
+        toolbarReportBtn.snp.makeConstraints { $0.width.height.equalTo(44) }
+        
+        let toolbarSeparator = UIView()
+        toolbarSeparator.backgroundColor = UIColor.black.withAlphaComponent(0.25)
+        toolbar.addSubview(toolbarSeparator)
+        toolbarSeparator.snp.makeConstraints {
+            $0.left.right.top.equalToSuperview()
+            $0.height.equalTo(1)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -154,20 +198,24 @@ final class FoodDetailViewController: UIViewController {
         if food?.favDate != nil {
             food?.favDate = nil
             addToFavBtn.tintColor = UIColor.appTintColor()
-            addToFavBtn.setTitle(L("Ajouter aux favoris"), for: .normal)
         } else {
             food?.favDate = Date()
             addToFavBtn.tintColor = UIColor.appGrayColor()
-            addToFavBtn.setTitle(L("Retirer des favoris"), for: .normal)
         }
         try! food?.managedObjectContext?.save()
+    }
+    
+    // MARK: - Actions
+    
+    func shareBtnClicked(_ sender: UIButton) {
+        
     }
 
     func backBtnClicked(_ sender: UIButton) {
         let _ = navigationController?.popViewController(animated: true)
     }
 
-    func alertBtnClicked(_ sender: UIButton) {
+    func reportBtnClicked(_ sender: UIButton) {
         guard MFMailComposeViewController.canSendMail() else {
             return
         }
@@ -247,10 +295,8 @@ final class FoodDetailViewController: UIViewController {
 
         if food?.favDate != nil {
             addToFavBtn.tintColor = UIColor.appGrayColor()
-            addToFavBtn.setTitle(L("Retirer des favoris"), for: .normal)
         } else {
             addToFavBtn.tintColor = UIColor.appTintColor()
-            addToFavBtn.setTitle(L("Ajouter aux favoris"), for: .normal)
         }
 
         infoStackView.setNeedsLayout()
@@ -267,7 +313,7 @@ fileprivate func nilOrEmpty(_ str: String?) -> Bool {
 
     fileprivate func configureLayoutConstraints() {
         scrollView.snp.makeConstraints {
-            $0.edges.equalTo(view).inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+            $0.edges.equalTo(view)
         }
 
         scrollContainerView.snp.makeConstraints {

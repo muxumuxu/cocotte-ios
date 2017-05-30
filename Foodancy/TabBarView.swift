@@ -61,32 +61,35 @@ final class TabBarView: SHCommonInitView {
             $0.edges.equalTo(self)
         }
         topSeparator.snp.makeConstraints {
-            $0.top.equalTo(self)
-            $0.left.equalTo(self)
-            $0.right.equalTo(self)
+            $0.top.left.right.equalToSuperview()
             $0.height.equalTo(1)
         }
     }
 
     func tabBtnClicked(_ sender: UIButton) {
-        if searchBtn.tag == sender.tag {
-            searchBtn.setImage(UIImage(named: "search_tab_selected"), for: .normal)
-        } else {
-            searchBtn.setImage(UIImage(named: "search_tab"), for: .normal)
-        }
-
-        if favBtn.tag == sender.tag {
-            favBtn.setImage(UIImage(named: "fav_tab_selected"), for: .normal)
-        } else {
-            favBtn.setImage(UIImage(named: "fav_tab"), for: .normal)
-        }
-
-        if moreBtn.tag == sender.tag {
-            moreBtn.setImage(UIImage(named: "more_tab_selected"), for: .normal)
-        } else {
-            moreBtn.setImage(UIImage(named: "more_tab"), for: .normal)
+        searchBtn.setImage(#imageLiteral(resourceName: "search_tab"), for: .normal)
+        favBtn.setImage(#imageLiteral(resourceName: "fav_tab"), for: .normal)
+        moreBtn.setImage(#imageLiteral(resourceName: "more_tab"), for: .normal)
+        
+        switch sender.tag {
+        case searchBtn.tag:
+            searchBtn.setImage(#imageLiteral(resourceName: "search_tab_selected"), for: .normal)
+        case favBtn.tag:
+            favBtn.setImage(#imageLiteral(resourceName: "fav_tab_selected"), for: .normal)
+        case moreBtn.tag:
+            moreBtn.setImage(#imageLiteral(resourceName: "more_tab_selected"), for: .normal)
+        default:
+            break
         }
 
         delegate?.tabBarView(self, didSelectIndex: sender.tag)
+    }
+    
+    func showActions(for food: Food) {
+        
+    }
+    
+    func hideActions() {
+        
     }
 }
