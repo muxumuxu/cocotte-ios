@@ -12,23 +12,23 @@ PODS:
   - Crashlytics (3.8.4):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.11)
-  - FBSDKCoreKit (4.21.0):
+  - FBSDKCoreKit (4.23.0):
     - Bolts (~> 1.7)
-  - Result (3.2.1)
+  - Result (3.2.3)
   - SnapKit (3.2.0)
-  - SwiftHelpers (5.0.1):
-    - SwiftHelpers/Basic (= 5.0.1)
-    - SwiftHelpers/Core (= 5.0.1)
-    - SwiftHelpers/CoreData (= 5.0.1)
-    - SwiftHelpers/DateTime (= 5.0.1)
-    - SwiftHelpers/Misc (= 5.0.1)
-    - SwiftHelpers/UI (= 5.0.1)
-  - SwiftHelpers/Basic (5.0.1)
-  - SwiftHelpers/Core (5.0.1)
-  - SwiftHelpers/CoreData (5.0.1)
-  - SwiftHelpers/DateTime (5.0.1)
-  - SwiftHelpers/Misc (5.0.1)
-  - SwiftHelpers/UI (5.0.1)
+  - SwiftHelpers (5.0.3):
+    - SwiftHelpers/Basic (= 5.0.3)
+    - SwiftHelpers/Core (= 5.0.3)
+    - SwiftHelpers/CoreData (= 5.0.3)
+    - SwiftHelpers/DateTime (= 5.0.3)
+    - SwiftHelpers/Misc (= 5.0.3)
+    - SwiftHelpers/UI (= 5.0.3)
+  - SwiftHelpers/Basic (5.0.3)
+  - SwiftHelpers/Core (5.0.3)
+  - SwiftHelpers/CoreData (5.0.3)
+  - SwiftHelpers/DateTime (5.0.3)
+  - SwiftHelpers/Misc (5.0.3)
+  - SwiftHelpers/UI (5.0.3)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
@@ -48,7 +48,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SwiftHelpers:
-    :commit: f5a2f7dc87ec29db74eb486009ee3f44ceab6c61
+    :commit: f5d2f51f62c543ff0cfff056cfff66f503166415
     :git: https://github.com/dmiotti/SwiftHelpers.git
 
 SPEC CHECKSUMS:
@@ -58,12 +58,12 @@ SPEC CHECKSUMS:
   BrightFutures: 8681dbb9fa831b69b6e7dc4a498b9e081d5daeb5
   Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  FBSDKCoreKit: 8a372ab194b5c7c26355c1920ef52dbeb44bc222
-  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  FBSDKCoreKit: d7829f5a69901cd7296105328e4c3c3fc7da6518
+  Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
-  SwiftHelpers: 346de9223bfde9b2011c866af3dcf3e9d70d9c41
+  SwiftHelpers: 63f0b7c4ead778811a44c126ebf560c47162d8c9
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
 PODFILE CHECKSUM: 68d53e74392bf9d2dd73a9ad0aa930455fcdc0b9
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1
