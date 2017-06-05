@@ -67,6 +67,7 @@ final class FoodDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         if let tab = tabBarController as? TabBarController {
             tab.tabBarView.configureForFood(food)
         }
