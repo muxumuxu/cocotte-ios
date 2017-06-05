@@ -27,7 +27,7 @@ platform :ios do
     cocoapods
     bump_version
     gym(scheme: "Foodancy") # Build your app - more options available
-    pilot
+    pilot(skip_waiting_for_build_processing: true)
   end
 
   desc "Deploy a new version to the App Store"
