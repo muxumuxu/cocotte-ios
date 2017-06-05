@@ -11,61 +11,133 @@ import SwiftHelpers
 
 protocol TabBarViewDelegate: class {
     func tabBarView(_ tabBarView: TabBarView, didSelectIndex index: Int)
+    func tabBarView(_ tabBarView: TabBarView, didShare food: Food)
+    func tabBarView(_ tabBarView: TabBarView, didReport food: Food)
 }
 
 final class TabBarView: SHCommonInitView {
 
     weak var delegate: TabBarViewDelegate?
-
-    fileprivate let searchBtn = UIButton(type: .system)
-    fileprivate let favBtn = UIButton(type: .system)
-    fileprivate let moreBtn = UIButton(type: .system)
-
+    
     fileprivate let topSeparator = UIView()
+    fileprivate lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        return stackView
+    }()
 
-    fileprivate var stackView = UIStackView()
+    // Global actions
+    fileprivate lazy var searchBtn: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "search_tab_selected"), for: .normal)
+        button.addTarget(self, action: #selector(tabBtnClicked(_:)), for: .touchUpInside)
+        button.snp.makeConstraints { $0.width.height.equalTo(44) }
+        button.tag = 0
+        return button
+    }()
+    fileprivate lazy var favBtn: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "fav_tab"), for: .normal)
+        button.addTarget(self, action: #selector(tabBtnClicked(_:)), for: .touchUpInside)
+        button.snp.makeConstraints { $0.width.height.equalTo(44) }
+        button.tag = 1
+        return button
+    }()
+    fileprivate lazy var moreBtn: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "more_tab"), for: .normal)
+        button.addTarget(self, action: #selector(tabBtnClicked(_:)), for: .touchUpInside)
+        button.snp.makeConstraints { $0.width.height.equalTo(44) }
+        button.tag = 2
+        return button
+    }()
+    
+    // Food actions
+    fileprivate lazy var toolbarShareBtn: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "food_share_icon"), for: .normal)
+        button.addTarget(self, action: #selector(favBtnClicked(_:)), for: .touchUpInside)
+        button.snp.makeConstraints { $0.width.height.equalTo(44) }
+        button.contentMode = .center
+        return button
+    }()
+    fileprivate lazy var toolbarReportBtn: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "food_report_icon"), for: .normal)
+        button.addTarget(self, action: #selector(favBtnClicked(_:)), for: .touchUpInside)
+        button.snp.makeConstraints { $0.width.height.equalTo(44) }
+        button.contentMode = .center
+        return button
+    }()
+    fileprivate var toolbarAddToFavBtn: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "food_fav_icon"), for: .normal)
+        button.addTarget(self, action: #selector(favBtnClicked(_:)), for: .touchUpInside)
+        button.snp.makeConstraints { $0.width.height.equalTo(44) }
+        button.contentMode = .center
+        return button
+    }()
+    
+    fileprivate var food: Food?
 
     override func commonInit() {
         super.commonInit()
-
         addSubview(stackView)
         addSubview(topSeparator)
-
         backgroundColor = .white
-
-        stackView.distribution = .fillEqually
-        stackView.axis = .horizontal
-        searchBtn.tag = 0
-        favBtn.tag = 1
-        moreBtn.tag = 2
-
-        [searchBtn, favBtn, moreBtn].forEach {
-            $0.addTarget(self, action: #selector(TabBarView.tabBtnClicked(_:)), for: .touchUpInside)
-        }
-
-        searchBtn.setImage(UIImage(named: "search_tab_selected"), for: .normal)
-        favBtn.setImage(UIImage(named: "fav_tab"), for: .normal)
-        moreBtn.setImage(UIImage(named: "more_tab"), for: .normal)
-
-        stackView.addArrangedSubview(searchBtn)
-        stackView.addArrangedSubview(favBtn)
-        stackView.addArrangedSubview(moreBtn)
-
         topSeparator.backgroundColor = "B2B2B2".UIColor.withAlphaComponent(0.25)
-
         configureLayoutConstraints()
+        configureForGlobalIcons()
     }
 
     fileprivate func configureLayoutConstraints() {
         stackView.snp.makeConstraints {
-            $0.edges.equalTo(self)
+            $0.centerY.centerX.equalToSuperview()
         }
         topSeparator.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
             $0.height.equalTo(1)
         }
     }
-
+    
+    func configureForGlobalIcons() {
+        guard food != nil else { return }
+        food = nil
+        UIView.animate(withDuration: 0.25, animations: {
+            self.stackView.transform = CGAffineTransform(translationX: 0, y: 49)
+        }) { finished in
+            self.stackView.arrangedSubviews.each { $0.removeFromSuperview() }
+            self.stackView.spacing = 67
+            self.stackView.addArrangedSubview(self.searchBtn)
+            self.stackView.addArrangedSubview(self.favBtn)
+            self.stackView.addArrangedSubview(self.moreBtn)
+            UIView.animate(withDuration: 0.35, animations: {
+                self.stackView.transform = .identity
+            })
+        }
+    }
+    
+    func configureForFood(_ food: Food) {
+        guard self.food == nil else { return }
+        self.food = food
+        UIView.animate(withDuration: 0.25, animations: {
+            self.stackView.transform = CGAffineTransform(translationX: 0, y: 49)
+        }) { finished in
+            self.stackView.arrangedSubviews.each { $0.removeFromSuperview() }
+            self.stackView.spacing = 54
+            self.toolbarAddToFavBtn.tintColor = food.favDate != nil ? .appTintColor() : .appGrayColor()
+            self.stackView.addArrangedSubview(self.toolbarAddToFavBtn)
+            self.stackView.addArrangedSubview(self.toolbarShareBtn)
+            self.stackView.addArrangedSubview(self.toolbarReportBtn)
+            UIView.animate(withDuration: 0.35, animations: {
+                self.stackView.transform = .identity
+            })
+        }
+    }
+    
+    // MARK: - Global actions
+    
     func tabBtnClicked(_ sender: UIButton) {
         searchBtn.setImage(#imageLiteral(resourceName: "search_tab"), for: .normal)
         favBtn.setImage(#imageLiteral(resourceName: "fav_tab"), for: .normal)
@@ -81,15 +153,29 @@ final class TabBarView: SHCommonInitView {
         default:
             break
         }
-
+        
         delegate?.tabBarView(self, didSelectIndex: sender.tag)
     }
     
-    func showActions(for food: Food) {
-        
+    // MARK: - Food actions
+    
+    func favBtnClicked(_ sender: UIButton) {
+        if food?.favDate != nil {
+            food?.favDate = nil
+        } else {
+            food?.favDate = Date()
+        }
+        try! food?.managedObjectContext?.save()
+        toolbarAddToFavBtn.tintColor = food?.favDate != nil ? .appTintColor() : .appGrayColor()
     }
     
-    func hideActions() {
-        
+    func shareBtnClicked(_ sender: UIButton) {
+        guard let food = food else { return }
+        delegate?.tabBarView(self, didShare: food)
+    }
+    
+    func reportBtnClicked(_ sender: UIButton) {
+        guard let food = food else { return }
+        delegate?.tabBarView(self, didReport: food)
     }
 }

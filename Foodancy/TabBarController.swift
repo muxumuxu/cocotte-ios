@@ -7,23 +7,19 @@
 //
 
 import UIKit
+import MessageUI
 
 final class TabBarController: UITabBarController, TabBarViewDelegate {
 
-    fileprivate var tabBarView: TabBarView!
+    private(set) var tabBarView: TabBarView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tabBar.isHidden = true
-
         tabBarView = TabBarView()
         tabBarView.delegate = self
         view.addSubview(tabBarView)
-
-        tabBarView.snp.makeConstraints {
-            $0.edges.equalTo(tabBar)
-        }
+        tabBarView.snp.makeConstraints { $0.edges.equalTo(tabBar) }
     }
 
     func tabBarView(_ tabBarView: TabBarView, didSelectIndex index: Int) {
@@ -35,5 +31,24 @@ final class TabBarController: UITabBarController, TabBarViewDelegate {
         } else {
             selectedIndex = index
         }
+    }
+    
+    func tabBarView(_ tabBarView: TabBarView, didShare food: Food) {
+        
+    }
+    
+    func tabBarView(_ tabBarView: TabBarView, didReport food: Food) {
+        guard MFMailComposeViewController.canSendMail(), let name = food.name else { return }
+        let mail = MFMailComposeViewController()
+        mail.mailComposeDelegate = self
+        mail.setSubject("Signaler \"\(name)\"")
+        mail.setToRecipients([contactEmail])
+        present(mail, animated: true, completion: nil)
+    }
+}
+
+extension TabBarController: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }

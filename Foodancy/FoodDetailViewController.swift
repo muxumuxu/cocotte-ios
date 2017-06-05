@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftHelpers
-import MessageUI
 import SafariServices
 import SystemConfiguration
 
@@ -23,7 +22,6 @@ final class FoodDetailViewController: UIViewController {
     }
 
     fileprivate var backBtn: UIButton!
-    fileprivate var addToFavBtn: UIButton!
 
     fileprivate var scrollView: UIScrollView!
     fileprivate var scrollContainerView: UIView!
@@ -47,13 +45,7 @@ final class FoodDetailViewController: UIViewController {
 
     fileprivate var bottomSeparator: UIView!
 
-    fileprivate var alertBtn: UIButton!
     fileprivate var warnLbl: UILabel!
-    
-    fileprivate var toolbar: UIView!
-    fileprivate var toolbarStackView: UIStackView!
-    fileprivate var toolbarShareBtn: UIButton!
-    fileprivate var toolbarReportBtn: UIButton!
 
     override func loadView() {
         super.loadView()
@@ -103,13 +95,6 @@ final class FoodDetailViewController: UIViewController {
         infoStackView.spacing = 34
         scrollContainerView.addSubview(infoStackView)
 
-        alertBtn = UIButton(type: .system)
-        alertBtn.setTitle(L("Signaler cet aliment"), for: .normal)
-        alertBtn.titleLabel?.font = UIFont(name: "Avenir-Book", size: 18)
-        alertBtn.tintColor = UIColor.appBlueColor()
-        alertBtn.addTarget(self, action: #selector(reportBtnClicked(_:)), for: .touchUpInside)
-        scrollContainerView.addSubview(alertBtn)
-
         warnLbl = UILabel()
         warnLbl.font = UIFont(name: "Avenir-Book", size: 12)
         warnLbl.textColor = UIColor.appGrayColor()
@@ -117,113 +102,42 @@ final class FoodDetailViewController: UIViewController {
         warnLbl.numberOfLines = 0
         scrollContainerView.addSubview(warnLbl)
         
-        configureToolbackActions()
-        
         configureStackView()
-    }
-    
-    private func configureToolbackActions() {
-        toolbar = UIView()
-        view.addSubview(toolbar)
-        toolbar.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo(49)
-        }
-        
-        toolbarStackView = UIStackView()
-        toolbarStackView.spacing = 54
-        toolbar.addSubview(toolbarStackView)
-        toolbarStackView.snp.makeConstraints {
-            $0.height.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(50)
-            $0.centerX.equalToSuperview()
-        }
-        
-        addToFavBtn = UIButton(type: .system)
-        addToFavBtn.setImage(#imageLiteral(resourceName: "food_fav_icon"), for: .normal)
-        addToFavBtn.addTarget(self, action: #selector(favBtnClicked(_:)), for: .touchUpInside)
-        addToFavBtn.contentMode = .center
-        toolbarStackView.addArrangedSubview(addToFavBtn)
-        addToFavBtn.snp.makeConstraints { $0.width.height.equalTo(44) }
-        
-        toolbarShareBtn = UIButton(type: .system)
-        toolbarShareBtn.setImage(#imageLiteral(resourceName: "food_share_icon"), for: .normal)
-        toolbarShareBtn.contentMode = .center
-        toolbarShareBtn.addTarget(self, action: #selector(shareBtnClicked(_:)), for: .touchUpInside)
-        toolbarStackView.addArrangedSubview(toolbarShareBtn)
-        toolbarShareBtn.snp.makeConstraints { $0.width.height.equalTo(44) }
-        
-        toolbarReportBtn = UIButton(type: .system)
-        toolbarReportBtn.setImage(#imageLiteral(resourceName: "food_report_icon"), for: .normal)
-        toolbarReportBtn.contentMode = .center
-        toolbarReportBtn.addTarget(self, action: #selector(reportBtnClicked(_:)), for: .touchUpInside)
-        toolbarStackView.addArrangedSubview(toolbarReportBtn)
-        toolbarReportBtn.snp.makeConstraints { $0.width.height.equalTo(44) }
-        
-        let toolbarSeparator = UIView()
-        toolbarSeparator.backgroundColor = UIColor.black.withAlphaComponent(0.25)
-        toolbar.addSubview(toolbarSeparator)
-        toolbarSeparator.snp.makeConstraints {
-            $0.left.right.top.equalToSuperview()
-            $0.height.equalTo(1)
-        }
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         automaticallyAdjustsScrollViewInsets = false
-
         view.backgroundColor = UIColor.white
-
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
-
         configureLayoutConstraints()
-
         configureInterfaceBasedOnFood()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        if let tab = tabBarController as? TabBarController, let food = self.food {
+            tab.tabBarView.configureForFood(food)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let tab = tabBarController as? TabBarController {
+            tab.tabBarView.configureForGlobalIcons()
+        }
     }
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-
         infoValueLbl.preferredMaxLayoutWidth = infoStackView.bounds.width
-    }
-
-    func favBtnClicked(_ sender: UIButton) {
-        if food?.favDate != nil {
-            food?.favDate = nil
-            addToFavBtn.tintColor = UIColor.appTintColor()
-        } else {
-            food?.favDate = Date()
-            addToFavBtn.tintColor = UIColor.appGrayColor()
-        }
-        try! food?.managedObjectContext?.save()
     }
     
     // MARK: - Actions
-    
-    func shareBtnClicked(_ sender: UIButton) {
-        
-    }
 
     func backBtnClicked(_ sender: UIButton) {
         let _ = navigationController?.popViewController(animated: true)
-    }
-
-    func reportBtnClicked(_ sender: UIButton) {
-        guard MFMailComposeViewController.canSendMail() else {
-            return
-        }
-        let mail = MFMailComposeViewController()
-        mail.mailComposeDelegate = self
-        mail.setSubject("Signaler \"\(food!.name!)\"")
-        mail.setToRecipients([contactEmail])
-        present(mail, animated: true, completion: nil)
     }
 
     func riskBtnClicked(_ sender: UIButton) {
@@ -293,12 +207,6 @@ final class FoodDetailViewController: UIViewController {
             }
         }
 
-        if food?.favDate != nil {
-            addToFavBtn.tintColor = UIColor.appGrayColor()
-        } else {
-            addToFavBtn.tintColor = UIColor.appTintColor()
-        }
-
         infoStackView.setNeedsLayout()
         infoStackView.layoutIfNeeded()
         view.layoutIfNeeded()
@@ -351,13 +259,8 @@ fileprivate func nilOrEmpty(_ str: String?) -> Bool {
             $0.right.equalTo(scrollContainerView).offset(-14)
         }
 
-        alertBtn.snp.makeConstraints {
-            $0.top.equalTo(infoStackView.snp.bottom).offset(35)
-            $0.left.equalTo(scrollContainerView).offset(14)
-        }
-
         warnLbl.snp.makeConstraints {
-            $0.top.equalTo(alertBtn.snp.bottom).offset(14)
+            $0.top.equalTo(infoStackView.snp.bottom).offset(14)
             $0.left.equalTo(scrollContainerView).offset(14)
             $0.right.equalTo(scrollContainerView).offset(-14)
 
@@ -436,12 +339,6 @@ fileprivate func nilOrEmpty(_ str: String?) -> Bool {
             self.infoValueLbl.preferredMaxLayoutWidth = self.view.bounds.width - 28
             self.view.layoutIfNeeded()
         }, completion: nil)
-    }
-}
-
-extension FoodDetailViewController: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true, completion: nil)
     }
 }
 
