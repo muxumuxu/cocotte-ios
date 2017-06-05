@@ -148,12 +148,7 @@ extension MoreViewController: UITableViewDelegate {
                 present(activity, animated: true, completion: nil)
             }
         case .madeByMM:
-            if !Reachability.isConnectedToNetwork() {
-                let alert = UIAlertController(title: L("Internet not found"), message: L("Vous devez être connecté à internet pour visualiser le contenu"), preferredStyle: .alert)
-                let okAction = UIAlertAction(title: L("OK"), style: .default, handler: nil)
-                alert.addAction(okAction)
-                present(alert, animated: true)
-            } else if let URL = URL(string: "https://muxumuxu.com") {
+            if let URL = URL(string: "https://muxumuxu.com") {
                 let safari = SFSafariViewController(url: URL)
                 present(safari, animated: true)
             }

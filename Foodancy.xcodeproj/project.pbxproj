@@ -29,6 +29,10 @@
 		58816A121D61AEBD00A339A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58816A111D61AEBD00A339A1 /* Assets.xcassets */; };
 		58816A151D61AEBD00A339A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58816A131D61AEBD00A339A1 /* LaunchScreen.storyboard */; };
 		58A476F21EE5BA4C006635EF /* FoodActivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A476F11EE5BA4C006635EF /* FoodActivityProvider.swift */; };
+		58A476F41EE5C267006635EF /* FoodHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A476F31EE5C267006635EF /* FoodHeaderView.swift */; };
+		58A476F61EE5C838006635EF /* RiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A476F51EE5C838006635EF /* RiskView.swift */; };
+		58A476F81EE5CCD5006635EF /* FoodInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A476F71EE5CCD5006635EF /* FoodInfoView.swift */; };
+		58A476FA1EE5D04F006635EF /* FoodFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A476F91EE5D04F006635EF /* FoodFooterView.swift */; };
 		58CA516F1D6A1F3C005B20F8 /* FoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA516E1D6A1F3C005B20F8 /* FoodCell.swift */; };
 		58CA51711D6A2B0D005B20F8 /* FoodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA51701D6A2B0D005B20F8 /* FoodDetailViewController.swift */; };
 		58CA67441D70461F006FEB50 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA67431D70461F006FEB50 /* MoreViewController.swift */; };
@@ -65,6 +69,10 @@
 		58816A141D61AEBD00A339A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		58816A161D61AEBD00A339A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58A476F11EE5BA4C006635EF /* FoodActivityProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodActivityProvider.swift; sourceTree = "<group>"; };
+		58A476F31EE5C267006635EF /* FoodHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodHeaderView.swift; sourceTree = "<group>"; };
+		58A476F51EE5C838006635EF /* RiskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiskView.swift; sourceTree = "<group>"; };
+		58A476F71EE5CCD5006635EF /* FoodInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodInfoView.swift; sourceTree = "<group>"; };
+		58A476F91EE5D04F006635EF /* FoodFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodFooterView.swift; sourceTree = "<group>"; };
 		58CA516E1D6A1F3C005B20F8 /* FoodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCell.swift; sourceTree = "<group>"; };
 		58CA51701D6A2B0D005B20F8 /* FoodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodDetailViewController.swift; sourceTree = "<group>"; };
 		58CA67431D70461F006FEB50 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +203,10 @@
 			isa = PBXGroup;
 			children = (
 				58CA51701D6A2B0D005B20F8 /* FoodDetailViewController.swift */,
+				58A476F31EE5C267006635EF /* FoodHeaderView.swift */,
+				58A476F51EE5C838006635EF /* RiskView.swift */,
+				58A476F71EE5CCD5006635EF /* FoodInfoView.swift */,
+				58A476F91EE5D04F006635EF /* FoodFooterView.swift */,
 			);
 			name = FoodDetail;
 			sourceTree = "<group>";
@@ -393,15 +405,18 @@
 				58CA674B1D7060FE006FEB50 /* FoodNotFoundView.swift in Sources */,
 				584150B11D620A0F00866210 /* Food.swift in Sources */,
 				584150B21D620A0F00866210 /* FoodCategory+CoreDataProperties.swift in Sources */,
+				58A476F81EE5CCD5006635EF /* FoodInfoView.swift in Sources */,
 				58CA516F1D6A1F3C005B20F8 /* FoodCell.swift in Sources */,
 				587E976F1D70A2A800494388 /* Risk+CoreDataProperties.swift in Sources */,
 				58CA674E1D7074F0006FEB50 /* TabBarController.swift in Sources */,
+				58A476F61EE5C838006635EF /* RiskView.swift in Sources */,
 				584150A11D61E74D00866210 /* TabBarView.swift in Sources */,
 				58816A0A1D61AEBD00A339A1 /* CategoryViewController.swift in Sources */,
 				584150B01D620A0F00866210 /* Food+CoreDataProperties.swift in Sources */,
 				587E97701D70A2A800494388 /* Risk.swift in Sources */,
 				58CA51711D6A2B0D005B20F8 /* FoodDetailViewController.swift in Sources */,
 				58CA67461D704786006FEB50 /* FoodListViewController.swift in Sources */,
+				58A476F41EE5C267006635EF /* FoodHeaderView.swift in Sources */,
 				587E97741D70B47600494388 /* Foodancy.xcdatamodeld in Sources */,
 				584150A61D61F30F00866210 /* ImportOperation.swift in Sources */,
 				58379FF61D7352D900584206 /* LocalImportOperation.swift in Sources */,
@@ -410,6 +425,7 @@
 				5841509F1D61D9CF00866210 /* StyleSheet.swift in Sources */,
 				58A476F21EE5BA4C006635EF /* FoodActivityProvider.swift in Sources */,
 				584150B31D620A0F00866210 /* FoodCategory.swift in Sources */,
+				58A476FA1EE5D04F006635EF /* FoodFooterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
