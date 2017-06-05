@@ -28,6 +28,7 @@
 		58816A0D1D61AEBD00A339A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58816A0B1D61AEBD00A339A1 /* Main.storyboard */; };
 		58816A121D61AEBD00A339A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58816A111D61AEBD00A339A1 /* Assets.xcassets */; };
 		58816A151D61AEBD00A339A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58816A131D61AEBD00A339A1 /* LaunchScreen.storyboard */; };
+		58A476F21EE5BA4C006635EF /* FoodActivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A476F11EE5BA4C006635EF /* FoodActivityProvider.swift */; };
 		58CA516F1D6A1F3C005B20F8 /* FoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA516E1D6A1F3C005B20F8 /* FoodCell.swift */; };
 		58CA51711D6A2B0D005B20F8 /* FoodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA51701D6A2B0D005B20F8 /* FoodDetailViewController.swift */; };
 		58CA67441D70461F006FEB50 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CA67431D70461F006FEB50 /* MoreViewController.swift */; };
@@ -63,6 +64,7 @@
 		58816A111D61AEBD00A339A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58816A141D61AEBD00A339A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		58816A161D61AEBD00A339A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		58A476F11EE5BA4C006635EF /* FoodActivityProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodActivityProvider.swift; sourceTree = "<group>"; };
 		58CA516E1D6A1F3C005B20F8 /* FoodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCell.swift; sourceTree = "<group>"; };
 		58CA51701D6A2B0D005B20F8 /* FoodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodDetailViewController.swift; sourceTree = "<group>"; };
 		58CA67431D70461F006FEB50 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				584150B41D620BDC00866210 /* CoreData */,
 				584150B51D620BED00866210 /* Operations */,
 				587E976B1D707CA800494388 /* Helpers.swift */,
+				58A476F11EE5BA4C006635EF /* FoodActivityProvider.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				58816A081D61AEBD00A339A1 /* AppDelegate.swift in Sources */,
 				5841509B1D61C36100866210 /* CategoryCell.swift in Sources */,
 				5841509F1D61D9CF00866210 /* StyleSheet.swift in Sources */,
+				58A476F21EE5BA4C006635EF /* FoodActivityProvider.swift in Sources */,
 				584150B31D620A0F00866210 /* FoodCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

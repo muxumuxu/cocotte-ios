@@ -125,7 +125,7 @@ final class FoodDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if let tab = tabBarController as? TabBarController {
-            tab.tabBarView.configureForGlobalIcons()
+            tab.tabBarView.configureForGlobalIcons(animated: true)
         }
     }
 

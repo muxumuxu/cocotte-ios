@@ -57,7 +57,7 @@ final class TabBarView: SHCommonInitView {
     fileprivate lazy var toolbarShareBtn: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "food_share_icon"), for: .normal)
-        button.addTarget(self, action: #selector(favBtnClicked(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(shareBtnClicked(_:)), for: .touchUpInside)
         button.snp.makeConstraints { $0.width.height.equalTo(44) }
         button.contentMode = .center
         return button
@@ -65,7 +65,7 @@ final class TabBarView: SHCommonInitView {
     fileprivate lazy var toolbarReportBtn: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "food_report_icon"), for: .normal)
-        button.addTarget(self, action: #selector(favBtnClicked(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(reportBtnClicked(_:)), for: .touchUpInside)
         button.snp.makeConstraints { $0.width.height.equalTo(44) }
         button.contentMode = .center
         return button
@@ -101,25 +101,32 @@ final class TabBarView: SHCommonInitView {
         }
     }
     
-    func configureForGlobalIcons() {
-        guard food != nil else { return }
+    func configureForGlobalIcons(animated: Bool = false) {
         food = nil
-        UIView.animate(withDuration: 0.25, animations: {
-            self.stackView.transform = CGAffineTransform(translationX: 0, y: 49)
-        }) { finished in
+        
+        let configureStackView: (Void) -> Void = {
             self.stackView.arrangedSubviews.each { $0.removeFromSuperview() }
             self.stackView.spacing = 67
             self.stackView.addArrangedSubview(self.searchBtn)
             self.stackView.addArrangedSubview(self.favBtn)
             self.stackView.addArrangedSubview(self.moreBtn)
-            UIView.animate(withDuration: 0.35, animations: {
-                self.stackView.transform = .identity
-            })
+        }
+        
+        if (animated) {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.stackView.transform = CGAffineTransform(translationX: 0, y: 49)
+            }) { finished in
+                configureStackView()
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.stackView.transform = .identity
+                })
+            }
+        } else {
+            configureStackView()
         }
     }
     
     func configureForFood(_ food: Food) {
-        guard self.food == nil else { return }
         self.food = food
         UIView.animate(withDuration: 0.25, animations: {
             self.stackView.transform = CGAffineTransform(translationX: 0, y: 49)

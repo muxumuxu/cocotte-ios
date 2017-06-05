@@ -34,7 +34,22 @@ final class TabBarController: UITabBarController, TabBarViewDelegate {
     }
     
     func tabBarView(_ tabBarView: TabBarView, didShare food: Food) {
+        let activityProvider = FoodActivityProvider(placeholderItem: food.name!)
+        activityProvider.food = food
+        let url = URL(string: iTunesLink)!
+        let activityView = UIActivityViewController(activityItems: [activityProvider, url], applicationActivities: nil)
+        activityView.excludedActivityTypes = [
+            UIActivityType.addToReadingList,
+            UIActivityType.airDrop,
+            UIActivityType.assignToContact,
+            UIActivityType.openInIBooks,
+            UIActivityType.postToFlickr,
+            UIActivityType.postToVimeo,
+            UIActivityType.postToWeibo,
+            UIActivityType.saveToCameraRoll
+        ]
         
+        present(activityView, animated: true)
     }
     
     func tabBarView(_ tabBarView: TabBarView, didReport food: Food) {
