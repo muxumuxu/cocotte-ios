@@ -72,10 +72,14 @@ final class FoodDetailViewController: UIViewController {
         }
     }
     
-    func backBtnClicked(_ sender: UIButton) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         if let tab = tabBarController as? TabBarController {
             tab.tabBarView.configureForGlobalIcons(animated: true)
         }
+    }
+    
+    func backBtnClicked(_ sender: UIButton) {
         _ = navigationController?.popViewController(animated: true)
     }
     

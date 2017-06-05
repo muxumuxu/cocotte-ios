@@ -16,8 +16,7 @@ final class FoodActivityProvider: UIActivityItemProvider {
         var status: String = "à éviter"
         if let type = food?.dangerType {
             switch type {
-            case .avoid: status = "à éviter"
-            case .care: status = "faire attention"
+            case .avoid, .care: status = "à éviter"
             case .good: status = "autorisé"
             }
         }
@@ -25,9 +24,9 @@ final class FoodActivityProvider: UIActivityItemProvider {
         let foodName = food.name!.firstLetterCapitalization
         switch activityType {
         case UIActivityType.postToFacebook, UIActivityType.postToTwitter:
-            return "Vous saviez que \(foodName) est \(status) pendant la grossesse ? 🙃"
+            return "Vous saviez que cet aliment est \(status) pendant la grossesse ? 🙃\n--\n\(foodName.firstLetterCapitalization)\n\(status.firstLetterCapitalization)\nPour voir plus d'aliments 🍉🍭🥑 :"
         default:
-            return "Regarde, \(foodName) est \(status) pendant la grossesse 🤗"
+            return "Tu savais que cet aliment est \(status) pendant la grossesse ? 🙃\n--\n\(foodName.firstLetterCapitalization)\n\(status.firstLetterCapitalization)\nPour voir plus d'aliments 🍉🍭🥑 :"
         }
     }
     

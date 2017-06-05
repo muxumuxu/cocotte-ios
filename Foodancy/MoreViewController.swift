@@ -139,12 +139,13 @@ extension MoreViewController: UITableViewDelegate {
             message.setToRecipients([contactEmail])
             present(message, animated: true, completion: nil)
         case .rate:
-            if let URL = URL(string: iTunesLink) {
-                UIApplication.shared.openURL(URL)
+            if let url = URL(string: iTunesLink) {
+                UIApplication.shared.openURL(url)
             }
         case .share:
-            if let URL = URL(string: iTunesLink) {
-                let activity = UIActivityViewController(activityItems: [URL], applicationActivities: nil)
+            if let url = URL(string: iTunesLink) {
+                let sharingText = "Fini les questions sur l’alimentation pendant la grossesse ☺️ 🍓"
+                let activity = UIActivityViewController(activityItems: [sharingText, url], applicationActivities: nil)
                 present(activity, animated: true, completion: nil)
             }
         case .madeByMM:
