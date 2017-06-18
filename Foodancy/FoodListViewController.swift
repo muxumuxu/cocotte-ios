@@ -13,7 +13,8 @@ import SwiftHelpers
 final class FoodListViewController: UIViewController {
 
     var category: FoodCategory?
-
+    
+    fileprivate var filterView: FilterView!
     fileprivate var tableView: UITableView!
 
     fileprivate var fetchedResultsController: NSFetchedResultsController<Food>!
@@ -22,6 +23,16 @@ final class FoodListViewController: UIViewController {
         super.loadView()
 
         view.backgroundColor = UIColor.white
+        
+        filterView = FilterView()
+        filterView.delegate = self
+        filterView.items = [
+            FilterItem(text: "Tous", selectedText: nil),
+            FilterItem(image: #imageLiteral(resourceName: "filter_unselected_authorized"), selectedImage: #imageLiteral(resourceName: "good_icon")),
+            FilterItem(image: #imageLiteral(resourceName: "filter_unselected_warning_icon"), selectedImage: #imageLiteral(resourceName: "warning_icon")),
+            FilterItem(image: #imageLiteral(resourceName: "filter_unselected_forbidden_icon"), selectedImage: #imageLiteral(resourceName: "forbidden_icon"))
+        ]
+        view.addSubview(filterView)
 
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.tintColor = UIColor.appTintColor()
@@ -78,8 +89,13 @@ final class FoodListViewController: UIViewController {
     }
 
     fileprivate func configureLayoutConstraints() {
+        filterView.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
+            $0.height.equalTo(60)
+        }
         tableView.snp.makeConstraints {
-            $0.edges.equalTo(view).inset(UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0))
+            $0.top.equalTo(filterView.snp.bottom)
+            $0.left.right.bottom.equalToSuperview()
         }
     }
 }
@@ -139,5 +155,12 @@ extension FoodListViewController: UITableViewDelegate {
         if let name = food.name {
             Analytics.instance.trackViewFood(name, from: "category")
         }
+    }
+}
+
+// MARK: - FilterViewDelegate
+extension FoodListViewController: FilterViewDelegate {
+    func filter(view: FilterView, didSelectAt index: Int) {
+        print("Did select filter at: \(index)")
     }
 }
