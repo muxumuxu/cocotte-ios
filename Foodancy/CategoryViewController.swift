@@ -20,6 +20,13 @@ final class CategoryViewController: SHKeyboardViewController {
     fileprivate var searchTableView: UITableView!
     fileprivate var searchIsShown = false
     fileprivate var searchingText = ""
+    
+    fileprivate var filterView: FilterView!
+    fileprivate var allFilterItem: FilterItem!
+    fileprivate var authorizedFilterItem: FilterItem!
+    fileprivate var avoidFilterItem: FilterItem!
+    fileprivate var forbiddenFilterItem: FilterItem!
+    fileprivate var selectedFilterItem: FilterItem!
 
     fileprivate var collectionView: UICollectionView!
     fileprivate var collectionViewAnimationBlocks: [BlockOperation] = []
@@ -56,7 +63,18 @@ final class CategoryViewController: SHKeyboardViewController {
         searchTableView.rowHeight = 44
         searchTableView.register(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
         searchTableView.backgroundColor = UIColor.white
+        
+        filterView = FilterView(frame: CGRect(x: 0, y: 0, width: searchTableView.bounds.size.width, height: 60))
+        allFilterItem = FilterItem(text: "Tous", selectedText: nil)
+        authorizedFilterItem = FilterItem(image: #imageLiteral(resourceName: "filter_unselected_authorized"), selectedImage: #imageLiteral(resourceName: "good_icon"))
+        avoidFilterItem = FilterItem(image: #imageLiteral(resourceName: "filter_unselected_warning_icon"), selectedImage: #imageLiteral(resourceName: "warning_icon"))
+        forbiddenFilterItem = FilterItem(image: #imageLiteral(resourceName: "filter_unselected_forbidden_icon"), selectedImage: #imageLiteral(resourceName: "forbidden_icon"))
+        filterView.delegate = self
+        filterView.items = [ allFilterItem, authorizedFilterItem, avoidFilterItem, forbiddenFilterItem ]
+        searchTableView.tableHeaderView = filterView
         searchTableView.tableFooterView = UIView()
+        
+        selectedFilterItem = allFilterItem
 
         let layout = UICollectionViewFlowLayout()
         if DeviceType.IS_IPHONE_5 || DeviceType.IS_IPHONE_4_OR_LESS {
@@ -260,7 +278,25 @@ extension CategoryViewController: UISearchBarDelegate {
         searchQueue.cancelAllOperations()
         let op = BlockOperation {
             let req = NSFetchRequest<Food>(entityName: Food.entityName)
-            req.predicate = NSPredicate(format: "name contains[cd] %@", text)
+            let matchPredicate = NSPredicate(format: "name contains[cd] %@", text)
+            
+            var filterPredicate: NSPredicate?
+            if self.selectedFilterItem === self.allFilterItem {
+                filterPredicate = nil
+            } else if self.selectedFilterItem === self.avoidFilterItem {
+                filterPredicate = NSPredicate(format: "danger == %@", "care")
+            } else if self.selectedFilterItem === self.forbiddenFilterItem {
+                filterPredicate = NSPredicate(format: "danger == %@", "avoid")
+            } else if self.selectedFilterItem === self.authorizedFilterItem {
+                filterPredicate = NSPredicate(format: "danger != %@ AND danger != %@", "care", "avoid")
+            }
+            
+            if let filterPredicate = filterPredicate {
+                req.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [matchPredicate, filterPredicate])
+            } else {
+                req.predicate = matchPredicate
+            }
+            
             let ctx = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
             ctx.parent = CoreDataStack.shared.managedObjectContext
             let objects = try! ctx.fetch(req)
@@ -488,5 +524,12 @@ extension CategoryViewController: UITableViewDelegate {
         if let name = food.name {
             Analytics.instance.trackViewFood(name, from: "search")
         }
+    }
+}
+
+extension CategoryViewController: FilterViewDelegate {
+    func filter(view: FilterView, didSelect item: FilterItem) {
+        selectedFilterItem = item
+        performSearch(searchingText)
     }
 }
