@@ -117,7 +117,7 @@ final class FoodListViewController: UIViewController {
         }
         tableView.snp.makeConstraints {
             $0.top.equalTo(filterView.snp.bottom)
-            $0.left.right.bottom.equalToSuperview()
+            $0.left.right.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 49, right: 0))
         }
     }
 }
