@@ -18,6 +18,13 @@ final class FoodListViewController: UIViewController {
     fileprivate var tableView: UITableView!
 
     fileprivate var fetchedResultsController: NSFetchedResultsController<Food>!
+    
+    private var allFilterItem: FilterItem!
+    private var authorizedFilterItem: FilterItem!
+    private var avoidFilterItem: FilterItem!
+    private var forbiddenFilterItem: FilterItem!
+    
+    fileprivate var selectedFilterItem: FilterItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,14 +36,15 @@ final class FoodListViewController: UIViewController {
         view.backgroundColor = UIColor.white
         
         filterView = FilterView()
+        allFilterItem = FilterItem(text: "Tous", selectedText: nil)
+        authorizedFilterItem = FilterItem(image: #imageLiteral(resourceName: "filter_unselected_authorized"), selectedImage: #imageLiteral(resourceName: "good_icon"))
+        avoidFilterItem = FilterItem(image: #imageLiteral(resourceName: "filter_unselected_warning_icon"), selectedImage: #imageLiteral(resourceName: "warning_icon"))
+        forbiddenFilterItem = FilterItem(image: #imageLiteral(resourceName: "filter_unselected_forbidden_icon"), selectedImage: #imageLiteral(resourceName: "forbidden_icon"))
         filterView.delegate = self
-        filterView.items = [
-            FilterItem(text: "Tous", selectedText: nil),
-            FilterItem(image: #imageLiteral(resourceName: "filter_unselected_authorized"), selectedImage: #imageLiteral(resourceName: "good_icon")),
-            FilterItem(image: #imageLiteral(resourceName: "filter_unselected_warning_icon"), selectedImage: #imageLiteral(resourceName: "warning_icon")),
-            FilterItem(image: #imageLiteral(resourceName: "filter_unselected_forbidden_icon"), selectedImage: #imageLiteral(resourceName: "forbidden_icon"))
-        ]
+        filterView.items = [ allFilterItem, authorizedFilterItem, avoidFilterItem, forbiddenFilterItem ]
         view.addSubview(filterView)
+        
+        selectedFilterItem = allFilterItem
         
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.tintColor = UIColor.appTintColor()
@@ -69,15 +77,34 @@ final class FoodListViewController: UIViewController {
     }
 
     fileprivate func configureFetchedResultsController() {
+        guard let tableView = tableView else { return }
         let req = NSFetchRequest<Food>(entityName: Food.entityName)
         if let category = category {
-            req.predicate = NSPredicate(format: "foodCategory == %@", category)
+            let categoryPredicate = NSPredicate(format: "foodCategory == %@", category)
+            
+            var filterPredicate: NSPredicate?
+            if selectedFilterItem === allFilterItem {
+                filterPredicate = nil
+            } else if selectedFilterItem === avoidFilterItem {
+                filterPredicate = NSPredicate(format: "danger == %@", "care")
+            } else if selectedFilterItem === forbiddenFilterItem {
+                filterPredicate = NSPredicate(format: "danger == %@", "avoid")
+            } else if selectedFilterItem === authorizedFilterItem {
+                filterPredicate = NSPredicate(format: "danger != %@ AND danger != %@", "care", "avoid")
+            }
+            
+            if let filterPredicate = filterPredicate {
+                req.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, filterPredicate])
+            } else {
+                req.predicate = categoryPredicate
+            }
         }
         req.sortDescriptors = [ NSSortDescriptor(key: "name", ascending: true) ]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: req, managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: "name", cacheName: nil)
 
         do {
             try fetchedResultsController.performFetch()
+            tableView.reloadData()
         } catch let err as NSError {
             print("Error while fetching foods: \(err)")
         }
@@ -155,7 +182,8 @@ extension FoodListViewController: UITableViewDelegate {
 
 // MARK: - FilterViewDelegate
 extension FoodListViewController: FilterViewDelegate {
-    func filter(view: FilterView, didSelectAt index: Int) {
-        print("Did select filter at: \(index)")
+    func filter(view: FilterView, didSelect item: FilterItem) {
+        selectedFilterItem = item
+        configureFetchedResultsController()
     }
 }

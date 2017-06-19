@@ -28,7 +28,7 @@ final class FilterItem {
 }
 
 protocol FilterViewDelegate: class {
-    func filter(view: FilterView, didSelectAt index: Int)
+    func filter(view: FilterView, didSelect item: FilterItem)
 }
 
 final class FilterView: SHCommonInitView {
@@ -45,6 +45,7 @@ final class FilterView: SHCommonInitView {
     var selectedIndex: Int = 0 {
         didSet {
             moveAnchorView(to: selectedIndex)
+            delegate?.filter(view: self, didSelect: items[selectedIndex])
         }
     }
     
@@ -167,7 +168,6 @@ final class FilterView: SHCommonInitView {
     
     func didSelectItem(_ sender: UIButton) {
         selectedIndex = sender.tag
-        delegate?.filter(view: self, didSelectAt: sender.tag)
     }
     
     private func configureLayoutConstraints() {
