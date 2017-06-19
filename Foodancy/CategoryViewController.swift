@@ -51,11 +51,10 @@ final class CategoryViewController: SHKeyboardViewController {
         searchBar = UISearchBar()
         searchBar.tintColor = UIColor.appTintColor()
         searchBar.placeholder = "Rechercher un aliment"
-        let searchImg = UIImage(named: "nav_search")?.resizableImage(
-            withCapInsets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
-        searchBar.backgroundImage = searchImg
-        searchBar.setSearchFieldBackgroundImage(searchImg, for: .normal)
-        searchBar.searchTextPositionAdjustment = UIOffset(horizontal: 10, vertical: 0)
+        searchBar.backgroundImage = UIImage()
+        searchBar.backgroundColor = .white
+        searchBar.setImage(UIImage(), for: .search, state: .normal)
+        searchBar.searchTextPositionAdjustment = UIOffset(horizontal: -36, vertical: 0)
         searchBarContainer.addSubview(searchBar)
 
         searchTableView = UITableView(frame: .zero, style: .plain)
@@ -263,7 +262,6 @@ extension CategoryViewController: UISearchBarDelegate {
         if !searchIsShown {
             searchBar.placeholder = "Rechercher"
             searchIsShown = true
-            showsCancelButton()
             showsSearchTableView()
         }
     }
@@ -316,18 +314,6 @@ extension CategoryViewController: UISearchBarDelegate {
         searchTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
 
-    fileprivate func showsCancelButton() {
-        searchBar.snp.removeConstraints()
-        searchBar.snp.makeConstraints {
-            $0.left.equalTo(searchBarContainer).offset(15)
-            $0.right.equalTo(searchCancelBtn.snp.left).offset(-10)
-            $0.bottom.equalTo(searchBarContainer).offset(-10)
-        }
-        UIView.animate(withDuration: 0.35, animations: {
-            self.searchBarContainer.layoutIfNeeded()
-        }) 
-    }
-
     fileprivate func hidesCancelButton() {
         searchBar.snp.removeConstraints()
         searchBar.snp.makeConstraints {
@@ -341,18 +327,30 @@ extension CategoryViewController: UISearchBarDelegate {
     }
 
     fileprivate func showsSearchTableView() {
-        view.addSubview(searchTableView)
-        searchTableView.snp.makeConstraints {
-            $0.top.equalTo(searchBarContainer.snp.bottom)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
-            $0.bottom.equalTo(view)
+        searchBar.snp.removeConstraints()
+        searchBar.snp.makeConstraints {
+            $0.left.equalTo(searchBarContainer).offset(15)
+            $0.right.equalTo(searchCancelBtn.snp.left).offset(-10)
+            $0.bottom.equalTo(searchBarContainer).offset(-10)
         }
-        searchTableView.layoutIfNeeded()
-        searchTableView.alpha = 0
         UIView.animate(withDuration: 0.35, animations: {
-            self.searchTableView.alpha = 1
-        }) 
+            self.searchBarContainer.layoutIfNeeded()
+        }, completion: { finished in
+            
+            self.view.addSubview(self.searchTableView)
+            self.searchTableView.snp.makeConstraints {
+                $0.top.equalTo(self.searchBarContainer.snp.bottom)
+                $0.left.equalTo(self.view)
+                $0.right.equalTo(self.view)
+                $0.bottom.equalTo(self.view)
+            }
+            self.searchTableView.layoutIfNeeded()
+            self.searchTableView.alpha = 0
+            UIView.animate(withDuration: 0.35, animations: {
+                self.searchTableView.alpha = 1
+            })
+        })
+        
     }
 
     fileprivate func hideTableView() {

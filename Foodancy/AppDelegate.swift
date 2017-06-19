@@ -57,6 +57,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium),
             NSForegroundColorAttributeName: "8E8E93".UIColor
         ]
+    
+        let appearance = UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self])
+        appearance.defaultTextAttributes = [
+            NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium),
+            NSForegroundColorAttributeName: "2B2B2C".UIColor
+        ]
+
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

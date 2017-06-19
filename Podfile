@@ -24,4 +24,7 @@ target 'Foodancy' do
 
   pod 'FBSDKCoreKit'
 
+  pod 'Reveal-SDK', :configurations => ['Debug']
+
 end
+
