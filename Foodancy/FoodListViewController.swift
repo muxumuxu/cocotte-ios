@@ -19,9 +19,13 @@ final class FoodListViewController: UIViewController {
 
     fileprivate var fetchedResultsController: NSFetchedResultsController<Food>!
 
-    override func loadView() {
-        super.loadView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
+        title = category?.name
+
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        
         view.backgroundColor = UIColor.white
         
         filterView = FilterView()
@@ -33,27 +37,18 @@ final class FoodListViewController: UIViewController {
             FilterItem(image: #imageLiteral(resourceName: "filter_unselected_forbidden_icon"), selectedImage: #imageLiteral(resourceName: "forbidden_icon"))
         ]
         view.addSubview(filterView)
-
+        
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.tintColor = UIColor.appTintColor()
         tableView.separatorStyle = .none
         tableView.rowHeight = 44
         tableView.register(FoodCell.self, forCellReuseIdentifier: FoodCell.reuseIdentifier)
         tableView.backgroundColor = UIColor.white
+        tableView.tableFooterView = UIView()
         view.addSubview(tableView)
-
+        
         let backIcon = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(FoodListViewController.backBtnClicked(_:)))
         navigationItem.leftBarButtonItem = backIcon
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        title = category?.name
-
-        tableView.tableFooterView = UIView()
-
-        navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
         configureFetchedResultsController()
 

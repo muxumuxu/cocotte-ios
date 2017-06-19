@@ -52,6 +52,7 @@ final class FilterView: SHCommonInitView {
     private var filterContainerView = UIView()
     private var anchorView = UIView()
     private var panGesture: UIPanGestureRecognizer!
+    private var isDragging = false
     
     override func commonInit() {
         super.commonInit()
@@ -115,37 +116,53 @@ final class FilterView: SHCommonInitView {
             constraint.inset(UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2))
         }
         
-        UIView.animate(withDuration: 0.2, animations: layoutIfNeeded)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.anchorView.transform = .identity
+            self.layoutIfNeeded()
+        })
     }
     
     func didPan(_ recognizer: UIPanGestureRecognizer) {
-        guard let superView = recognizer.view?.superview else {
-            return
+        guard let superView = recognizer.view?.superview else { return }
+        
+        // Check if we tap the anchor view
+        if recognizer.state == .began {
+            let touchPoint = recognizer.location(in: superView)
+            isDragging = anchorView.frame.contains(touchPoint)
         }
         
-        let velocity = recognizer.velocity(in: superView)
-        let translated = recognizer.translation(in: superView)
+        guard isDragging else { return }
         
-        let finalX = translated.x// + velocity.x
+        let translated = recognizer.translation(in: superView).x
         
-        print("Final X: \(finalX), velocity: \(velocity)")
-        anchorView.transform = CGAffineTransform(translationX: finalX, y: 0)
-        
-        var transform = CGAffineTransform(translationX: finalX, y: 0)
-        
-        if (recognizer.state == .ended) {
+        if recognizer.state == .ended {
             // Find the nearest point when releasing in order to dock it
-            selectedIndex = 0
-            transform = .identity
+            let targetX = anchorView.center.x + translated
+            
+            var nearestView = itemsStackView.arrangedSubviews.first!
+            for view in itemsStackView.arrangedSubviews {
+                let distance = abs(targetX - view.center.x)
+                let currentDistance = abs(targetX - nearestView.center.x)
+                
+                if distance < currentDistance {
+                    nearestView = view
+                }
+            }
+            
+            if let idx = itemsStackView.arrangedSubviews.index(of: nearestView) {
+                selectedIndex = idx
+            }
+            
+            isDragging = false
+        } else {
+            UIView.animate(withDuration: 0.1,
+                           delay: 0,
+                           usingSpringWithDamping: 1,
+                           initialSpringVelocity: 1,
+                           options: .beginFromCurrentState, animations: {
+                            self.anchorView.transform = CGAffineTransform(translationX: translated, y: 0)
+            }, completion: nil)
         }
-        
-        UIView.animate(withDuration: 0.1,
-                       delay: 0,
-                       usingSpringWithDamping: 1,
-                       initialSpringVelocity: 1,
-                       options: .beginFromCurrentState, animations: {
-                        self.anchorView.transform = transform
-        }, completion: nil)
     }
     
     func didSelectItem(_ sender: UIButton) {
@@ -154,12 +171,11 @@ final class FilterView: SHCommonInitView {
     }
     
     private func configureLayoutConstraints() {
-        itemsStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         filterContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 10, left: 14, bottom: 10, right: 14))
         }
+        itemsStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
-
 }
