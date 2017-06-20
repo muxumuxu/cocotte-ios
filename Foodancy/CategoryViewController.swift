@@ -56,7 +56,7 @@ final class CategoryViewController: SHKeyboardViewController {
             withCapInsets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
         searchBar.backgroundImage = searchImg
         searchBar.setSearchFieldBackgroundImage(searchImg, for: .normal)
-        searchBar.searchTextPositionAdjustment = UIOffset(horizontal: -30, vertical: 0)
+        searchBar.searchTextPositionAdjustment = UIOffset(horizontal: -29, vertical: 0)
         searchBarContainer.addSubview(searchBar)
 
         searchTableView = UITableView(frame: .zero, style: .plain)
