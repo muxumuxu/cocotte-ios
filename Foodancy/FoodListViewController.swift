@@ -55,7 +55,10 @@ final class FoodListViewController: UIViewController {
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
-        let backIcon = UIBarButtonItem(image: UIImage(named: "back_icon"), style: .plain, target: self, action: #selector(FoodListViewController.backBtnClicked(_:)))
+        let backIcon = UIBarButtonItem(image: UIImage(named: "back_icon"),
+                                       style: .plain,
+                                       target: self,
+                                       action: #selector(backBtnClicked(_:)))
         navigationItem.leftBarButtonItem = backIcon
 
         configureFetchedResultsController()
