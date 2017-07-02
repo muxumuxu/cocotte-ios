@@ -167,13 +167,18 @@ final class TabBarView: SHCommonInitView {
     // MARK: - Food actions
     
     func favBtnClicked(_ sender: UIButton) {
-        if food?.favDate != nil {
-            food?.favDate = nil
+        guard let food = food else { return }
+        let isFaving = food.favDate == nil
+        if !isFaving {
+            food.favDate = nil
         } else {
-            food?.favDate = Date()
+            food.favDate = Date()
         }
-        try! food?.managedObjectContext?.save()
-        toolbarAddToFavBtn.tintColor = food?.favDate != nil ? .appTintColor() : .appGrayColor()
+        try! food.managedObjectContext?.save()
+        toolbarAddToFavBtn.tintColor = food.favDate != nil ? .appTintColor() : .appGrayColor()
+        if let foodName = food.name {
+            Analytics.instance.trackFav(foodName, fav: isFaving)
+        }
     }
     
     func shareBtnClicked(_ sender: UIButton) {

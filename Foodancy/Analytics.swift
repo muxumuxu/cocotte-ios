@@ -42,6 +42,16 @@ final class Analytics {
         track(eventName: "SelectFood", props: ["name": name, "from": from])
     }
     
+    func trackFav(_ foodName: String, fav: Bool) {
+        let eventName: String
+        if (fav) {
+            eventName = "AddFav"
+        } else {
+            eventName = "RemoveFav"
+        }
+        track(eventName: eventName, props: ["food": foodName])
+    }
+    
     func track(eventName: String, props: [AnyHashable: Any]) {
         Amplitude.instance().logEvent(eventName, withEventProperties: props)
     }
