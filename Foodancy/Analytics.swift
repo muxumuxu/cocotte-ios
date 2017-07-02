@@ -39,7 +39,7 @@ final class Analytics {
     }
     
     func trackViewFood(_ name: String, from: String) {
-        track(eventName: "SelectFood", props: ["name": name])
+        track(eventName: "SelectFood", props: ["name": name, "from": from])
     }
     
     func track(eventName: String, props: [AnyHashable: Any]) {
