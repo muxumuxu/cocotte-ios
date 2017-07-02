@@ -48,6 +48,13 @@ final class TabBarController: UITabBarController, TabBarViewDelegate {
             UIActivityType.postToWeibo,
             UIActivityType.saveToCameraRoll
         ]
+        activityView.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
+            if  let foodName = food.name,
+                let categoryName = food.foodCategory?.name,
+                let activityName = activityType, completed {
+                Analytics.instance.trackShare(foodName, category: categoryName, media: activityName.rawValue)
+            }
+        }
         
         present(activityView, animated: true)
     }

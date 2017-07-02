@@ -52,6 +52,10 @@ final class Analytics {
         track(eventName: eventName, props: ["food": foodName])
     }
     
+    func trackShare(_ foodName: String, category: String, media: String) {
+        
+    }
+    
     func track(eventName: String, props: [AnyHashable: Any]) {
         Amplitude.instance().logEvent(eventName, withEventProperties: props)
     }
