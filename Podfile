@@ -26,5 +26,7 @@ target 'Foodancy' do
 
   pod 'Reveal-SDK', :configurations => ['Debug']
 
+  pod 'Mixpanel'
+
 end
 

@@ -526,7 +526,7 @@ extension CategoryViewController: UITableViewDelegate {
         navigationController?.show(foodController, sender: nil)
         
         if let name = food.name {
-            Analytics.instance.trackViewFood(name, from: "search")
+            Analytics.instance.trackViewFood(name, from: "search", searchPattern: searchBar.text)
         }
     }
 }

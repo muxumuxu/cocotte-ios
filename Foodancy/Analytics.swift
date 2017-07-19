@@ -8,12 +8,15 @@
 
 import UIKit
 import Amplitude_iOS
+import Mixpanel
 
 final class Analytics {
     
     static let instance = Analytics()
     
     func setup() {
+        Mixpanel.sharedInstance(withToken: "724399ebeb9b04fbbce6e249b615fb33")
+        
         #if DEBUG
             Amplitude.instance().initializeApiKey("00d4356f153e0d7ccdac41869b9199bf")
         #else
@@ -38,8 +41,15 @@ final class Analytics {
         track(eventName: "SelectCategory", props: ["name": name])
     }
     
-    func trackViewFood(_ name: String, from: String) {
-        track(eventName: "SelectFood", props: ["name": name, "from": from])
+    func trackViewFood(_ name: String, from: String, searchPattern: String? = nil) {
+        var props: [AnyHashable: Any] = [
+            "name": name,
+            "from": from
+        ]
+        if let search = searchPattern {
+            props["search"] = search
+        }
+        track(eventName: "SelectFood", props: props)
     }
     
     func trackFav(_ foodName: String, fav: Bool) {
@@ -53,10 +63,19 @@ final class Analytics {
     }
     
     func trackShare(_ foodName: String, category: String, media: String) {
-        
+        track(eventName: "Share", props: [
+            "food": foodName,
+            "category": category,
+            "media": media
+        ])
     }
     
     func track(eventName: String, props: [AnyHashable: Any]) {
         Amplitude.instance().logEvent(eventName, withEventProperties: props)
+        Mixpanel.sharedInstance()?.track(eventName, properties: props)
+    }
+    
+    func saveDeviceToken(deviceToken: Data) {
+        Mixpanel.sharedInstance()?.people.addPushDeviceToken(deviceToken)
     }
 }
