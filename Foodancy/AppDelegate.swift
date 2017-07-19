@@ -37,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Analytics.instance.setup()
 
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        askForPushNotifications()
 
         return true
     }
@@ -120,5 +122,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let ctx = CoreDataStack.shared.managedObjectContext
         let count = (try? ctx.count(for: req)) ?? 0
         return count > 0
+    }
+    
+    fileprivate func askForPushNotifications() {
+        let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(settings)
     }
 }
