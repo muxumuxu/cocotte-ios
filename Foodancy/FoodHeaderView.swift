@@ -40,7 +40,7 @@ final class FoodHeaderView: SHCommonInitView {
             statusIcon.image = #imageLiteral(resourceName: "forbidden_icon")
             statusLbl.textColor = "F64848".UIColor
         case .care:
-            statusLbl.text = "Faire Attention"
+            statusLbl.text = "Dangereux"
             statusIcon.image = #imageLiteral(resourceName: "warning_icon")
             statusLbl.textColor = UIColor(r: 253, g: 164, b: 2, a: 1)
         case .good:
