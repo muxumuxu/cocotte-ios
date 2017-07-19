@@ -34,7 +34,7 @@ final class FoodDetailViewController: UIViewController {
         backBtn.setImage(#imageLiteral(resourceName: "back_icon"), for: .normal)
         backBtn.titleEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 0, right: 0)
         backBtn.contentHorizontalAlignment = .left
-        backBtn.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
+        backBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         navigationItem.setHidesBackButton(true, animated: false)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBtn)
         
