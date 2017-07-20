@@ -19,6 +19,9 @@ final class TabBarView: SHCommonInitView {
 
     weak var delegate: TabBarViewDelegate?
     
+    let selectedFavIcon = #imageLiteral(resourceName: "food_fav_icon_selected")
+    let unselectedFavIcon = #imageLiteral(resourceName: "food_fav_icon")
+    
     fileprivate let topSeparator = UIView()
     fileprivate lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -133,7 +136,7 @@ final class TabBarView: SHCommonInitView {
         }) { finished in
             self.stackView.arrangedSubviews.each { $0.removeFromSuperview() }
             self.stackView.spacing = 54
-            self.toolbarAddToFavBtn.setImage(food.favDate != nil ? #imageLiteral(resourceName: "fav_tab_selected") : #imageLiteral(resourceName: "fav_tab"), for: .normal)
+            self.toolbarAddToFavBtn.setImage(food.favDate != nil ? #imageLiteral(resourceName: "food_fav_icon_selected") : #imageLiteral(resourceName: "food_fav_icon"), for: .normal)
             self.stackView.addArrangedSubview(self.toolbarAddToFavBtn)
             self.stackView.addArrangedSubview(self.toolbarShareBtn)
             self.stackView.addArrangedSubview(self.toolbarReportBtn)
@@ -175,7 +178,7 @@ final class TabBarView: SHCommonInitView {
             food.favDate = Date()
         }
         try! food.managedObjectContext?.save()
-        self.toolbarAddToFavBtn.setImage(food.favDate != nil ? #imageLiteral(resourceName: "fav_tab_selected") : #imageLiteral(resourceName: "fav_tab"), for: .normal)
+        self.toolbarAddToFavBtn.setImage(food.favDate != nil ? #imageLiteral(resourceName: "food_fav_icon_selected") : #imageLiteral(resourceName: "food_fav_icon"), for: .normal)
         if let foodName = food.name {
             Analytics.instance.trackFav(foodName, fav: isFaving)
         }
