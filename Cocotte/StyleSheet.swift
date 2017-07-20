@@ -14,7 +14,7 @@ extension UIColor {
     }
 
     class func appTintColor() -> UIColor {
-        return "F64848".UIColor
+        return "FF0079".UIColor
     }
 
     class func appBlueColor() -> UIColor {

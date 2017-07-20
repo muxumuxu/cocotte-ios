@@ -133,7 +133,7 @@ final class TabBarView: SHCommonInitView {
         }) { finished in
             self.stackView.arrangedSubviews.each { $0.removeFromSuperview() }
             self.stackView.spacing = 54
-            self.toolbarAddToFavBtn.tintColor = food.favDate != nil ? .appTintColor() : .appGrayColor()
+            self.toolbarAddToFavBtn.setImage(food.favDate != nil ? #imageLiteral(resourceName: "fav_tab_selected") : #imageLiteral(resourceName: "fav_tab"), for: .normal)
             self.stackView.addArrangedSubview(self.toolbarAddToFavBtn)
             self.stackView.addArrangedSubview(self.toolbarShareBtn)
             self.stackView.addArrangedSubview(self.toolbarReportBtn)
@@ -175,7 +175,7 @@ final class TabBarView: SHCommonInitView {
             food.favDate = Date()
         }
         try! food.managedObjectContext?.save()
-        toolbarAddToFavBtn.tintColor = food.favDate != nil ? .appTintColor() : .appGrayColor()
+        self.toolbarAddToFavBtn.setImage(food.favDate != nil ? #imageLiteral(resourceName: "fav_tab_selected") : #imageLiteral(resourceName: "fav_tab"), for: .normal)
         if let foodName = food.name {
             Analytics.instance.trackFav(foodName, fav: isFaving)
         }
