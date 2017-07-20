@@ -15,8 +15,8 @@ import Fabric
 import Crashlytics
 import FBSDKCoreKit
 
-let contactEmail = "foodancy@muxumuxu.com"
-let iTunesLink = "https://itunes.apple.com/us/app/foodancy/id1148406816?ls=1&mt=8"
+let contactEmail = "cocotte@muxumuxu.com"
+let iTunesLink = "https://itunes.apple.com/us/app/cocotte/id1148406816?ls=1&mt=8"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
