@@ -15,22 +15,24 @@ final class Analytics {
     static let instance = Analytics()
     
     func setup() {
-        Mixpanel.sharedInstance(withToken: "724399ebeb9b04fbbce6e249b615fb33")
-        
         #if DEBUG
             Amplitude.instance().initializeApiKey("00d4356f153e0d7ccdac41869b9199bf")
+            Mixpanel.sharedInstance(withToken: "273aa51ffb4fa55f8b8c55aa89f227b6")
         #else
             Amplitude.instance().initializeApiKey("460ce79c6ad144a4f4ffa5549bebd674")
+            Mixpanel.sharedInstance(withToken: "724399ebeb9b04fbbce6e249b615fb33")
         #endif
         
         let defaults = UserDefaults.standard
         if let userId = defaults.object(forKey: "userId") as? String {
             Amplitude.instance().setUserId(userId)
+            Mixpanel.sharedInstance()?.identify(userId)
         } else {
             let userId = UUID().uuidString
             defaults.set(userId, forKey: "userId")
             defaults.synchronize()
             Amplitude.instance().setUserId(userId)
+            Mixpanel.sharedInstance()?.identify(userId)
         }
         
         Amplitude.instance().trackingSessionEvents = true

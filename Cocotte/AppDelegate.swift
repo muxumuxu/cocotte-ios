@@ -83,6 +83,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Analytics.instance.saveDeviceToken(deviceToken: deviceToken)
     }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Did failed to register for push notification: \(error)")
+    }
 
     fileprivate let importOperationQueue = OperationQueue()
 
