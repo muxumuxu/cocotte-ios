@@ -12,21 +12,47 @@ import SwiftHelpers
 final class FoodActivityProvider: UIActivityItemProvider {
     var food: Food!
     
+    static let oneToOneGoodMessage = "Tu sais que cet aliment est autorisé pendant la grossesse ? 🙂"
+    static let oneToOneCareMessage = "Tu sais qu'il faut faire attention à cet aliment pendant la grossesse ? 🙃"
+    static let oneToOneAvoidMessage = "Tu sais que cet aliment est dangereux pendant la grossesse ? 🙃"
+    
+    static let oneToManyGoodMessage = "Savez-vous que cet aliment est autorisé pendant la grossesse ? 🙂"
+    static let oneToManyCareMessage = "Savez-vous qu'il faut faire attention à cet aliment pendant la grossesse ? 🙃"
+    static let oneToManyAvoidMessage = "Savez-vous que cet aliment est dangereux pendant la grossesse ? 🙃"
+    
     override func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        var status: String = "à éviter"
-        if let type = food?.dangerType {
+        guard let type = food?.dangerType else { return nil }
+        
+        let status: String
+        let message: String
+        
+        switch activityType {
+        case UIActivityType.postToFacebook, UIActivityType.postToTwitter:
             switch type {
-            case .avoid, .care: status = "à éviter"
-            case .good: status = "autorisé"
+            case .good: message = FoodActivityProvider.oneToManyGoodMessage
+            case .avoid: message = FoodActivityProvider.oneToManyAvoidMessage
+            case .care: message = FoodActivityProvider.oneToManyCareMessage
             }
+        default:
+            switch type {
+            case .good: message = FoodActivityProvider.oneToOneGoodMessage
+            case .avoid: message = FoodActivityProvider.oneToOneAvoidMessage
+            case .care: message = FoodActivityProvider.oneToOneCareMessage
+            }
+        }
+        
+        switch type {
+        case .good:     status = "✅ Autorisé"
+        case .care:     status = "⚠️ À éviter"
+        case .avoid:    status = "⛔️ Dangereux"
         }
         
         let foodName = food.name!.firstLetterCapitalization
         switch activityType {
         case UIActivityType.postToFacebook, UIActivityType.postToTwitter:
-            return "Vous saviez que cet aliment est \(status) pendant la grossesse ? 🙃\n--\n\(foodName.firstLetterCapitalization)\n\(status.firstLetterCapitalization)\nPour voir plus d'aliments 🍉🍭🥑 :"
+            return "\(message)\n--\n\(foodName)\n\(status)\nPour voir plus d'aliments 🍉🍭🥑 :"
         default:
-            return "Tu savais que cet aliment est \(status) pendant la grossesse ? 🙃\n--\n\(foodName.firstLetterCapitalization)\n\(status.firstLetterCapitalization)\nPour voir plus d'aliments 🍉🍭🥑 :"
+            return "\(message)\n--\n\(foodName)\n\(status)\nPour voir plus d'aliments 🍉🍭🥑 :"
         }
     }
     

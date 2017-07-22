@@ -57,6 +57,14 @@ final class TabBarView: SHCommonInitView {
     }()
     
     // Food actions
+    fileprivate var toolbarAddToFavBtn: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "food_fav_icon"), for: .normal)
+        button.addTarget(self, action: #selector(favBtnClicked(_:)), for: .touchUpInside)
+        button.snp.makeConstraints { $0.width.height.equalTo(44) }
+        button.contentMode = .center
+        return button
+    }()
     fileprivate lazy var toolbarShareBtn: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "food_share_icon"), for: .normal)
@@ -69,14 +77,6 @@ final class TabBarView: SHCommonInitView {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "food_report_icon"), for: .normal)
         button.addTarget(self, action: #selector(reportBtnClicked(_:)), for: .touchUpInside)
-        button.snp.makeConstraints { $0.width.height.equalTo(44) }
-        button.contentMode = .center
-        return button
-    }()
-    fileprivate var toolbarAddToFavBtn: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "food_fav_icon"), for: .normal)
-        button.addTarget(self, action: #selector(favBtnClicked(_:)), for: .touchUpInside)
         button.snp.makeConstraints { $0.width.height.equalTo(44) }
         button.contentMode = .center
         return button

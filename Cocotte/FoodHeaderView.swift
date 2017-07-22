@@ -36,11 +36,11 @@ final class FoodHeaderView: SHCommonInitView {
         nameLbl.text = food.name
         switch food.dangerType {
         case .avoid:
-            statusLbl.text = "À éviter"
+            statusLbl.text = "Dangereux"
             statusIcon.image = #imageLiteral(resourceName: "forbidden_icon")
             statusLbl.textColor = "F64848".UIColor
         case .care:
-            statusLbl.text = "Dangereux"
+            statusLbl.text = "Faire attention"
             statusIcon.image = #imageLiteral(resourceName: "warning_icon")
             statusLbl.textColor = UIColor(r: 253, g: 164, b: 2, a: 1)
         case .good:
