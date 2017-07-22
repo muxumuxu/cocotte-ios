@@ -43,7 +43,7 @@ final class FoodActivityProvider: UIActivityItemProvider {
         
         switch type {
         case .good:     status = "✅ Autorisé"
-        case .care:     status = "⚠️ À éviter"
+        case .care:     status = "⚠️ Faire attention"
         case .avoid:    status = "⛔️ Dangereux"
         }
         
