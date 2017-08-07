@@ -14,7 +14,7 @@ PODS:
   - Fabric (1.6.12)
   - FBSDKCoreKit (4.25.0):
     - Bolts (~> 1.7)
-  - Mixpanel (3.1.9)
+  - Mixpanel (3.1.5)
   - Result (3.2.3)
   - Reveal-SDK (9)
   - SnapKit (3.2.0)
@@ -40,7 +40,7 @@ DEPENDENCIES:
   - Crashlytics
   - Fabric
   - FBSDKCoreKit
-  - Mixpanel
+  - Mixpanel (= 3.1.5)
   - Reveal-SDK
   - SnapKit
   - SwiftHelpers (from `https://github.com/dmiotti/SwiftHelpers.git`)
@@ -63,13 +63,13 @@ SPEC CHECKSUMS:
   Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
   Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
   FBSDKCoreKit: 53e3f4bfb64e80c5f229dd30ae33ff57fbbbd2d1
-  Mixpanel: 57923411aec1a1c7926efbb158f0bbd4460803fa
+  Mixpanel: 9b33e5de998cd42597767f67e2b8fcd1d158c71d
   Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
   Reveal-SDK: d977a1ec41e7c076025c1005da6e6d7c1b8ed254
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   SwiftHelpers: 63f0b7c4ead778811a44c126ebf560c47162d8c9
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: b96c975efba207eea0bfa151de593f50138bf0c7
+PODFILE CHECKSUM: fb2ade2382ecd03109a7d809b3b3ab60eaf6d09a
 
 COCOAPODS: 1.2.1

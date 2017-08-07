@@ -26,7 +26,7 @@ target 'Cocotte' do
 
   pod 'Reveal-SDK', :configurations => ['Debug']
 
-  pod 'Mixpanel'
+  pod 'Mixpanel', '3.1.5'
 
 end
 
