@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.4.0)
+  - Alamofire (4.5.0)
   - Amplitude-iOS (3.14.1)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
@@ -9,14 +9,14 @@ PODS:
   - Bolts/Tasks (1.8.4)
   - BrightFutures (5.2.0):
     - Result (~> 3.2)
-  - Crashlytics (3.8.4):
+  - Crashlytics (3.8.5):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.11)
-  - FBSDKCoreKit (4.23.0):
+  - Fabric (1.6.12)
+  - FBSDKCoreKit (4.25.0):
     - Bolts (~> 1.7)
-  - Mixpanel (3.1.5)
+  - Mixpanel (3.1.9)
   - Result (3.2.3)
-  - Reveal-SDK (8)
+  - Reveal-SDK (9)
   - SnapKit (3.2.0)
   - SwiftHelpers (5.0.3):
     - SwiftHelpers/Basic (= 5.0.3)
@@ -52,20 +52,20 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SwiftHelpers:
-    :commit: f5d2f51f62c543ff0cfff056cfff66f503166415
+    :commit: 0834020b66aa3455aba6f9d5b5214ac9cbff3d09
     :git: https://github.com/dmiotti/SwiftHelpers.git
 
 SPEC CHECKSUMS:
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   Amplitude-iOS: 4a3c8807b2ea5369dc11e87e23825bff01e5a922
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   BrightFutures: 8681dbb9fa831b69b6e7dc4a498b9e081d5daeb5
-  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
-  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  FBSDKCoreKit: d7829f5a69901cd7296105328e4c3c3fc7da6518
-  Mixpanel: 9b33e5de998cd42597767f67e2b8fcd1d158c71d
+  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
+  Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
+  FBSDKCoreKit: 53e3f4bfb64e80c5f229dd30ae33ff57fbbbd2d1
+  Mixpanel: 57923411aec1a1c7926efbb158f0bbd4460803fa
   Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
-  Reveal-SDK: 43be4e662864e937960d0d04d005135e29c4e53b
+  Reveal-SDK: d977a1ec41e7c076025c1005da6e6d7c1b8ed254
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   SwiftHelpers: 63f0b7c4ead778811a44c126ebf560c47162d8c9
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
