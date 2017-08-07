@@ -91,10 +91,17 @@ final class FavListViewController: UIViewController {
     // MARK: - Sharing button
     
     func shareBtnClicked(_ sender: UIButton) {
-        var text = "Voici la liste des aliments que j’ai mis de côté et que je te partage :\n"
         let favorites = fetchedResultsController.fetchedObjects ?? []
+        guard !favorites.isEmpty else {
+            let alert = UIAlertController(title: "Il n'y a rien à partager", message: "Commencer par ajouter des aliments à vos favoris", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+            return
+        }
+        var text = "Voici la liste des aliments que j’ai mis de côté et que je te partage :\n"
         text += favorites.map { "- \(emoji(for: $0)) \($0.name!)" }.joined(separator: "\n")
-        text += "Cette liste provient de l’application Cocotte qui conseille les femmes enceintes sur leur alimentation."
+        text += "\nCette liste provient de l’application Cocotte qui conseille les femmes enceintes sur leur alimentation."
         let alert = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         present(alert, animated: true)
     }
