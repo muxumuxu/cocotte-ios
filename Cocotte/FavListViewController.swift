@@ -37,7 +37,10 @@ final class FavListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = L("Mes favoris")
+        title = L("Favoris")
+        
+        let shareBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "fav_share_icon"), style: .plain, target: self, action: #selector(shareBtnClicked(_:)))
+        navigationItem.rightBarButtonItem = shareBtn
 
         prepareFechedResultsController()
 
@@ -82,6 +85,24 @@ final class FavListViewController: UIViewController {
 
         emptyView.snp.makeConstraints {
             $0.edges.equalTo(view)
+        }
+    }
+    
+    // MARK: - Sharing button
+    
+    func shareBtnClicked(_ sender: UIButton) {
+        var text = "Ma liste de favoris :\n"
+        let favorites = fetchedResultsController.fetchedObjects ?? []
+        text += favorites.map { "- \(emoji(for: $0)) \($0.name!)" }.joined(separator: "\n")
+        let alert = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        present(alert, animated: true)
+    }
+    
+    func emoji(for food: Food) -> String {
+        switch food.dangerType {
+        case .avoid:    return "⛔️"
+        case .care:     return "⚠️"
+        case .good:     return "✅"
         }
     }
 }
