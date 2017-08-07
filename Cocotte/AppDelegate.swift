@@ -84,6 +84,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Analytics.instance.saveDeviceToken(deviceToken: deviceToken)
     }
     
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        Analytics.instance.trackPushNotification(userInfo: userInfo)
+    }
+    
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Did failed to register for push notification: \(error)")
     }

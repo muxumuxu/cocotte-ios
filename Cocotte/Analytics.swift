@@ -80,4 +80,8 @@ final class Analytics {
     func saveDeviceToken(deviceToken: Data) {
         Mixpanel.sharedInstance()?.people.addPushDeviceToken(deviceToken)
     }
+    
+    func trackPushNotification(userInfo: [AnyHashable: Any]) {
+        Mixpanel.sharedInstance()?.trackPushNotification(userInfo)
+    }
 }
