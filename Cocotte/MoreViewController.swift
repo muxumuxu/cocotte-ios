@@ -20,8 +20,8 @@ final class MoreViewController: UIViewController {
             case .contactUs:    return "💌 Nous contacter"
             case .rate:         return "✨ Noter l'application"
             case .share:        return "🕊 Partager l'application"
-            case .madeByMM:     return "Made with 💚 by Muxu•Muxu"
-            case .version:      return "Ma version de Foodancy"
+            case .madeByMM:     return "Made with 💚 by Cocotte"
+            case .version:      return "Ma version de Cocotte"
             }
         }
     }
@@ -149,7 +149,7 @@ extension MoreViewController: UITableViewDelegate {
                 present(activity, animated: true, completion: nil)
             }
         case .madeByMM:
-            if let URL = URL(string: "https://muxumuxu.com") {
+            if let URL = URL(string: "https://cocotte-app.com") {
                 let safari = SFSafariViewController(url: URL)
                 present(safari, animated: true)
             }
