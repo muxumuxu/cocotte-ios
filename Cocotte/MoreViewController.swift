@@ -134,10 +134,7 @@ extension MoreViewController: UITableViewDelegate {
 
         switch section {
         case .contactUs:
-            let message = MFMailComposeViewController()
-            message.mailComposeDelegate = self
-            message.setToRecipients([contactEmail])
-            present(message, animated: true, completion: nil)
+            sendContactUsMail()
         case .rate:
             if let url = URL(string: iTunesLink) {
                 UIApplication.shared.openURL(url)
@@ -155,6 +152,30 @@ extension MoreViewController: UITableViewDelegate {
             }
         case .version:
             break
+        }
+    }
+    private func sendContactUsMail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([contactEmail])
+            present(mail, animated: true, completion: nil)
+            return
+        }
+        
+        if let encodedEmail = contactEmail.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+            // Try googlemail://
+            let googleMail = "googlemail://co?to=\(encodedEmail)"
+            if let url = URL(string: googleMail), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
+                return
+            }
+            // Try inbox-gmail://
+            let inbox = "inbox-gmail://co?to=\(encodedEmail)"
+            if let url = URL(string: inbox), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
+                return
+            }
         }
     }
 }
