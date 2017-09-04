@@ -12,11 +12,11 @@ PODS:
   - Crashlytics (3.8.5):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.12)
-  - FBSDKCoreKit (4.25.0):
+  - FBSDKCoreKit (4.26.0):
     - Bolts (~> 1.7)
   - Mixpanel (3.1.5)
   - Result (3.2.3)
-  - Reveal-SDK (9)
+  - Reveal-SDK (10)
   - SnapKit (3.2.0)
   - SwiftHelpers (5.0.3):
     - SwiftHelpers/Basic (= 5.0.3)
@@ -62,10 +62,10 @@ SPEC CHECKSUMS:
   BrightFutures: 8681dbb9fa831b69b6e7dc4a498b9e081d5daeb5
   Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
   Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
-  FBSDKCoreKit: 53e3f4bfb64e80c5f229dd30ae33ff57fbbbd2d1
+  FBSDKCoreKit: c8b8582311ec11b145451d8b9717dc6cc2ae5a76
   Mixpanel: 9b33e5de998cd42597767f67e2b8fcd1d158c71d
   Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
-  Reveal-SDK: d977a1ec41e7c076025c1005da6e6d7c1b8ed254
+  Reveal-SDK: 7869ddf1f902cabbb07a1f0dd06bd25861a126f7
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   SwiftHelpers: 63f0b7c4ead778811a44c126ebf560c47162d8c9
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
