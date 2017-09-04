@@ -63,6 +63,8 @@
 		<string>fb-messenger-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
+		<string>googlemail</string>
+		<string>inbox-gmail</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

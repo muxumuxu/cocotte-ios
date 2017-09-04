@@ -15,7 +15,7 @@ import Fabric
 import Crashlytics
 import FBSDKCoreKit
 
-let contactEmail = "cocotte@muxumuxu.com"
+let contactEmail = "bonjour@cocotte-app.com"
 let iTunesLink = "https://itunes.apple.com/us/app/cocotte/id1148406816?ls=1&mt=8"
 
 @UIApplicationMain

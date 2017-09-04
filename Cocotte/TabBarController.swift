@@ -60,12 +60,38 @@ final class TabBarController: UITabBarController, TabBarViewDelegate {
     }
     
     func tabBarView(_ tabBarView: TabBarView, didReport food: Food) {
-        guard MFMailComposeViewController.canSendMail(), let name = food.name else { return }
-        let mail = MFMailComposeViewController()
-        mail.mailComposeDelegate = self
-        mail.setSubject("Signaler \"\(name)\"")
-        mail.setToRecipients([contactEmail])
-        present(mail, animated: true, completion: nil)
+        guard let name = food.name else {
+            return
+        }
+        
+        let subject = "Signaler \"\(name)\""
+
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setSubject(subject)
+            mail.setToRecipients([contactEmail])
+            present(mail, animated: true, completion: nil)
+            return
+        }
+
+        if  let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let encodedEmail = contactEmail.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+            
+            // Try googlemail://
+            let googleMail = "googlemail://co?subject=\(encodedSubject)&to=\(encodedEmail)"
+            if let url = URL(string: googleMail), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
+                return
+            }
+            
+            // Try inbox-gmail://
+            let inbox = "inbox-gmail://co?subject=\(encodedSubject)&to=\(encodedEmail)"
+            if let url = URL(string: inbox), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
+                return
+            }
+        }
     }
 }
 
