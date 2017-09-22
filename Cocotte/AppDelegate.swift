@@ -14,6 +14,7 @@ import Amplitude_iOS
 import Fabric
 import Crashlytics
 import FBSDKCoreKit
+import SafariServices
 
 let contactEmail = "bonjour@cocotte-app.com"
 let iTunesLink = "https://itunes.apple.com/us/app/cocotte/id1148406816?ls=1&mt=8"
@@ -86,6 +87,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         Analytics.instance.trackPushNotification(userInfo: userInfo)
+        if let urlString = userInfo["url"] as? String, let url = URL(string: urlString) {
+            let safari = SFSafariViewController(url: url)
+            window?.rootViewController?.present(safari, animated: true)
+        }
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
