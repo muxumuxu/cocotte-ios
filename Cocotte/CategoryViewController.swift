@@ -56,7 +56,7 @@ final class CategoryViewController: SHKeyboardViewController {
             withCapInsets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
         searchBar.backgroundImage = searchImg
         searchBar.setSearchFieldBackgroundImage(searchImg, for: .normal)
-        searchBar.searchTextPositionAdjustment = UIOffset(horizontal: -29, vertical: 0)
+        searchBar.searchTextPositionAdjustment = UIOffset(horizontal: 10, vertical: 0)
         searchBarContainer.addSubview(searchBar)
 
         searchTableView = UITableView(frame: .zero, style: .plain)
@@ -158,9 +158,9 @@ final class CategoryViewController: SHKeyboardViewController {
 
     fileprivate func configureLayoutConstraints() {
         searchBarContainer.snp.makeConstraints {
-            $0.top.equalTo(view)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
+            $0.top.equalToSuperview().offset(10)
+            $0.left.equalToSuperview()
+            $0.right.equalToSuperview()
             $0.height.equalTo(84)
         }
 
@@ -197,9 +197,9 @@ final class CategoryViewController: SHKeyboardViewController {
         
         searchBarContainer.snp.removeConstraints()
         searchBarContainer.snp.makeConstraints {
-            $0.top.equalTo(view)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
+            $0.top.equalToSuperview().offset(10)
+            $0.left.equalToSuperview()
+            $0.right.equalToSuperview()
             if isLandscape {
                 $0.height.equalTo(64)
             } else {
@@ -324,9 +324,10 @@ extension CategoryViewController: UISearchBarDelegate {
             $0.bottom.equalTo(searchBarContainer).offset(-10)
         }
         
-        searchBar.backgroundImage = UIImage()
-        searchBar.setImage(UIImage(), for: .search, state: .normal)
-        searchBar.setSearchFieldBackgroundImage(#imageLiteral(resourceName: "nav_search_white"), for: .normal)
+//        searchBar.backgroundImage = UIImage()
+//        searchBar.setImage(UIImage(), for: .search, state: .normal)
+//        searchBar.setSearchFieldBackgroundImage(#imageLiteral(resourceName: "nav_search_white"), for: .normal)
+//        searchBar.searchTextPositionAdjustment = .zero
         
         view.addSubview(searchTableView)
         
